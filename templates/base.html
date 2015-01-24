@@ -1,0 +1,48 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+    <div class="container">
+        {% block container %}
+            <div id="system-message" style="display: none;"></div>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
+
+    <script>
+        var api_endpoint = "http://127.0.0.1:8111";
+
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+
+        $(document).ready(function () {
+            {% block document_ready %}
+                if (window.location.pathname != "/" && window.location.pathname != "/login/") {
+                    var token = $.cookie("token");
+                    if (typeof token === 'undefined') {
+                        window.location = '/login/?next=' + window.location.pathname;
+                    }
+                    console.log(token);
+                }
+            {% endblock %}
+        });
+
+    </script>
+{% endblock %}
