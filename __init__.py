@@ -1,16 +1,22 @@
-from flask import Flask, render_template, request
+import json
+from flask import Flask, render_template, request, redirect
 from flask.ext.bootstrap import Bootstrap
+import requests
 
 app = Flask(__name__)
 Bootstrap(app)
 
 
 @app.route('/')
-def hello_world():
+def landing():
     return render_template('index.html')
+
 
 @app.route('/login/')
 def login():
+    token = request.cookies.get('token')
+    if token:
+        return redirect('/home/')
     next = request.args.get('next', '/home/')
     unauth = request.args.get('unauth', None)
 
@@ -20,14 +26,39 @@ def login():
 
     return render_template('login.html', next=next, redirected=redirected)
 
+
 @app.route('/logout/')
 def logout():
     return render_template('logout.html')
 
+
 @app.route('/home/')
-def hello():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
+
+
+@app.route('/register/')
+def register():
+    pass
+    return render_template('register.html')
+
+
+@app.context_processor
+def inject_user():
+    context = {'loggedin': False}
+
+    token = request.cookies.get('token', None)
+    if token:
+        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users'),
+                                headers={'Authorization': 'Token %s' % token})
+        response = json.loads(response.content)
+        context['user'] = response
+        context['loggedin'] = True
+
+    return context
 
 
 if __name__ == '__main__':
+    app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
+    # app.config['API_ENDPOINT'] = 'http://127.0.0.1:8111/api/v1/'
     app.run(debug=True)

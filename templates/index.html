@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block container %}
-    <div class="row">
-        <p id="user-name"></p>
-    </div>
+    <div class="hide" id="login-link"><a href="/login/">Login</a></div>
+    <div class="hide" id="home-link"><a href="/home/">Home</a></div>
 {% endblock %}
 
 {% block scripts %}
@@ -12,24 +11,6 @@
     <script>
     $(document).ready(function() {
         var token = $.cookie("token");
-        if (typeof token !== 'undefined') {
-            $.ajax({
-                type: "GET",
-                url: api_endpoint + "/api/v1/users/",
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Token " + token);
-                },
-                success: function(data) {
-                    $("#user-name").html(data.first_name + " " + data.last_name);
-                },
-                error: function(data) {
-                    if (data.status == "401") {
-                        window.location = "/login/?unauth=true&next=" + window.location.pathname;
-                    }
-                },
-                dataType: "json"
-            });
-        }
     });
     </script>
 {% endblock %}

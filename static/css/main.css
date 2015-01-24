@@ -1,0 +1,11 @@
+#header #user-name {
+  padding: 15px;
+  font-size: 2em;
+  font-weight: bold; }
+
+#header #logout {
+  padding: 15px;
+  line-height: 40px;
+  vertical-align: middle; }
+  #header #logout a {
+    color: #ffffff; }

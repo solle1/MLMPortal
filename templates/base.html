@@ -1,7 +1,26 @@
 {% extends "bootstrap/base.html" %}
 
+{% block styles %}
+    {{ super() }}
+
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+
+
+
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
+        {% block header %}
+            <div class="row" id="header">
+                <div class="bg-primary clearfix" style="">
+                    <div id="user-name" class="pull-left">
+                        {% if loggedin %}{{ user.first_name }} {{ user.last_name }}{% endif %}</div>
+                    <div class="pull-right" id="logout">{% if loggedin %}<a href="/logout/">Logout</a>{% else %}
+                        <a href="/login/">Login</a>{% endif %}</div>
+                </div>
+            </div>
+        {% endblock %}
+
         {% block container %}
             <div id="system-message" style="display: none;"></div>
         {% endblock %}
@@ -14,7 +33,8 @@
     <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
 
     <script>
-        var api_endpoint = "http://127.0.0.1:8111";
+        var api_endpoint = "http://catchmycommission.com";
+
 
         $.fn.serializeObject = function () {
             var o = {};
@@ -34,7 +54,8 @@
 
         $(document).ready(function () {
             {% block document_ready %}
-                if (window.location.pathname != "/" && window.location.pathname != "/login/") {
+                if (window.location.pathname != "/" && window.location.pathname != "/login/" &&
+                        window.location.pathname != "/register/") {
                     var token = $.cookie("token");
                     if (typeof token === 'undefined') {
                         window.location = '/login/?next=' + window.location.pathname;

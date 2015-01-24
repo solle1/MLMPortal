@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block container %}
+    <form id="register-form">
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="email">E-Mail</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail">
+        </div>
+        <button type="submit" class="btn btn-default">Register</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        $(document).ready(function() {
+            $("#register-form").submit(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: api_endpoint + '/api/v1/users/',
+                    data: $(this).serializeObject(),
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    dataType: "json"
+                });
+                console.log($(this).serializeObject());
+            });
+        });
+    </script>
+{% endblock %}
