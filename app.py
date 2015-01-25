@@ -5,7 +5,16 @@ import requests
 
 app = Flask(__name__)
 Bootstrap(app)
+app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
 
+ADMINS = ['dan@straightbit.com']
+import logging
+from logging.handlers import SMTPHandler
+mail_handler = SMTPHandler('127.0.0.1',
+                           'server-error@straightbit.com',
+                           ADMINS, 'Your Application Failed')
+mail_handler.setLevel(logging.ERROR)
+app.logger.addHandler(mail_handler)
 
 @app.route('/')
 def landing():
@@ -59,6 +68,6 @@ def inject_user():
 
 
 if __name__ == '__main__':
-    app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
+    # app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
     # app.config['API_ENDPOINT'] = 'http://127.0.0.1:8111/api/v1/'
-    app.run(debug=True)
+    app.run()
