@@ -9,25 +9,7 @@
 
     <script>
     $(document).ready(function() {
-        var token = $.cookie("token");
-        if (typeof token !== 'undefined') {
-            $.ajax({
-                type: "GET",
-                url: api_endpoint + "/api/v1/users/",
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Token " + token);
-                },
-                success: function(data) {
-                    $("#user-name").html(data.first_name + " " + data.last_name);
-                },
-                error: function(data) {
-                    if (data.status == "401") {
-                        window.location = "/login/?unauth=true&next=" + window.location.pathname;
-                    }
-                },
-                dataType: "json"
-            });
-        }
+
     });
     </script>
 {% endblock %}

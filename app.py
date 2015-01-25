@@ -48,7 +48,6 @@ def home():
 
 @app.route('/register/')
 def register():
-    pass
     return render_template('register.html')
 
 

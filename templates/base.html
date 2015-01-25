@@ -16,7 +16,7 @@
                     <div id="user-name" class="pull-left">
                         {% if loggedin %}{{ user.first_name }} {{ user.last_name }}{% endif %}</div>
                     <div class="pull-right" id="logout">{% if loggedin %}<a href="/logout/">Logout</a>{% else %}
-                        <a href="/login/">Login</a>{% endif %}</div>
+                        <a href="/register/">Register</a> | <a href="/login/">Login</a>{% endif %}</div>
                 </div>
             </div>
         {% endblock %}
