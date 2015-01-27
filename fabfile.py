@@ -15,7 +15,7 @@ def deploy_dev():
         ## run('ls ../settings')
         # sudo('cp /root/settings.py MLM/settings.py')
         # sudo('chown django:django MLM/settings.py')
-        run('. venv/bin/activate')
+        run('source venv/bin/activate')
         run('pip install -r requirements.txt')
         # run('python manage.py collectstatic --noinput')
         # run('python manage.py migrate')
