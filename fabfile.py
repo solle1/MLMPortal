@@ -16,7 +16,7 @@ def deploy_dev():
         # sudo('cp /root/settings.py MLM/settings.py')
         # sudo('chown django:django MLM/settings.py')
         sudo('source /var/www/mlmportal/venv/bin/activate')
-        sudo('pip install -r requirements.txt')
+        sudo('/var/www/mlmportal/venv/bin/pip install -r requirements.txt')
         # run('python manage.py collectstatic --noinput')
         # run('python manage.py migrate')
         # sudo('service gunicorn stop')
