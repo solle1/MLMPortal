@@ -18,6 +18,7 @@ def deploy_dev():
         sudo('source /var/www/mlmportal/venv/bin/activate')
         sudo('/var/www/mlmportal/venv/bin/pip install -r requirements.txt')
         sudo('chown -R www-data:www-data /var/www/mlmportal')
+        sudo('restart uwsgi')
         # run('python manage.py collectstatic --noinput')
         # run('python manage.py migrate')
         # sudo('service gunicorn stop')
