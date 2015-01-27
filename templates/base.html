@@ -11,12 +11,12 @@
 {% block content %}
     <div class="container-fluid">
         {% block header %}
-            <div class="row" id="header">
-                <div class="bg-primary clearfix" style="">
+            <div class="row">
+                <div class="bg-primary clearfix" style="" id="header">
                     <div id="user-name" class="pull-left">
-                        {% if loggedin %}{{ user.first_name }} {{ user.last_name }}{% endif %}</div>
-                    <div class="pull-right" id="logout">{% if loggedin %}<a href="/logout/">Logout</a>{% else %}
-                        <a href="/register/">Register</a> | <a href="/login/">Login</a>{% endif %}</div>
+                        {% if loggedin %}<a href="/profile/" class="header-link">{{ user.first_name }} {{ user.last_name }}</a>{% endif %}</div>
+                    <div class="pull-right" id="logout"><a href="/products/" class="header-link">Products</a> | {% if loggedin %}<a href="/logout/" class="header-link">Logout</a>{% else %}
+                        <a href="/register/" class="header-link">Register</a> | <a href="/login/" class="header-link">Login</a>{% endif %}</div>
                 </div>
             </div>
         {% endblock %}
@@ -33,7 +33,7 @@
     <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
 
     <script>
-        var api_endpoint = "http://catchmycommission.com";
+        var api_endpoint = "http://127.0.0.1:8111";
 
 
         $.fn.serializeObject = function () {
@@ -53,9 +53,13 @@
         };
 
         $(document).ready(function () {
+            {% if redirect %}
+                $.removeCookie("token", {path: '/'});
+                window.location = "{{ redirect }}";
+            {% endif %}
             {% block document_ready %}
                 if (window.location.pathname != "/" && window.location.pathname != "/login/" &&
-                        window.location.pathname != "/register/") {
+                        window.location.pathname != "/register/" && window.location.pathname != "/products/") {
                     var token = $.cookie("token");
                     if (typeof token === 'undefined') {
                         window.location = '/login/?next=' + window.location.pathname;

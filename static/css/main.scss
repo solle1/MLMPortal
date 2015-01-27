@@ -3,13 +3,14 @@
   font-size: 2em;
   font-weight: bold;
 }
+#header {
+  #logout {
+    padding: 15px;
+    line-height: 40px;
+    vertical-align: middle;
+  }
 
-#header #logout {
-  padding: 15px;
-  line-height: 40px;
-  vertical-align: middle;
-
-  a {
-    color: #ffffff;
+  a.header-link, {
+    color: #FFFFFF;
   }
 }

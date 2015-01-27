@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block container %}
+    <h3>Username: {{ user.username }}</h3>
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last Name: {{ user.last_name }}</p>
+    <p>E-Mail Address: {{ user.email }}</p>
+    <p>Date Joined: {{ user.date_joined|stringtodate|datetimeformat("%d %b %Y") }}</p>
+    <p>Ranking: {{ user.id }}</p>
+{% endblock %}

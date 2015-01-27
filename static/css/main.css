@@ -7,5 +7,5 @@
   padding: 15px;
   line-height: 40px;
   vertical-align: middle; }
-  #header #logout a {
-    color: #ffffff; }
+#header a.header-link {
+  color: #FFFFFF; }
