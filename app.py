@@ -7,7 +7,8 @@ from utils import datetimeformat, stringtodate
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['API_ENDPOINT'] = 'http://127.0.0.1:8111/api/v1/'
+app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
+# app.config['API_ENDPOINT'] = 'http://127.0.0.1:8111/api/v1/'
 
 ADMINS = ['dan@straightbit.com']
 import logging
