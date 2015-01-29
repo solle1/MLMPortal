@@ -6,8 +6,6 @@
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" media="screen">
 {% endblock %}
 
-
-
 {% block content %}
     <div class="container-fluid">
         {% block header %}
@@ -31,11 +29,22 @@
     {{ super() }}
 
     <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.isotope.js') }}"></script>
+
 
     <script>
         var api_endpoint = "http://catchmycommission.com";
 {#        var api_endpoint = "http://127.0.0.1:8111";#}
+        function valid_token() {
+            var token = $.cookie("token");
+            if (typeof token !== 'undefined') {
+                if (token.length == 40) {
+                    return true;
+                }
+            }
 
+            return false
+        }
 
         $.fn.serializeObject = function () {
             var o = {};
@@ -53,8 +62,8 @@
             return o;
         };
 
-        $(document).ready(function () {
-            {% if redirect %}
+        $(document).ready(function ($) {
+            {% if redirected %}
                 $.removeCookie("token", {path: '/'});
                 window.location = "{{ redirect }}";
             {% endif %}
@@ -62,7 +71,7 @@
                 if (window.location.pathname != "/" && window.location.pathname != "/login/" &&
                         window.location.pathname != "/register/" && window.location.pathname != "/products/") {
                     var token = $.cookie("token");
-                    if (typeof token === 'undefined') {
+                    if (!valid_token()) {
                         window.location = '/login/?next=' + window.location.pathname;
                     }
                     console.log(token);

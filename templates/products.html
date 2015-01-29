@@ -1,5 +1,131 @@
 {% extends "base.html" %}
 
 {% block container %}
-<h1>Products</h1>
+    <h1>Products</h1>
+
+    <p><input type="text" id="quicksearch" placeholder="Search"/></p>
+
+
+
+    <div id="filters" class="button-group">
+        <button class="button is-checked" data-filter="*">Show All</button>
+    </div>
+
+
+
+
+    <div class="isotope" id="products">
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        function get_product_data() {
+
+        }
+
+        function build_product_display(products) {
+
+
+            var products_div = $("#products");
+            $.each(products, function (index, value) {
+                var groups = "";
+                $.each(value.groups, function (i, v) {
+                    groups += v.name + " ";
+                });
+                var product_div = $("<div class='product-item " + groups + "' data-category='" + groups + "'><div>");
+                var html = "<h3 class='name'>" + value.name + "</h3>";
+                html += "<p class='weight'>" + value.price + "</p>";
+                html += "<p><a href=''>Learn More</a></p>";
+
+                product_div.html(html);
+
+                products_div.append(product_div);
+            });
+        }
+
+        // debounce so filtering doesn't happen every millisecond
+        function debounce(fn, threshold) {
+            var timeout;
+            return function debounced() {
+                if (timeout) {
+                    clearTimeout(timeout);
+                }
+                function delayed() {
+                    fn();
+                    timeout = null;
+                }
+
+                timeout = setTimeout(delayed, threshold || 100);
+            }
+        }
+
+
+        function setup_it_up() {
+            var qsRegex;
+            var buttonFilter;
+
+            // init Isotope
+            var $container = $('.isotope').isotope({
+                itemSelector: '.product-item',
+                layoutMode: 'fitRows',
+                filter: function () {
+                    var $this = $(this);
+                    var searchResult = qsRegex ? $this.text().match(qsRegex) : true;
+                    var buttonResult = buttonFilter ? $this.is(buttonFilter) : true;
+                    return searchResult && buttonResult;
+                }
+            });
+
+            $('#filters').on('click', 'button', function () {
+                buttonFilter = $(this).attr('data-filter');
+                $container.isotope();
+            });
+
+            // use value of search field to filter
+            var $quicksearch = $('#quicksearch').keyup(debounce(function () {
+                qsRegex = new RegExp($quicksearch.val(), 'gi');
+                $container.isotope();
+            }));
+
+
+            // change is-checked class on buttons
+            $('.button-group').each(function (i, buttonGroup) {
+                var $buttonGroup = $(buttonGroup);
+                $buttonGroup.on('click', 'button', function () {
+                    $buttonGroup.find('.is-checked').removeClass('is-checked');
+                    $(this).addClass('is-checked');
+                });
+            });
+        }
+
+
+        function make_buttons() {
+            $.getJSON(api_endpoint + "/api/v1/products/groups/", function (data) {
+                console.log(data);
+                $.each(data, function (index, value) {
+                    $("#filters").append("<button class='button' data-filter='." + value.name + "'>" + value.name + "</button>");
+                });
+                setup_it_up();
+            });
+        }
+
+
+        $(document).ready(function () {
+
+
+            var products;
+
+
+            $.getJSON(api_endpoint + "/api/v1/products/", function (data) {
+                console.log(data);
+                build_product_display(data);
+                make_buttons();
+            });
+        });
+    </script>
 {% endblock %}

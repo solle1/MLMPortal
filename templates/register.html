@@ -32,7 +32,7 @@
     <script>
         $(document).ready(function() {
             var token = $.cookie("token");
-            if (typeof token !== 'undefined') {
+            if (valid_token()) {
                 window.location = "/home/";
             }
 
