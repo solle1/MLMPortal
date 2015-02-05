@@ -7,6 +7,8 @@
           media="screen"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nivo_default/default.css') }}" type="text/css"
           media="screen"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flexslider.css') }}" type="text/css"
+          media="screen"/>
 
     <style>
         .theme-default .nivoSlider {
@@ -17,44 +19,43 @@
 
 {% block container %}
     <div class="row">
-        <div id="carousel-example-generic" class="carousel slide col-sm-offset-2 col-md-6 col-md-offset-3" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}" >
-
-                    <!--div class="carousel-caption">
-                        ...
-                    </div-->
-                </div>
-                <div class="item">
-                    <img src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}">
-
-                    <!--div class="carousel-caption">
-                        ...
-                    </div-->
-                </div>
-                ...
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+    <div class="col-md-offset-3 col-md-6">
+        <div id="slider" class="flexslider">
+            <ul class="slides">
+                <li>
+                    <a href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
+                </li>
+                <li>
+                    <a href="solle_renue.php"><img
+                        src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+                </li>
+                <li>
+                    <a href="solle_complete.php"><img
+                            src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+                </li>
+            </ul>
         </div>
     </div>
+    </div>
+    <div class="row">
+        <div id="carousel" class="flexslider">
+            <ul class="slides">
+                <li>
+                    <img src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/>
+                </li>
+                <li>
+                    <img src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/>
+                </li>
+                <li>
+                    <img src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/>
+                </li>
+                <!-- items mirrored twice, total of 12 -->
+            </ul>
+        </div>
+    </div>
+
+
     <!--div class="row">
         <div class="theme-default">
             <div id="main_slider">
@@ -111,15 +112,27 @@
 {% block scripts %}
     {{ super() }}
 
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.nivo.slider.pack.js') }}"></script>
-
+    <!--script type="text/javascript" src="{{ url_for('static', filename='js/jquery.nivo.slider.pack.js') }}"></script-->
+    <script defer src="{{ url_for('static', filename='js/jquery.flexslider-min.js') }}"></script>
     <script>
         $(document).ready(function () {
             var token = $.cookie("token");
-            $('.carousel').carousel({
-                interval: 2000000
+
+            $('#carousel').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 210,
+                itemMargin: 5,
+                asNavFor: '#slider'
             });
-            $('#main_slider').nivoSlider({controlNav: false, pauseTime: 7000});
+
+            $('#slider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                sync: "#carousel"
+            });
         });
     </script>
 {% endblock %}
