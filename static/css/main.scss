@@ -3,16 +3,13 @@
   font-size: 2em;
   font-weight: bold;
 }
-
-#main_slider
-{
-	width : 948px;
-	margin-top : 1em;
-	margin-left: auto;
-	margin-right : auto;
-	height : 363px;
+#main_slider {
+  width: 948px;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  height: 363px;
 }
-
 #header {
   #logout {
     padding: 15px;
@@ -274,45 +271,37 @@ input[type="text"] {
 //}
 //
 
-
-
 // Bootstrap overrides.
 
 .text-primary {
-    color: #C1D72E;
+  color: #C1D72E;
 }
-
 .panel-primary {
-    border-color: #C1D72E;
+  border-color: #C1D72E;
 }
 .panel-primary > .panel-heading {
-//    color: #FFFFFF;
-    background-color: #C1D72E;
-    border-color: #C1D72E;
+  //    color: #FFFFFF;
+  background-color: #C1D72E;
+  border-color: #C1D72E;
 }
 .panel-primary > .panel-heading + .panel-collapse .panel-body {
-    border-top-color: #C1D72E;
+  border-top-color: #C1D72E;
 }
 .panel-primary > .panel-footer + .panel-collapse .panel-body {
-    border-bottom-color: #C1D72E;
+  border-bottom-color: #C1D72E;
 }
-
-
 .bg-primary {
-    color: #FFFFFF;
-    background-color: #C1D72E;
+  color: #FFFFFF;
+  background-color: #C1D72E;
 }
 a.bg-primary:hover {
-    background-color: #9EB022;
+  background-color: #9EB022;
 }
-
-
 .btn-primary {
-//    color: #FFFFFF;
-    background-color: #C1D72E;
-//    border-color: #B1C626;
+  //    color: #FFFFFF;
+  background-color: #C1D72E;
+  //    border-color: #B1C626;
 }
-
 .btn-primary.disabled,
 .btn-primary[disabled],
 fieldset[disabled] .btn-primary,
@@ -328,110 +317,132 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
-    background-color: #C1D72E;
-//    border-color: #B1C626;
+  background-color: #C1D72E;
+  //    border-color: #B1C626;
 }
-
 .btn-primary .badge {
-    color: #C1D72E;
-//    background-color: #FFFFFF;
+  color: #C1D72E;
+  //    background-color: #FFFFFF;
 }
-
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-//    text-decoration: none;
-//    color: #FFFFFF;
-    background-color: #C1D72E;
+  //    text-decoration: none;
+  //    color: #FFFFFF;
+  background-color: #C1D72E;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
 .dropdown-menu > .active > a:focus {
-//    color: #FFFFFF;
-//    text-decoration: none;
-//    outline: 0;
-    background-color: #C1D72E;
+  //    color: #FFFFFF;
+  //    text-decoration: none;
+  //    outline: 0;
+  background-color: #C1D72E;
 }
-
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-//    color: #FFFFFF;
-    background-color: #C1D72E;
+  //    color: #FFFFFF;
+  background-color: #C1D72E;
 }
-
 .navbar-default {
-    background-color: #C1D72E;
-//    border-color: #ABBF25;
+  background-color: #C1D72E;
+  //    border-color: #ABBF25;
 }
-
 .navbar-inverse {
-    background-color: #222222;
-    border-color: #080808;
-    border-bottom-color: #C1D72E;
-    border-bottom-width: 10px;
+  background-color: #222222;
+  border-color: #080808;
+  border-bottom-color: #C1D72E;
+  border-bottom-width: 10px;
 }
-
 .pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-//    z-index: 2;
-//    color: #FFFFFF;
-    background-color: #C1D72E;
-    border-color: #C1D72E;
-//    cursor: default;
+  //    z-index: 2;
+  //    color: #FFFFFF;
+  background-color: #C1D72E;
+  border-color: #C1D72E;
+  //    cursor: default;
 }
-
 .label-primary {
-    background-color: #C1D72E;
+  background-color: #C1D72E;
 }
-
 .progress-bar {
-//    float: left;
-//    width: 0%;
-//    height: 100%;
-//    font-size: 12px;
-//    line-height: 20px;
-//    color: #FFFFFF;
-//    text-align: center;
-    background-color: #C1D72E;
-//    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-//    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-//    -webkit-transition: width 0.6s ease;
-//    transition: width 0.6s ease;
+  //    float: left;
+  //    width: 0%;
+  //    height: 100%;
+  //    font-size: 12px;
+  //    line-height: 20px;
+  //    color: #FFFFFF;
+  //    text-align: center;
+  background-color: #C1D72E;
+  //    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  //    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  //    -webkit-transition: width 0.6s ease;
+  //    transition: width 0.6s ease;
 }
-
 a.list-group-item.active,
 a.list-group-item.active:hover,
 a.list-group-item.active:focus {
-//    z-index: 2;
-//    color: #000000;
-    background-color: #C1D72E;
-    border-color: #C1D72E;
+  //    z-index: 2;
+  //    color: #000000;
+  background-color: #C1D72E;
+  border-color: #C1D72E;
 }
-
 a.text-primary:hover {
-    color: #9EB022;
+  color: #9EB022;
 }
-
 a.bg-primary:hover {
-    background-color: #9EB022;
+  background-color: #9EB022;
 }
-
 .label-primary[href]:hover,
 .label-primary[href]:focus {
-    background-color: #9EB022;
+  background-color: #9EB022;
 }
-
-
 @media (min-width: 768px) {
-    .navbar {
-        border-radius: 0px;
-    }
+  .navbar {
+    border-radius: 0px;
+  }
+}
+.theme-default .nivoSlider {
+  box-shadow: 0px 0px 0px 0px #4A4A4A;
+}
+.tales {
+  width: 100%;
+}
+.carousel-inner {
+  width: 100%;
+  max-height: 400px !important;
+  min-height: 300px !important;
+}
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+  min-height: 293px;
+  min-width: 958px;
 }
 
-.theme-default .nivoSlider {
-    box-shadow: 0px 0px 0px 0px #4A4A4A;
+.carousel-control.left {
+    background-image: linear-gradient(to right, transparent 100%, transparent 100%);
+    background-repeat: repeat-x;
+}
+
+.carousel-control.right {
+    background-image: linear-gradient(to left, transparent 100%, transparent 100%);
+    background-repeat: repeat-x;
+}
+
+.carousel-control .icon-prev, .carousel-control .glyphicon-chevron-left {
+    left: 25%;
+    margin-left: -10px;
+}
+
+.carousel-control .icon-prev, .carousel-control .glyphicon-chevron-left {
+    right: 25%;
+//    margin-left: -10px;
+}
+
+.carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
+//    margin-right: -10px;
+    right: 25%;
 }
