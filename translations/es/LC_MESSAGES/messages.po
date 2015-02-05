@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-02 22:58-0700\n"
+"POT-Creation-Date: 2015-02-04 22:42-0700\n"
 "PO-Revision-Date: 2015-02-02 22:27-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es <LL@li.org>\n"
@@ -16,21 +16,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: templates/base.html:30 templates/base.html:96
+#: templates/base.html:31
 msgid "Logout"
 msgstr "Loggggout"
 
-#: templates/base.html:32
+#: templates/base.html:33
 msgid "Create an Account"
 msgstr "Crear una cuenta"
 
-#: templates/base.html:33
+#: templates/base.html:34
 msgid "Login"
 msgstr "Entrar"
 
-#: templates/base.html:97
-msgid "Register"
-msgstr "Regeristrio"
+#: templates/index.html:63
+msgid "welcome_message"
+msgstr "Solle Naturals está fundada sobre la creencia fundamental de que para optimizar nuestra salud, debemos nutrir adecuadamente nuestros cuerpos y nuestras mentes."
+
+#: templates/index.html:66
+msgid "contact_button"
+msgstr "Comunícate con nosotros hoy!"
 
 #: templates/products.html:11
 msgid "Show All"
@@ -42,4 +46,7 @@ msgstr "Corpo"
 
 #~ msgid "'Hello World!'"
 #~ msgstr "Hola!"
+
+#~ msgid "Register"
+#~ msgstr "Regeristrio"
 

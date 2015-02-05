@@ -1,17 +1,16 @@
-# Translations template for PROJECT.
+# English translations for PROJECT.
 # Copyright (C) 2015 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-02-04 22:42-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-02-04 22:43-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,11 +30,11 @@ msgstr ""
 
 #: templates/index.html:63
 msgid "welcome_message"
-msgstr ""
+msgstr "Solle Naturals is built upon the fundamental belief that in order to optimize our health, we must properly nourish both our bodies and our minds."
 
 #: templates/index.html:66
 msgid "contact_button"
-msgstr ""
+msgstr "Contact Us Today!"
 
 #: templates/products.html:11
 msgid "Show All"

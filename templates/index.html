@@ -3,46 +3,69 @@
 {% block styles %}
     {{ super() }}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/nivo-slider.css') }}" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/nivo_default/default.css') }}" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nivo-slider.css') }}" type="text/css"
+          media="screen"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nivo_default/default.css') }}" type="text/css"
+          media="screen"/>
+
+    <style>
+        .theme-default .nivoSlider {
+            box-shadow: 0px 0px 0px 0px #4A4A4A;
+        }
+    </style>
 {% endblock %}
 
 {% block container %}
-    <div id="main_slider">
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
-        <a style="display:none;" href="solle_renue.php"><img
-                src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
-        <a style="display:none;" href="solle_complete.php"><img
-                src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
-        <a style="display:none;" href="excell.php"><img
-                src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
-        <a style="display:none;" href="vital.php"><img
-                src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
-        <a style="display:none;" href="cinnamate.php"><img
-                src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
-        <a style="display:none;" href="about_us.php"><img
-                src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
-        <a style="display:none;" href="balance_oil.php"><img
-                src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
-        <a style="display:none;" href="blog"><img
-                src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
-        <a style="display:none;" href="about_us.php"><img
-                src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
-        <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
-        <a style="display:none;" href="solle_quality.php"><img
-                src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+    <div class="row">
+        <div class="theme-default">
+            <div id="main_slider">
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
+                <a style="display:none;" href="solle_renue.php"><img
+                        src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+                <a style="display:none;" href="solle_complete.php"><img
+                        src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+                <a style="display:none;" href="excell.php"><img
+                        src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
+                <a style="display:none;" href="vital.php"><img
+                        src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
+                <a style="display:none;" href="cinnamate.php"><img
+                        src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
+                <a style="display:none;" href="about_us.php"><img
+                        src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
+                <a style="display:none;" href="balance_oil.php"><img
+                        src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
+                <a style="display:none;" href="blog"><img
+                        src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
+                <a style="display:none;" href="about_us.php"><img
+                        src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
+                <a style="display:none;" href="store/store.php"><img
+                        src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
+                <a style="display:none;" href="solle_quality.php"><img
+                        src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="welcome_message" class="cf">
+            <div id="message">
+                {{ _('welcome_message') }}
+            </div>
+            <div id="contact_button">
+                {{ _('contact_button') }}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -52,10 +75,10 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.nivo.slider.pack.js') }}"></script>
 
     <script>
-    $(document).ready(function() {
-        var token = $.cookie("token");
+        $(document).ready(function () {
+            var token = $.cookie("token");
 
-        $('#main_slider').nivoSlider({controlNav: false, pauseTime: 7000});
-    });
+            $('#main_slider').nivoSlider({controlNav: false, pauseTime: 7000});
+        });
     </script>
 {% endblock %}
