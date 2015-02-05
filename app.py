@@ -116,6 +116,12 @@ def inject_user():
 
     return context
 
+@app.context_processor
+def inject_language():
+    context = {'language': session.get('current_lang', 'en')}
+
+    return context
+
 
 if __name__ == '__main__':
     # app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
