@@ -38,7 +38,7 @@
         </div>
     </div>
     </div>
-    <div class="row">
+    <!--div class="row">
         <div id="carousel" class="flexslider">
             <ul class="slides">
                 <li>
@@ -50,10 +50,9 @@
                 <li>
                     <img src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/>
                 </li>
-                <!-- items mirrored twice, total of 12 -->
             </ul>
         </div>
-    </div>
+    </div-->
 
 
     <!--div class="row">
@@ -118,15 +117,15 @@
         $(document).ready(function () {
             var token = $.cookie("token");
 
-            $('#carousel').flexslider({
-                animation: "slide",
-                controlNav: false,
-                animationLoop: false,
-                slideshow: false,
-                itemWidth: 210,
-                itemMargin: 5,
-                asNavFor: '#slider'
-            });
+{#            $('#carousel').flexslider({#}
+{#                animation: "slide",#}
+{#                controlNav: false,#}
+{#                animationLoop: false,#}
+{#                slideshow: false,#}
+{#                itemWidth: 210,#}
+{#                itemMargin: 5,#}
+{#                asNavFor: '#slider'#}
+{#            });#}
 
             $('#slider').flexslider({
                 animation: "slide",
