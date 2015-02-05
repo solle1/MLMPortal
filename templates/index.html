@@ -10,30 +10,39 @@
 {% block container %}
     <div id="main_slider">
         <a style="display:none;" href="store/store.php"><img
-                src="{{ url_for('static', filename='images/en/sliderquality3.jpg') }}"/></a>
+                src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
         <a style="display:none;" href="solle_renue.php"><img
-                src="{{ url_for('static', filename='images/en/ReNueSlider.jpg') }}"/></a>
-        <!--a style="display:none;" href="solle_complete.php"><img
-                src="/assets/images/<?= $lang ?>/workoutnotcomplete.jpg"/></a>
-        <a style="display:none;" href="excell.php"><img src="/assets/images/<?= $lang ?>/getreadytoexcell.jpg"/></a>
+                src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+        <a style="display:none;" href="solle_complete.php"><img
+                src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+        <a style="display:none;" href="excell.php"><img
+                src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
         <a style="display:none;" href="store/store.php"><img
-                src="/assets/images/<?= $lang ?>/anightofsollefulslumber.jpg"/></a>
-        <a style="display:none;" href="vital.php"><img src="/assets/images/<?= $lang ?>/youarewhatyoueat2.jpg"/></a>
+                src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
+        <a style="display:none;" href="vital.php"><img
+                src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
         <a style="display:none;" href="store/store.php"><img
-                src="/assets/images/<?= $lang ?>/thinkmoreclearly.jpg"/></a>
-        <a style="display:none;" href="cinnamate.php"><img src="/assets/images/<?= $lang ?>/addalittlespice.jpg"/></a>
-        <a style="display:none;" href="store/store.php"><img src="/assets/images/<?= $lang ?>/liveeachday.jpg"/></a>
+                src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
+        <a style="display:none;" href="cinnamate.php"><img
+                src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
+        <a style="display:none;" href="store/store.php"><img
+                src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
         <a style="display:none;" href="about_us.php"><img
-                src="/assets/images/<?= $lang ?>/welcometoyournewpath.jpg"/></a>
-        <a style="display:none;" href="store/store.php"><img src="/assets/images/<?= $lang ?>/thegiftofhealth.jpg"/></a>
-        <a style="display:none;" href="balance_oil.php"><img src="/assets/images/<?= $lang ?>/4-new-aromatherapy.jpg"/></a>
+                src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
         <a style="display:none;" href="store/store.php"><img
-                src="/assets/images/<?= $lang ?>/giveyourselfnaturalglow.jpg"/></a>
-        <a style="display:none;" href="blog"><img src="/assets/images/<?= $lang ?>/followourprogress.jpg"/></a>
-        <a style="display:none;" href="about_us.php"><img src="/assets/images/<?= $lang ?>/yourbodyyourmind.jpg"/></a>
-        <a style="display:none;" href="store/store.php"><img src="/assets/images/<?= $lang ?>/4wardthinking.jpg"/></a>
+                src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
+        <a style="display:none;" href="balance_oil.php"><img
+                src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
+        <a style="display:none;" href="store/store.php"><img
+                src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
+        <a style="display:none;" href="blog"><img
+                src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
+        <a style="display:none;" href="about_us.php"><img
+                src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
+        <a style="display:none;" href="store/store.php"><img
+                src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
         <a style="display:none;" href="solle_quality.php"><img
-                src="/assets/images/<?= $lang ?>/sollecertaincommitment.jpg"/></a-->
+                src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
     </div>
 {% endblock %}
 
