@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6 col-md-6 col-md-offset-3">
+        <div class="col-sm-1 col-md-6 col-md-offset-3">
             <div id="filters" class="button-group pull-left">
                 <div class="form-group"><input type="text" id="quicksearch" class="form-control" placeholder="Search"
                                                style="width: 100%; margin-left: 3px;"/></div>
@@ -23,7 +23,7 @@
             <!--/div>
 
             <div class="col-md-5"-->
-            <div class="isotope pull-left col-md-5" id="products">
+            <div class="isotope pull-left col-xs-4 col-md-5" id="products">
                 {% for product in products %}
                     <div class="product-item {{ product.group_list }}" data-category="{{ product.group_list }}">
                         <h3 class="name">{{ product.name }}</h3>
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="clearfix"></div>
+    <!--div class="clearfix"></div-->
 
 {% endblock %}
 
