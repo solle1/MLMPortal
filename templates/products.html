@@ -1,21 +1,40 @@
 {% extends "base.html" %}
 
 {% block container %}
-    <h1>Products</h1>
-
-    <p><input type="text" id="quicksearch" placeholder="Search"/></p>
-
-
-
-    <div id="filters" class="button-group">
-        <button class="button is-checked" data-filter="*">{{ _('Show All') }}</button>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>Products</h1>
+        </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p><input type="text" id="quicksearch" placeholder="Search"/></p>
+        </div>
+    </div>
 
-    <div>{{ _('About Acme Corporation') }}</div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div id="filters" class="button-group">
+                <button class="button is-checked" data-filter="*">{{ _('Show All') }}</button>
+            </div>
+        </div>
+    </div>
 
-    <div class="isotope" id="products">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="isotope" id="products">
+                {% for product in products %}
+                    <div class="product-item {{ product.group_list }}" data-category="{{ product.group_list }}">
+                        <h3 class="name">{{ product.name }}</h3>
 
+                        <p class="price">{{ product.price }}</p>
+
+                        <p><a href="">Learn More</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
 {% endblock %}
@@ -32,20 +51,20 @@
 
 
             var products_div = $("#products");
-            $.each(products, function (index, value) {
-                var groups = "";
-                $.each(value.groups, function (i, v) {
-                    groups += v.name + " ";
-                });
-                var product_div = $("<div class='product-item " + groups + "' data-category='" + groups + "'><div>");
-                var html = "<h3 class='name'>" + value.name + "</h3>";
-                html += "<p class='weight'>" + value.price + "</p>";
-                html += "<p><a href=''>Learn More</a></p>";
-
-                product_div.html(html);
-
-                products_div.append(product_div);
-            });
+            {#            $.each(products, function (index, value) {#}
+            {#                var groups = "";#}
+            {#                $.each(value.groups, function (i, v) {#}
+            {#                    groups += v.name + " ";#}
+            {#                });#}
+            {#                var product_div = $("<div class='product-item " + groups + "' data-category='" + groups + "'><div>");#}
+            {#                var html = "<h3 class='name'>" + value.name + "</h3>";#}
+            {#                html += "<p class='weight'>" + value.price + "</p>";#}
+            {#                html += "<p><a href=''>Learn More</a></p>";#}
+            {##}
+            {#                product_div.html(html);#}
+            {##}
+            {#                products_div.append(product_div);#}
+            {#            });#}
         }
 
         // debounce so filtering doesn't happen every millisecond

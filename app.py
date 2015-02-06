@@ -96,7 +96,16 @@ def profile():
 
 @app.route('/products/')
 def products():
-    return render_template('products.html')
+    response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
+    products = json.loads(response.content)
+
+    for product in products:
+        group_list = []
+        for group in product['groups']:
+            group_list.append(group['name'])
+        product['group_list'] = " ".join(group_list)
+
+    return render_template('products.html', products=products)
 
 
 @app.context_processor
