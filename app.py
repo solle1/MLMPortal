@@ -105,7 +105,10 @@ def products():
             group_list.append(group['name'])
         product['group_list'] = " ".join(group_list)
 
-    return render_template('products.html', products=products)
+    response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products/groups/'))
+    groups = json.loads(response.content)
+
+    return render_template('products.html', products=products, groups=groups)
 
 
 @app.context_processor

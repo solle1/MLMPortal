@@ -17,7 +17,11 @@
         <div class="col-md-6 col-md-offset-3">
             <div id="filters" class="button-group">
                 <button class="button is-checked" data-filter="*">{{ _('Show All') }}</button>
+                {% for group in groups %}
+                    <button class="button" data-filter=".{{ group.name }}">{{ group.name }}</button>
+                {% endfor %}
             </div>
+
         </div>
     </div>
 
@@ -43,30 +47,6 @@
     {{ super() }}
 
     <script>
-        function get_product_data() {
-
-        }
-
-        function build_product_display(products) {
-
-
-            var products_div = $("#products");
-            {#            $.each(products, function (index, value) {#}
-            {#                var groups = "";#}
-            {#                $.each(value.groups, function (i, v) {#}
-            {#                    groups += v.name + " ";#}
-            {#                });#}
-            {#                var product_div = $("<div class='product-item " + groups + "' data-category='" + groups + "'><div>");#}
-            {#                var html = "<h3 class='name'>" + value.name + "</h3>";#}
-            {#                html += "<p class='weight'>" + value.price + "</p>";#}
-            {#                html += "<p><a href=''>Learn More</a></p>";#}
-            {##}
-            {#                product_div.html(html);#}
-            {##}
-            {#                products_div.append(product_div);#}
-            {#            });#}
-        }
-
         // debounce so filtering doesn't happen every millisecond
         function debounce(fn, threshold) {
             var timeout;
@@ -84,7 +64,7 @@
         }
 
 
-        function setup_it_up() {
+        function setup_filtering() {
             var qsRegex;
             var buttonFilter;
 
@@ -123,28 +103,9 @@
         }
 
 
-        function make_buttons() {
-            $.getJSON(api_endpoint + "/api/v1/products/groups/", function (data) {
-                console.log(data);
-                $.each(data, function (index, value) {
-                    $("#filters").append("<button class='button' data-filter='." + value.name + "'>" + value.name + "</button>");
-                });
-                setup_it_up();
-            });
-        }
-
 
         $(document).ready(function () {
-
-
-            var products;
-
-
-            $.getJSON(api_endpoint + "/api/v1/products/", function (data) {
-                console.log(data);
-                build_product_display(data);
-                make_buttons();
-            });
+            setup_filtering();
         });
     </script>
 {% endblock %}
