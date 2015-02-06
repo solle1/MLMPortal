@@ -37,61 +37,8 @@ body {
   font-family: sans-serif; }
 
 /* ---- input ---- */
-input[type="text"] {
-  font-size: 20px; }
-
 /* ---- button ---- */
-.button {
-  display: inline-block;
-  padding: 0.5em 1.0em;
-  background: #EEEEEE;
-  border: none;
-  border-radius: 7px;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
-  color: #222222;
-  font-family: sans-serif;
-  font-size: 16px;
-  text-shadow: 0 1px white;
-  cursor: pointer; }
-
-.button:hover {
-  background-color: #88CCFF;
-  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
-  color: #222222; }
-
-.button:active,
-.button.is-checked {
-  background-color: #2288FF; }
-
-.button.is-checked {
-  color: white;
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.8); }
-
-.button:active {
-  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.8); }
-
-/* ---- button-group ---- */
-.button-group:after {
-  content: '';
-  display: block;
-  clear: both; }
-
-.button-group .button {
-  float: left;
-  border-radius: 0;
-  margin-left: 0;
-  margin-right: 1px; }
-
-.button-group .button:first-child {
-  border-radius: 0.5em 0 0 0.5em; }
-
-.button-group .button:last-child {
-  border-radius: 0 0.5em 0.5em 0; }
-
 /* ---- isotope ---- */
-.isotope {
-  border: 1px solid #333333; }
-
 /* clear fix */
 .isotope:after {
   content: '';
@@ -106,7 +53,8 @@ input[type="text"] {
   height: 100px;
   margin: 5px;
   padding: 10px;
-  color: #262524; }
+  color: #262524;
+  border: 1px solid #DDDDDD; }
 
 .product-item > * {
   margin: 0;
@@ -205,7 +153,8 @@ a.bg-primary:hover {
   background-color: #9EB022; }
 
 .btn-primary {
-  background-color: #C1D72E; }
+  background-color: #C1D72E;
+  border-color: #C1D72E; }
 
 .btn-primary.disabled,
 .btn-primary[disabled],
@@ -316,3 +265,7 @@ a.bg-primary:hover {
 
 .carousel-control .icon-next, .carousel-control .glyphicon-chevron-right {
   right: 25%; }
+
+.filter-button {
+  width: 100%;
+  margin: 3px; }
