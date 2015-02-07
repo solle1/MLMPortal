@@ -456,5 +456,28 @@ a.bg-primary:hover {
 }
 
 .lead-no-margin {
-  margin-bottom: 0px;
+  line-height: 25px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+  .lead-no-margin {
+    line-height: 25px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 992px) {
+  .lead-no-margin {
+    line-height: 35px;
+    font-size: 16px;
+  }
+}
+@media (min-width: 1200px) {
+  .lead-no-margin {
+    line-height: 55px;
+    font-size: 21px;
+  }
 }
