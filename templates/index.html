@@ -10,99 +10,97 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flexslider.css') }}" type="text/css"
           media="screen"/>
 
-    <style>
-        .theme-default .nivoSlider {
-            box-shadow: 0px 0px 0px 0px #4A4A4A;
-        }
-    </style>
 {% endblock %}
 
 {% block container %}
-    <div class="row">
-    <div class="col-md-offset-3 col-md-6">
-        <div id="slider" class="flexslider">
-            <ul class="slides">
-                <li>
-                    <a href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
-                </li>
-                <li>
-                    <a href="solle_renue.php"><img
-                        src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
-                </li>
-                <li>
-                    <a href="solle_complete.php"><img
-                            src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    </div>
-    <!--div class="row">
-        <div id="carousel" class="flexslider">
-            <ul class="slides">
-                <li>
-                    <img src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/>
-                </li>
-                <li>
-                    <img src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/>
-                </li>
-                <li>
-                    <img src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/>
-                </li>
-            </ul>
-        </div>
-    </div-->
+    <div class="container">
+        {% include 'subnav.html' %}
+        <div class="row">
 
-
-    <!--div class="row">
-        <div class="theme-default">
-            <div id="main_slider">
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
-                <a style="display:none;" href="solle_renue.php"><img
-                        src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
-                <a style="display:none;" href="solle_complete.php"><img
-                        src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
-                <a style="display:none;" href="excell.php"><img
-                        src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
-                <a style="display:none;" href="vital.php"><img
-                        src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
-                <a style="display:none;" href="cinnamate.php"><img
-                        src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
-                <a style="display:none;" href="about_us.php"><img
-                        src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
-                <a style="display:none;" href="balance_oil.php"><img
-                        src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
-                <a style="display:none;" href="blog"><img
-                        src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
-                <a style="display:none;" href="about_us.php"><img
-                        src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
-                <a style="display:none;" href="store/store.php"><img
-                        src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
-                <a style="display:none;" href="solle_quality.php"><img
-                        src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+            <!--div class="col-md-offset-3 col-md-6"-->
+            <div id="slider" class="flexslider">
+                <ul class="slides">
+                    <li>
+                        <a href="store/store.php"><img
+                                src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_renue.php"><img
+                                src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
+                    </li>
+                    <li>
+                        <a href="solle_complete.php"><img
+                                src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+                    </li>
+                </ul>
             </div>
+            <!--/div-->
         </div>
-    </div-->
 
-    <div class="row">
-        <div id="welcome_message" class="cf">
-            <div id="message">
-                {{ _('welcome_message') }}
-            </div>
-            <div id="contact_button">
-                {{ _('contact_button') }}
+        <div class="row">
+            <div id="welcome_message" class="cf">
+                <div id="message">
+                    {{ _('welcome_message') }}
+                </div>
+                <div id="contact_button">
+                    {{ _('contact_button') }}
+                </div>
             </div>
         </div>
     </div>
@@ -117,15 +115,15 @@
         $(document).ready(function () {
             var token = $.cookie("token");
 
-{#            $('#carousel').flexslider({#}
-{#                animation: "slide",#}
-{#                controlNav: false,#}
-{#                animationLoop: false,#}
-{#                slideshow: false,#}
-{#                itemWidth: 210,#}
-{#                itemMargin: 5,#}
-{#                asNavFor: '#slider'#}
-{#            });#}
+            {#            $('#carousel').flexslider({#}
+            {#                animation: "slide",#}
+            {#                controlNav: false,#}
+            {#                animationLoop: false,#}
+            {#                slideshow: false,#}
+            {#                itemWidth: 210,#}
+            {#                itemMargin: 5,#}
+            {#                asNavFor: '#slider'#}
+            {#            });#}
 
             $('#slider').flexslider({
                 animation: "slide",

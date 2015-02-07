@@ -269,3 +269,6 @@ a.bg-primary:hover {
 .filter-button {
   width: 100%;
   margin: 3px; }
+
+.lead-no-margin {
+  margin-bottom: 0px; }
