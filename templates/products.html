@@ -9,34 +9,58 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row clearfix">
+
             <!--div class="col-sm-1 col-md-6 col-md-offset-3"-->
-                <div id="filters" class="button-group pull-left">
-                    <div class="form-group"><input type="text" id="quicksearch" class="form-control"
-                                                   placeholder="Search"
-                                                   style="width: 100%; margin-left: 3px;"/></div>
-                    <button class="filter-button btn btn-default button is-checked btn-xs"
-                            data-filter="*">{{ _('Show All') }}</button>
-                    {% for group in groups %}
-                        <button class="button filter-button btn btn-default btn-xs"
-                                data-filter=".{{ group.name }}">{{ group.name }}</button>
-                    {% endfor %}
+            <!--div id="filters" class="button-group col-md-12"-->
+                <div class="col-md-3">
+                    <input type="text" id="quicksearch" class="form-control"
+                           placeholder="Search"
+                           style="width: 100%; margin-left: 3px;"/>
                 </div>
+                <div class="button-group col-md-9" id="filters">
+                    <div class="form-group pull-right">
+                        <button type="button" class="filter-button btn btn-default"
+                                data-filter="*">{{ _('Show All') }}</button>
+                        {% for group in groups %}
+                            <button type="button" class="filter-button btn btn-default"
+                                    data-filter=".{{ group.name|remove_spaces }}">{{ group.name }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            <!--/div-->
+        </div>
+        <div class="row">
+            <!--/div>
 
-                <!--/div>
+            <div class="col-md-5"-->
+            <div class="isotope" id="products">
+                {% for product in products %}
+                    <div class="product-item {{ product.group_list }} col-md-3"
+                         data-category="{{ product.group_list }}">
+                        <img src="{{ product.image }}" style="width: 100%; "/>
 
-                <div class="col-md-5"-->
-                <div class="isotope pull-left col-xs-4 col-md-5" id="products">
-                    {% for product in products %}
-                        <div class="product-item {{ product.group_list }}" data-category="{{ product.group_list }}">
-                            <h3 class="name">{{ product.name }}</h3>
+                        <h3 class="name">{{ product.name }}</h3>
 
-                            <p class="price">{{ product.price }}</p>
+                        <p class="description">{{ product.description }}</p>
 
-                            <p><a href="">Learn More</a></p>
+                        <div class="clearfix">
+                            <p class="price pull-left">Price: ${{ product.unit_price }}</p>
+
+                            <div class="pull-right">
+                                Quantity:
+                                <select>
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </div>
                         </div>
-                    {% endfor %}
-                </div>
+
+                        <p><a href="">Learn More</a></p>
+
+                    </div>
+                {% endfor %}
+            </div>
             <!--/div-->
         </div>
 

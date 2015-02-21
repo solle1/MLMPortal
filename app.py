@@ -7,7 +7,7 @@ from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 import requests
 
-from utils import datetimeformat, stringtodate
+from utils import datetimeformat, stringtodate, remove_spaces
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -29,6 +29,7 @@ app.logger.addHandler(mail_handler)
 
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 app.jinja_env.filters['stringtodate'] = stringtodate
+app.jinja_env.filters['remove_spaces'] = remove_spaces
 
 
 @babel.localeselector
@@ -102,7 +103,7 @@ def products():
     for product in products:
         group_list = []
         for group in product['groups']:
-            group_list.append(group['name'])
+            group_list.append(group['name'].replace(' ', ''))
         product['group_list'] = " ".join(group_list)
 
     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products/groups/'))
