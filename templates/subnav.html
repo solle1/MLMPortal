@@ -1,4 +1,4 @@
-<div class="row" style="">
+<div class="row" id="subnav" style="">
     {% if language == 'es' %}
         <div class="col-md-3 col-lg-3">
             <img src="{{ url_for('static', filename='images/solle_logo_header.png') }}"/>
@@ -10,7 +10,8 @@
     {% endif %}
 
 
-        <div class="{% if langauage == 'es' %}col-md-8{% else %}{% endif %} lead lead-no-margin" style="">
+        <!-- TODO: Make certain menus hidden based on the size and show other based on other sizes. -->
+        <div class="{% if langauage == 'es' %}col-md-8{% else %}{% endif %} lead lead-no-margin hidden-xs" style="">
 
     <!--div class="col-md-9 lead lead-no-margin" style=""-->
         <a href="/" class="" style="margin-right: 25px;">{{ _('Home') }}</a>
