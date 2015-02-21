@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-07 07:41-0700\n"
+"POT-Creation-Date: 2015-02-20 23:54-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,47 +17,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: templates/index.html:24
-msgid "About Us"
-msgstr ""
-
-#: templates/index.html:25
-msgid "Compensation Plan"
-msgstr ""
-
-#: templates/index.html:26
-msgid "Contact"
+#: templates/base.html:48
+msgid "Logout"
 msgstr ""
 
 #: templates/base.html:50
 msgid "Create an Account"
 msgstr ""
 
-#: templates/index.html:22
-msgid "Home"
-msgstr ""
-
 #: templates/base.html:51
 msgid "Login"
 msgstr ""
 
-#: templates/base.html:48
-msgid "Logout"
+#: templates/base.html:107
+msgid "The content of this website is intended for education purposes only."
 msgstr ""
 
-#: templates/index.html:23
+#: templates/base.html:108
+msgid ""
+"It is not intended to be a substitute for professional healthcare advice,"
+" diagnosis or treatment."
+msgstr ""
+
+#: templates/base.html:109
+msgid ""
+"We encourage you to consult your healthcare professional if you have "
+"concerns about your physical or emotional well-being."
+msgstr ""
+
+#: templates/base.html:119 templates/subnav.html:17
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:120 templates/subnav.html:18
 msgid "Products"
 msgstr ""
 
-#: templates/products.html:16
-msgid "Show All"
+#: templates/base.html:121 templates/subnav.html:19
+msgid "About Us"
 msgstr ""
 
-#: templates/index.html:113
+#: templates/base.html:122 templates/subnav.html:20
+msgid "Compensation Plan"
+msgstr ""
+
+#: templates/base.html:123 templates/subnav.html:21
+msgid "Contact"
+msgstr ""
+
+#: templates/base.html:126
+msgid "Copyright"
+msgstr ""
+
+#: templates/base.html:126
+msgid "All rights reserved."
+msgstr ""
+
+#: templates/index.html:100
+msgid "welcome_message"
+msgstr ""
+
+#: templates/index.html:103
 msgid "contact_button"
 msgstr ""
 
-#: templates/index.html:110
-msgid "welcome_message"
+#: templates/products.html:24
+msgid "Show All"
 msgstr ""
 

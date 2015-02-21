@@ -10,48 +10,15 @@
     {% endif %}
 
 
-        <!-- TODO: Make certain menus hidden based on the size and show other based on other sizes. -->
-        <div class="{% if langauage == 'es' %}col-md-8{% else %}{% endif %} lead lead-no-margin hidden-xs" style="">
+    <!-- TODO: Make certain menus hidden based on the size and show other based on other sizes. -->
+    <div class="{% if langauage == 'es' %}col-md-8{% else %}{% endif %} lead lead-no-margin hidden-xs" style="">
 
-    <!--div class="col-md-9 lead lead-no-margin" style=""-->
+        <!--div class="col-md-9 lead lead-no-margin" style=""-->
         <a href="/" class="" style="margin-right: 25px;">{{ _('Home') }}</a>
         <a href="/products/" class="" style="margin-right: 25px;">{{ _('Products') }}</a>
         <a href="/about/" class="" style="margin-right: 25px;">{{ _('About Us') }}</a>
         <a href="/comp_plan/" class="" style="margin-right: 25px;">{{ _('Compensation Plan') }}</a>
         <a href="/contact/" class="" style="">{{ _('Contact') }}</a>
     </div>
-    <!--ul class="nav nav-pills nav-justified">
-        <li role="presentation" class="active"><a href="/" class="" style="margin-right: 25px;">{{ _('Home') }}</a></li>
-        <li role="presentation"><a href="/products/" class="" style="margin-right: 25px;">{{ _('Products') }}</a></li>
-        <li role="presentation"><a href="/about/" class="" style="margin-right: 25px;">{{ _('About Us') }}</a></li>
-        <li role="presentation"><a href="/comp_plan/" class="" style="margin-right: 25px;">{{ _('Compensation Plan') }}</a></li>
-        <li role="presentation"><a href="/contact/" class="" style="">{{ _('Contact') }}</a></li>
-    </ul-->
 
-    <!--nav class="navbar navbar-default sub-nav">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                        data-target="#bs-example-navbar-collapse-2">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                <a class="navbar-brand" href="/">
-                    <img src="{{ url_for('static', filename='images/solle_logo_header.png') }}"/>
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-                <ul class="nav navbar-nav navbar-right navbar-ul">
-                    <li><a class=navbar-link href="/" class="" style="margin-right: 25px;">{{ _('Home') }}</a></li>
-                    <li><a class=navbar-link href="/products/" class="" style="margin-right: 25px;">{{ _('Products') }}</a></li>
-                    <li><a class=navbar-link href="/about/" class="" style="margin-right: 25px;">{{ _('About Us') }}</a></li>
-                    <li><a class=navbar-link href="/comp_plan/" class=""
-                       style="margin-right: 25px;">{{ _('Compensation Plan') }}</a></li>
-                    <li><a class=navbar-link href="/contact/" class="" style="">{{ _('Contact') }}</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav-->
-    </div>
+</div>

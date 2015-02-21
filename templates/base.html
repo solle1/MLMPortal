@@ -104,11 +104,10 @@
                     </div>
                     <div class="col-md-5">
                         <div><p style="text-align: right; padding-top: 120px;">
-                            The content of this website is intended for education purposes only.<br>
-                            It is not intended to be a substitute for professional healthcare advice, diagnosis or
-                            treatment.<br>
-                            We encourage you to consult your healthcare professional if you have concerns about your
-                            physical or emotional well-being. </p></div>
+                            {{ _('The content of this website is intended for education purposes only.') }}<br>
+                            {{ _('It is not intended to be a substitute for professional healthcare advice, diagnosis or treatment.') }}<br>
+                            {{ _('We encourage you to consult your healthcare professional if you have concerns about your physical or emotional well-being.') }}
+                        </p></div>
                     </div>
                     <div class="col-md-2"></div>
                 </div>
@@ -124,58 +123,12 @@
                             <a href="/contact/">{{ _('Contact') }}</a>
                         </div>
                         <div class="pull-right copyright">
-                            Copyright &copy; 2015 Solle Naturals All rights reserved.
+                            {{ _('Copyright') }} &copy; {{ year }} Solle Naturals {{ _('All rights reserved.') }}
                         </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="col-md-2"></div>
                 </div>
-
-                <!--div class="col-md-offset-3 col-md-1">
-                    <img src="{{ url_for('static', filename='images/solle_logo_footer.png') }}"/>
-                </div>
-            </div>
-            <div class="row" style="background-color: #545557;">
-                <div class="col-md-offset-3 col-md-2">
-                    <p>
-                        260 S. 2500 W.<br>
-                        Suite 102, Pleasant Grove, Utah 84062
-                    </p>
-
-                    <p>
-                        Toll Free #: 888-787-0665<br>
-                        Email: info@sollenaturals.com
-                    </p>
-                </div>
-            </div>
-            <div class="row" style="background-color: #545557;">
-                <div class="col-md-offset-3 col-md-2">
-                    <a href="http://twitter.com/sollenaturals"><img
-                            src="{{ url_for('static', filename='images/facebook_icon.png') }}"/></a>
-                    <a href="http://twitter.com/sollenaturals"><img
-                            src="{{ url_for('static', filename='images/twitter_icon.png') }}"/></a>
-                </div>
-                <!--div id="footer" class="col-md-offset-2 col-md-8">
-                        <img src="{{ url_for('static', filename='images/solle_logo_footer.png') }}"/>
-
-                        <div>
-                            <p>
-                                260 S. 2500 W.<br>
-                                Suite 102, Pleasant Grove, Utah 84062
-                            </p>
-
-                            <p>
-                                Toll Free #: 888-787-0665<br>
-                                Email: info@sollenaturals.com
-                            </p>
-                        </div>
-                        <div>
-                            <a href="http://twitter.com/sollenaturals"><img src="{{ url_for('static', filename='images/facebook_icon.png') }}" /></a>
-                            <a href="http://twitter.com/sollenaturals"><img src="{{ url_for('static', filename='images/twitter_icon.png') }}" /></a>
-                        </div>
-                        <div id="lower-footer"></div>
-                    </div-->
-            </div>
             </div>
 
         {% endblock content %}

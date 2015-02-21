@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import datetime
 from flask import Flask, render_template, request, redirect, abort, g, session, Response
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
@@ -132,6 +133,12 @@ def inject_user():
 @app.context_processor
 def inject_language():
     context = {'language': session.get('current_lang', 'en')}
+
+    return context
+
+@app.context_processor
+def inject_year():
+    context = {'year': datetime.datetime.now().strftime('%Y')}
 
     return context
 
