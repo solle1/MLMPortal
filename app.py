@@ -11,8 +11,8 @@ from utils import datetimeformat, stringtodate, remove_spaces
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
-# app.config['API_ENDPOINT'] = 'http://127.0.0.1:8111/api/v1/'
+app.config['API_ENDPOINT'] = 'http://demo.smartpayout.com/api/'
+# app.config['API_ENDPOINT'] = 'http://local.smartpayout.com:8123/api/'
 app.config['LANGUAGES'] = {'en': u'English', 'es': u'Español'}
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 babel = Babel(app)
