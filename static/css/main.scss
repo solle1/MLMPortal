@@ -105,17 +105,24 @@ body {
   position: relative;
   float: left;
 //  width: 220px;
-//  height: 300px;
-//  margin: 5px;
-  padding: 10px 20px 10px 20px;
+  height: 400px;
+//  margin: 1px;
+  padding: 5px;
   //  background: #888;
   color: #262524;
-//  border: 1px solid #DDDDDD;
+
 }
-.product-item > * {
-  margin: 0;
-  padding: 0;
+.border {
+  border: 1px solid #DDD;
+  height: 100%;
+  width: 100%;
+  margin: 5px;
+  padding: 10px 20px 10px 20px;
 }
+//.product-item > * {
+//  margin: 0;
+//  padding: 0;
+//}
 .product-item .name {
 //  position: absolute;
 //  left: 10px;
@@ -539,4 +546,8 @@ a.bg-primary:hover {
   color: #A5A5A5;
   text-align: right;
   font-size: 12px;
+}
+
+.no-search .select2-search {
+    display:none
 }

@@ -49,12 +49,16 @@ body {
 .product-item {
   position: relative;
   float: left;
-  padding: 10px 20px 10px 20px;
+  height: 400px;
+  padding: 5px;
   color: #262524; }
 
-.product-item > * {
-  margin: 0;
-  padding: 0; }
+.border {
+  border: 1px solid #DDD;
+  height: 100%;
+  width: 100%;
+  margin: 5px;
+  padding: 10px 20px 10px 20px; }
 
 .product-item .name {
   margin-top: 5px;
@@ -321,3 +325,6 @@ a.bg-primary:hover {
   color: #A5A5A5;
   text-align: right;
   font-size: 12px; }
+
+.no-search .select2-search {
+  display: none; }
