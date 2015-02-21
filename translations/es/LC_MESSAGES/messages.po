@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-20 23:54-0700\n"
+"POT-Creation-Date: 2015-02-21 00:10-0700\n"
 "PO-Revision-Date: 2015-02-02 22:27-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es <LL@li.org>\n"
@@ -28,11 +28,15 @@ msgstr "Crear una cuenta"
 msgid "Login"
 msgstr "Entrar"
 
-#: templates/base.html:107
+#: templates/base.html:100
+msgid "Toll Free"
+msgstr "Linea gratuita"
+
+#: templates/base.html:114
 msgid "The content of this website is intended for education purposes only."
 msgstr "El contenido de este sitio web ha sido diseñada sólo con fines educativos."
 
-#: templates/base.html:108
+#: templates/base.html:115
 msgid ""
 "It is not intended to be a substitute for professional healthcare advice,"
 " diagnosis or treatment."
@@ -40,7 +44,7 @@ msgstr ""
 "No pretende ser un substituto para el consejo profesional de la salud, "
 "diagnóstico o tratamiento."
 
-#: templates/base.html:109
+#: templates/base.html:116
 msgid ""
 "We encourage you to consult your healthcare professional if you have "
 "concerns about your physical or emotional well-being."
@@ -48,31 +52,31 @@ msgstr ""
 "Le recomendamos que consulte a su profesional de la salud si usted tiene "
 "preocupaciones acerca de su bienestar físico o emocional."
 
-#: templates/base.html:119 templates/subnav.html:17
+#: templates/base.html:128 templates/subnav.html:17
 msgid "Home"
 msgstr "Página principal"
 
-#: templates/base.html:120 templates/subnav.html:18
+#: templates/base.html:129 templates/subnav.html:18
 msgid "Products"
 msgstr "Productos"
 
-#: templates/base.html:121 templates/subnav.html:19
+#: templates/base.html:130 templates/subnav.html:19
 msgid "About Us"
 msgstr "¿Quiénes somos?"
 
-#: templates/base.html:122 templates/subnav.html:20
+#: templates/base.html:131 templates/subnav.html:20
 msgid "Compensation Plan"
 msgstr "Plan de Compensación"
 
-#: templates/base.html:123 templates/subnav.html:21
+#: templates/base.html:132 templates/subnav.html:21
 msgid "Contact"
 msgstr "Contacto"
 
-#: templates/base.html:126
+#: templates/base.html:135
 msgid "Copyright"
 msgstr "Derechos de autor"
 
-#: templates/base.html:126
+#: templates/base.html:136
 msgid "All rights reserved."
 msgstr "Todos los derechos reservados"
 
