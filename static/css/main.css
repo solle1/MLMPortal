@@ -33,9 +33,6 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-body {
-  font-family: sans-serif; }
-
 /* ---- input ---- */
 /* ---- button ---- */
 /* ---- isotope ---- */
@@ -190,6 +187,9 @@ fieldset[disabled] .btn-primary.active {
 .dropdown-menu > .active > a:focus {
   background-color: #C1D72E; }
 
+.navbar {
+  border: none; }
+
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
@@ -201,8 +201,7 @@ fieldset[disabled] .btn-primary.active {
 .navbar-inverse {
   background-color: #222222;
   border-color: #080808;
-  border-bottom-color: #C1D72E;
-  border-bottom-width: 10px; }
+  border-bottom: 10px solid #C1D72E; }
 
 .pagination > .active > a,
 .pagination > .active > span,
@@ -328,3 +327,63 @@ a.bg-primary:hover {
 
 .no-search .select2-search {
   display: none; }
+
+div.slideOutTab {
+  position: fixed;
+  width: 320px;
+  height: 55px;
+  top: 100px;
+  left: -257px;
+  padding-top: 5px; }
+
+div.slideOutTab #cart-div {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-indent: -999em;
+  background: 0 0 url("/static/images/cart.png") no-repeat;
+  background-color: #C1D72E;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-bottom-right-radius: 10px; }
+
+table#item-table {
+  width: 75%;
+  margin-left: 10px; }
+
+div#cart-body {
+  padding-top: 10px; }
+
+#item-table tr.odd {
+  background-color: #EEEEEE; }
+
+#item-table tr td {
+  padding: 3px 10px 3px 10px; }
+
+#cart-footer {
+  width: 75%;
+  padding-top: 10px; }
+
+.cart-page #cart-items {
+  width: 100%; }
+
+.cart-page #cart-items {
+  width: 100%;
+  font-size: 16px; }
+  .cart-page #cart-items .odd {
+    background-color: #EEEEEE; }
+  .cart-page #cart-items td {
+    padding: 10px 5px 10px 5px; }
+  .cart-page #cart-items .quantity {
+    width: 10%;
+    text-align: right;
+    padding-right: 20px; }
+  .cart-page #cart-items .quantity-value {
+    text-align: right;
+    padding-right: 20px; }
+  .cart-page #cart-items .name {
+    width: 60%; }
+  .cart-page #cart-items .unit-price, .cart-page #cart-items .total {
+    width: 15%; }

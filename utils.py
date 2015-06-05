@@ -10,3 +10,9 @@ def stringtodate(value, format='%Y-%m-%dT%H:%M:%S.%fZ'):
 
 def remove_spaces(value):
     return value.replace(' ', '')
+
+
+# REGULAR UTILITY FUNCTIONS
+def get_user_token(request, session):
+    return request.cookies.get('token', None)
+

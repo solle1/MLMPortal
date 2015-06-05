@@ -1,10 +1,179 @@
 {% extends "base.html" %}
 
 {% block container %}
-    <h3>Username: {{ user.username }}</h3>
-    <p>First Name: {{ user.first_name }}</p>
-    <p>Last Name: {{ user.last_name }}</p>
-    <p>E-Mail Address: {{ user.email }}</p>
-    <p>Date Joined: {{ user.date_joined|stringtodate|datetimeformat("%d %b %Y") }}</p>
-    <p>Ranking: {{ user.id }}</p>
+    <div class="container">
+        <div class="row">
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <h3>User Information</h3>
+
+                <p>{{ _('First Name') }}: {{ user.first_name }}</p>
+
+                <p>{{ _('Last Name') }}: {{ user.last_name }}</p>
+
+                <p>{{ _('E-Mail Address') }}: {{ user.email }}</p>
+                {% if user.date_joined %}
+                    <p>{{ _('Date Joined') }}: {{ user.date_joined|stringtodate|datetimeformat("%d %b %Y %I:%m %p")|default("None") }}</p>
+                {% else %}
+                    <p>{{ _('Date Joined') }}: Unknown</p>
+                {% endif %}
+                <p>{{ _('Ranking') }}: {{ user.id }}</p>
+
+                {% if user.shipping_address %}
+                    <h3>{{ _('Shipping Address') }}</h3>
+                    <address>
+                        {{ user.shipping_address.name }}<br>
+                        {{ user.shipping_address.address }}<br>
+                        {% if user.shipping_address.address2 %}
+                            {{ user.shipping_address.address2 }}
+                        {% endif %}
+                        {{ user.shipping_address.city }}, {{ user.shipping_address.state.abbreviation|default(None) }}
+                        {{ user.shipping_address.zip_code }}
+                    </address>
+                {% endif %}
+
+                {% if user.billing_address %}
+                    <h3>{{ _('Billing Address') }}</h3>
+                    <address>
+                        {{ user.billing_address.name }}<br>
+                        {{ user.billing_address.address }}<br>
+                        {% if user.billing_address.address2 %}
+                            {{ user.billing_address.address2 }}
+                        {% endif %}
+                        {{ user.billing_address.city }}, {{ user.billing_address.state.abbreviation|default(None) }}
+                        {{ user.billing_address.zip_code }}
+                    </address>
+                    </div>
+                {% endif %}
+            <form id="porfile-form" class="">
+                <div class="col-md-3">
+                    <h3>Personal Information</h3>
+
+                    <div class="form-group">
+                        <label for="first_name">{{ _('First Name') }}</label>
+                        <input type="text" value="{{ user.first_name }}" class="form-control" id="first_name"
+                               name="first_name" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">{{ _('Last Name') }}</label>
+                        <input type="text" value="{{ user.last_name }}" class="form-control" id="last_name"
+                               name="last_name"
+                               placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">{{ _('E-Mail Address') }}</label>
+                        <input type="text" value="{{ user.email }}" class="form-control" id="email" name="email"
+                               placeholder="E-Mail">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h3>Shipping Address</h3>
+
+                    <div class="checkbox">
+                        <label style="display: none;">
+                            <input type="checkbox"> Same as Sipping Address
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">{{ _('Address') }}</label>
+                        <input type="text" value="{{ user.shipping_address.address|default(None) }}"
+                               class="form-control" id="address"
+                               name="address"
+                               placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="address2">{{ _('Address Line Two') }}</label>
+                        <input type="text" value="{{ user.shipping_address.address2 }}" class="form-control"
+                               id="address2"
+                               name="address2"
+                               placeholder="Address Line Two">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">{{ _('City') }}</label>
+                        <input type="text" value="{{ user.shipping_address.city }}" class="form-control" id="city"
+                               name="city"
+                               placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">{{ _('State') }}</label>
+                        <select class="form-control" id="state" name="state">
+                            {% for state in states %}
+                                <option value="{{ state.id }}"
+                                        {% if user.shipping_address and state.id == user.shipping_address.state.id %}selected{% endif %}>{{ state.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zipcode">{{ _('Zip Code') }}</label>
+                        <input type="text" value="{{ user.shipping_address.zip_code }}" class="form-control"
+                               id="zip_code"
+                               name="zip_code"
+                               placeholder="Zip Code">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h3>Billing Address</h3>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Same as Sipping Address
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">{{ _('Address') }}</label>
+                        <input type="text" value="{{ user.billing_address.address }}" class="form-control"
+                               id="bill_address"
+                               name="bill_address"
+                               placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="address2">{{ _('Address Line Two') }}</label>
+                        <input type="text" value="{{ user.billing_address.address2 }}" class="form-control"
+                               id="bill_address2"
+                               name="bill_address2"
+                               placeholder="Address Line Two">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">{{ _('City') }}</label>
+                        <input type="text" value="{{ user.billing_address.city }}" class="form-control" id="bill_city"
+                               name="bill_city"
+                               placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">{{ _('State') }}</label>
+                        <select class="form-control" id="bill_state" name="bill_state">
+                            {% for state in states %}
+                                <option value="{{ state.id }}"
+                                        {% if user.billing_address and state.id == user.billing_address.state.id %}selected{% endif %}>{{ state.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zipcode">{{ _('Zip Code') }}</label>
+                        <input type="text" value="{{ user.billing_address.zip_code }}" class="form-control"
+                               id="bill_zip_code"
+                               name="bill_zip_code"
+                               placeholder="Zip Code">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </div>
+
+
+            </form>
+
+
+        </div>
+    </div>
 {% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $("#state").select2();
+        $("#bill_state").select2();
+    </script>
+{% endblock scripts %}

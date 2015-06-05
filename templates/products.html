@@ -55,19 +55,18 @@
                                 </div>
                                 <div class="clearfix" style="position: absolute; bottom: 10px; text-align: center; margin-left: 25px;">
                                     Quantity:
-                                    <select class="quantity">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
+                                    <select class="quantity" id="quantity-{{ product.id }}">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>
-                                    <button type="button" class="btn btn-primary btn-sm" aria-label="Left Align"
-                                            style="margin-left: 25px;">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true">Add</span>
+                                    <button id="add-{{ product.id }}" type="button" class="btn btn-primary btn-sm cart-add-btn" aria-label="Left Align"
+                                            style="margin-left: 30px;">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </button>
-                                    
+
                                 </div>
                                 <!--p><a href="">Learn More</a></p-->
                             </div>
@@ -149,6 +148,22 @@
             setup_filtering();
             $(".quantity").select2({
                 minimumResultsForSearch: 99
+            });
+
+        });
+        $(".cart-add-btn").click(function() {
+            var id = $(this).attr("id").split("-")[1];
+            var quantity = $("#quantity-" + id).val();
+            var cart_id = localStorage.getItem('cart_id');
+            console.log(id);
+            console.log(quantity);
+            $.post(api_endpoint + "carts/" + cart_id + "/add_product/", {
+                "product": id,
+                "quantity": quantity
+            }, function (data) {
+                update_cart_ui(data);
+                // TODO: Update the cart div.
+{#                console.log(data);#}
             });
         });
     </script>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container" ng-controller="CartCtrl">
+        <div class="row cart-page">
+            <table id="cart-items">
+                <tr>
+                    <th class="name">Product</th>
+                    <th class="quantity">Quantity</th>
+                    <th class="unit-price">Unit Price</th>
+                    <th class="total">Total</th>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" ng-click="updateCart()" id="update-cart-button">Update Cart</button>
+            <button class="btn btn-primary">Proceed to Checkout</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        // GET THE CART
+        $(document).ready(function () {
+            get_cart(build_cart_page);
+        });
+    </script>
+{% endblock %}

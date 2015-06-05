@@ -3,17 +3,18 @@
 
 import json
 import datetime
-from flask import Flask, render_template, request, redirect, abort, g, session, Response
+from flask import Flask, render_template, request, redirect, abort, g, session, Response, make_response, jsonify
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 import requests
 
-from utils import datetimeformat, stringtodate, remove_spaces
+from requests import Request, Session
+from utils import datetimeformat, stringtodate, remove_spaces, get_user_token
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['API_ENDPOINT'] = 'http://demo.smartpayout.com/api/'
-# app.config['API_ENDPOINT'] = 'http://local.smartpayout.com:8123/api/'
+# app.config['API_ENDPOINT'] = 'http://demo.smartpayout.com/api/'
+app.config['API_ENDPOINT'] = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
 app.config['LANGUAGES'] = {'en': u'English', 'es': u'Español'}
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 babel = Babel(app)
@@ -51,7 +52,8 @@ def before():
 
 @app.route('/')
 def landing():
-    return render_template('index.html')
+    return render_template('index.html', showcart=True)
+
 
 @app.route('/language/<lang_code>/')
 def language():
@@ -83,7 +85,7 @@ def logout():
 
 @app.route('/home/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html', showcart=True)
 
 
 @app.route('/register/')
@@ -93,7 +95,9 @@ def register():
 
 @app.route('/profile/')
 def profile():
-    return render_template('profile.html')
+    states_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'states'))
+    states = json.loads(states_response.content)
+    return render_template('profile.html', showcart=True, states=states)
 
 
 @app.route('/products/')
@@ -110,8 +114,56 @@ def products():
     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products/groups/'))
     groups = json.loads(response.content)
 
-    return render_template('products.html', products=products, groups=groups)
+    return render_template('products.html', products=products, groups=groups, showcart=True)
 
+
+@app.route('/cart/')
+def cart():
+    cart = None
+
+    user_token = get_user_token(request, session)
+
+    if user_token:
+        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
+                                headers={'Authorization': 'Token %s' % user_token})
+    else:
+        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
+
+    cart = json.loads(response.content)
+
+    return render_template('cart.html', cart=cart)
+
+@app.route('/ajax/login/')
+def ajax_login():
+    # response = requests.get('{}{}'.format(app.config['API_ENDPOINT'], '']))
+    pass
+
+@app.route('/ajax/get_cart/')
+def get_cart():
+    # TODO: If we have a cart we need to fetch the latest for the cart. If they login we need to make sure the cart gets updated with the logged in user.
+    user_token = get_user_token(request, session)
+    headers = {}
+    if user_token:
+        headers['Authorization'] = 'Token {}'.format(user_token)
+    if 'cart' not in session:
+        if user_token:
+            headers = {'Authorization': 'Token {}'.format(user_token)}
+
+        resp = requests.get('{}{}'.format(app.config['API_ENDPOINT'], 'carts/get_cart/'), headers=headers)
+        session['cart'] = resp.content
+    else:
+        cart = json.loads(session['cart'])
+        if user_token:
+            headers = {'Authorization': 'Token {}'.format(user_token)}
+
+        cart_url = '{}{}/{}/'.format(app.config['API_ENDPOINT'], 'carts', cart['id'])
+        resp = requests.get(cart_url, headers=headers)
+        session['cart'] = resp.content
+    cart = json.loads(session['cart'])
+
+    resp = jsonify(cart)
+    resp.status_code = 200
+    return resp
 
 @app.context_processor
 def inject_user():
@@ -119,16 +171,17 @@ def inject_user():
 
     token = request.cookies.get('token', None)
     if token and request.path != '/login/':
-        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users'),
+        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/me/'),
                                 headers={'Authorization': 'Token %s' % token})
         if response.status_code == 401:
             context['redirect'] = '/login/?next=%s' % request.path
         response = json.loads(response.content)
 
-        context['user'] = response
+        context['user'] = response[0]
         context['loggedin'] = True
 
     return context
+
 
 @app.context_processor
 def inject_language():
@@ -136,10 +189,51 @@ def inject_language():
 
     return context
 
+
 @app.context_processor
 def inject_year():
     context = {'year': datetime.datetime.now().strftime('%Y')}
 
+    return context
+
+
+@app.context_processor
+def inject_cart():
+    # api_cookies = session.get('api_cookies', None)
+    # user_token = get_user_token(request, session)
+    # headers = {}
+    # s = Session()
+    # # if user_token:
+    # #     headers['Authorization'] = 'Token %s' % user_token
+    #
+    # # req = Request('GET', '%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
+    # #               headers=headers, cookies=api_cookies)
+    # # prepped = s.prepare_request(req)
+    # #
+    # # resp = s.send(prepped)
+    # #
+    # # session['api_cookies'] = resp.cookies
+    #
+    # # cart_id = session.get('cart_id', None)
+    # # if not cart_id:
+    # # TODO: Need to check if the person is logged in. If they are, then we need to get their latest cart.
+    # # TODO: We also need to grab the latest cart from the session. That way if they filled their cart before
+    # # TODO: logging in they won't lose it. If the do login we need to make their new cart their cart and close
+    # # TODO: out any existing carts.
+    #
+    # try:
+    #     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'), cookies=api_cookies)
+    #     session['api_cookies'] = response.cookies
+    #     data = json.loads(response.content)
+    #     cart_id = data['id']
+    #     session['cart_id'] = cart_id
+    #     if response.status_code != 200:
+    #         raise Exception('Could not get a cart. Try creating an account.')
+    # except requests.ConnectionError as e:
+    #     cart_id = 0
+    # #
+    # context = {'cart_id': cart_id}
+    context = {}
     return context
 
 
