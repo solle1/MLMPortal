@@ -65,32 +65,44 @@ function update_cart_ui(cart) {
     item_table.append(item_row);
 }
 
-build_cart_page = function(cart) {
+var cart_changes = [];
+
+build_cart_page = function (cart) {
     var cart_table = $("#cart-items");
+    //var cart_body = $("#cart-items tbody");
+    cart_table.empty();
 
     var item_counter = 1;
     var subtotal = 0;
-    cart.items.forEach(function(item) {
+    cart.items.forEach(function (item) {
         var item_total_price = item.product.retail_price * item.quantity;
         subtotal += item_total_price;
         var child = "";
         if (is_odd(item_counter)) {
-            child += "<tr class='odd'>";
+            child += "<tr>";
         } else {
-            child += "<tr class='even'>";
+            child += "<tr>";
         }
-        child += "<td>" + item.product.name + "</td><td class='quantity-value'><input type='text' value=" + item.quantity + " size=3 style='text-align: center' /></td><td>$" + item.product.retail_price + "</td><td>$" + item_total_price.toFixed(2) + "</td>";
+        child += "<td>" + item.product.name + "</td><td class='quantity-value'><input class='quantity-input' id='quantity-" + item.product.id + "' type='text' value=" + item.quantity + " size=3 style='text-align: center' /></td><td>$" + item.product.retail_price + "</td><td>$" + item_total_price.toFixed(2) + "</td>";
         child += "</tr>";
         cart_table.append(child);
         item_counter++;
     });
     var child = "";
     if (is_odd(item_counter)) {
-        child += "<tr class='odd'>";
+        child += "<tr style='border-top: 1px #000 solid;'>";
     } else {
-        child += "<tr class='even'>";
+        child += "<tr style='border-top: 1px #000 solid;'>";
     }
     child += "<td></td><td class='quantity-value'></td><td></td><td>$" + subtotal.toFixed(2) + "</td>";
     child += "</tr>";
     cart_table.append(child);
+
+    $(".quantity-input").keyup(function() {
+        var pieces = $(this).attr("id").split("-");
+        var item_id = pieces[1];
+        cart_changes.push({id: item_id, quantity: $(this).val()});
+        //console.log(cart_changes);
+        //console.log($(this).attr("id"));
+    });
 };

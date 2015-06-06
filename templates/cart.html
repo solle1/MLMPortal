@@ -4,17 +4,24 @@
     {{ super() }}
     <div class="container" ng-controller="CartCtrl">
         <div class="row cart-page">
-            <table id="cart-items">
-                <tr>
-                    <th class="name">Product</th>
-                    <th class="quantity">Quantity</th>
-                    <th class="unit-price">Unit Price</th>
-                    <th class="total">Total</th>
-                </tr>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="name">Product</th>
+                        <th class="quantity">Quantity</th>
+                        <th class="unit-price">Unit Price</th>
+                        <th class="total">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody id="cart-items">
+
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="row">
-            <button class="btn btn-primary" ng-click="updateCart()" id="update-cart-button">Update Cart</button>
+            <button class="btn btn-primary" id="update-cart-button">Update Cart</button>
             <button class="btn btn-primary">Proceed to Checkout</button>
         </div>
     </div>
@@ -27,6 +34,36 @@
         // GET THE CART
         $(document).ready(function () {
             get_cart(build_cart_page);
+
+            $("#update-cart-button").click(function () {
+                console.log(cart_changes);
+                var cart_id = localStorage.getItem("cart_id");
+                var change_length = Object.keys(cart_changes).length;
+                if (change_length > 0) {
+                    $(".table").block({
+                        message: 'Updating Cart...',
+                        timeout: 2000,
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff',
+                            'font-size': '12px'
+                        }
+                    });
+                    $.post("/ajax/update_cart/" + cart_id + "/", {'changes': JSON.stringify(cart_changes)}, function (data) {
+                        console.log("Updated Cart");
+                        console.log(data);
+                        build_cart_page(data);
+{#                        $(".table").unblock();#}
+                    });
+                } else {
+
+                }
+            });
         });
     </script>
 {% endblock %}

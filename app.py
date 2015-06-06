@@ -15,7 +15,10 @@ from utils import datetimeformat, stringtodate, remove_spaces, get_user_token
 app = Flask(__name__)
 Bootstrap(app)
 # app.config['API_ENDPOINT'] = 'http://demo.smartpayout.com/api/'
-app.config['API_ENDPOINT'] = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
+# app.config['API_ENDPOINT'] = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
+# app.config['API_ENDPOINT'] = 'http://local.smartpayout.com:8123/api/'
+app.config['API_ENDPOINT'] = smartpayout.API_ENDPOINT
+
 app.config['LANGUAGES'] = {'en': u'English', 'es': u'Español'}
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 babel = Babel(app)
@@ -177,6 +180,16 @@ def add_product(cart_id):
 
     resp = jsonify(json.loads(response.content))
     resp.status_code = response.status_code
+    return resp
+
+@app.route('/ajax/update_cart/<int:cart_id>/', methods=['POST'])
+def update_cart(cart_id):
+    updates = request.form.get('changes', None)
+
+    if updates:
+        response = smartpayout.update_cart_quantities(cart_id, updates)
+    resp = jsonify(json.loads(response.content))
+    resp.status_code = 200
     return resp
 
 @app.context_processor

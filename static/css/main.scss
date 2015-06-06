@@ -612,9 +612,9 @@ div.slideOutTab #cart-footer a {
 
 }
 
-.cart-page #cart-items {
-  width: 100%;
-}
+//.cart-page #cart-items {
+//  width: 100%;
+//}
 
 .cart-page {
   #cart-items {
@@ -625,16 +625,17 @@ div.slideOutTab #cart-footer a {
         background-color: #EEEEEE;
     }
 
-    td {
-      padding: 10px 5px 10px 5px;
-    }
+    //td {
+    //  padding: 10px 5px 10px 5px;
+    //}
     .quantity {
       width: 10%;
-      text-align: right;
+      //text-align: right;
       padding-right: 20px;
     }
     .quantity-value {
-      text-align: right;
+      width: 15%;
+      //text-align: right;
       padding-right: 20px;
     }
     .name {
