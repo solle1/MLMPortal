@@ -3,7 +3,7 @@ import requests
 
 __author__ = 'danolsen'
 
-api_endpoint = 'http://local.smartpayout.com:8123/api/'
+api_endpoint = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
 
 def get_cart(cart_id, user_token=None):
     pass
