@@ -49,7 +49,7 @@
                                     More</a></p>
 
                                 <div class="clearfix">
-                                    <p class="price">Price: <strong>${{ product.unit_price }}</strong></p>
+                                    <p class="price">Price: <strong>${{ product.retail_price }}</strong></p>
 
 
                                 </div>
@@ -157,7 +157,7 @@
             var cart_id = localStorage.getItem('cart_id');
             console.log(id);
             console.log(quantity);
-            $.post(api_endpoint + "carts/" + cart_id + "/add_product/", {
+            $.post("/ajax/add_product/" + cart_id + "/", {
                 "product": id,
                 "quantity": quantity
             }, function (data) {

@@ -9,6 +9,7 @@ from flask.ext.bootstrap import Bootstrap
 import requests
 
 from requests import Request, Session
+import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, get_user_token
 
 app = Flask(__name__)
@@ -163,6 +164,19 @@ def get_cart():
 
     resp = jsonify(cart)
     resp.status_code = 200
+    return resp
+
+@app.route('/ajax/add_product/<int:cart_id>/', methods=['POST'])
+def add_product(cart_id):
+    user_token = get_user_token(request, session)
+
+    product_id = request.form.get('product', type=int)
+    quantity = request.form.get('quantity', type=int)
+
+    response = smartpayout.add_product(cart_id, product_id, quantity, user_token)
+
+    resp = jsonify(json.loads(response.content))
+    resp.status_code = response.status_code
     return resp
 
 @app.context_processor

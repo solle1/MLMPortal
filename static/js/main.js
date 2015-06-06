@@ -51,6 +51,18 @@ function update_cart_ui(cart) {
         item_row += "<tr>";
         item_table.append(item_row);
     });
+    var item_row = "";
+    if (is_odd(item_counter)) {
+        item_row += "<tr class='odd' style='border-top: 1px #000 solid;'>";
+    } else {
+        item_row += "<tr class='even' style='border-top: 1px #000 solid;'>";
+    }
+    item_row += "<td></td>";
+    item_row += "<td style='text-align: right;'>$" + cart.subtotal_price_field.toFixed(2) + "</td>";
+    //console.log(item);
+    item_counter++;
+    item_row += "<tr>";
+    item_table.append(item_row);
 }
 
 build_cart_page = function(cart) {
