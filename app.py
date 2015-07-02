@@ -201,10 +201,15 @@ def receipt(order_id):
     return render_template('receipt.html', order=order)
 
 
-@app.route('/ajax/login/')
+@app.route('/ajax/login/', methods=['post'])
 def ajax_login():
-    # response = requests.get('{}{}'.format(app.config['API_ENDPOINT'], '']))
-    pass
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    response = smartpayout.login(email, password)
+    resp = Response(response.content, mimetype='application/json')
+    resp.status_code = response.status_code
+    return resp
 
 
 @app.route('/ajax/get_cart/')

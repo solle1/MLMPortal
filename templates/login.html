@@ -51,17 +51,23 @@
             var login_info = $(this).serialize();
             console.log(login_info);
 
-            $.ajax({
-                type: "POST",
-                url: api_endpoint + 'login/',
-                data: login_info,
-                success: function (data) {
-                    console.log(data);
-                    $.cookie("token", data.token, {path: '/', expires: 10});
-                    window.location = '{{ next }}';
-                },
-                dataType: "json"
-            });
+            $.post('/ajax/login/', login_info, function(data) {
+                console.log(data);
+                $.cookie("token", data.token, {path: '/', expires: 10});
+                window.location = '/';
+            }, "json");
+
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: '/ajax/login/',#}
+{#                data: login_info,#}
+{#                success: function (data) {#}
+{#                    console.log(data);#}
+{#                    $.cookie("token", data.token, {path: '/', expires: 10});#}
+{#                    window.location = '{{ next }}';#}
+{#                },#}
+{#                dataType: "json"#}
+{#            });#}
         });
     </script>
 {% endblock %}

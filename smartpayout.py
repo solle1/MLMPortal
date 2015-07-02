@@ -106,5 +106,13 @@ def get_order(user_token, order_id):
     return resp.status_code, json.loads(resp.content)
 
 def login(username, password):
+    payload = {
+        'email': username,
+        'password': password,
+    }
+    response = requests.post('{}login/'.format(API_ENDPOINT), data=payload)
+
+    return response
     pass
+
 
