@@ -20,20 +20,113 @@
                 </table>
             </div>
         </div>
+        {% if user %}
+            {% if user.addresses %}
+            <div class="row">
+                <div class="col-lg-4 form-group">
+                    <label class="sr-only" for="address-list">Address</label>
+                    <select id="address-list" class="form-control ">
+                        <option value="0">-- Select Address or Enter one Below --</option>
+                        {% for address in user.addresses %}
+                            <option value="{{ address.id }}">{{ address.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <form id="address-form" action="/checkout/" method="post">
+                    <div class="form-group col-md-5">
+                        <table>
+                            <tr>
+                                <td colspan="3">
+                                    <label class="sr-only">Address</label>
+                                    <input type="text" class="form-control" id="address-one" name="address-one"
+                                           placeholder="Address Line One"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <label class="sr-only">Address Line 2</label>
+                                    <input type="text" class="form-control" id="address-two" name="address-two"
+                                           placeholder="Address Line Two"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="sr-only">City</label>
+                                    <input type="text" class="form-control" id="address-city" name="address-city"
+                                           placeholder="City"/>
+                                </td>
+                                <td>
+                                    <label class="sr-only" for="state-list">State</label>
+                                    <select class="form-control" id="state-list" name="address-state">
+                                        <option value="0">-- Select State --</option>
+                                        {% for state in states %}
+                                            <option value="{{ state.id }}">{{ state.name }}
+                                                - {{ state.abbreviation }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {#                                    <input type="text" class="form-control" placeholder="State"/>#}
+                                </td>
+                                <td>
+                                    <label class="sr-only">Zip Code</label>
+                                    <input type="text" class="form-control" id="address-zip" name="address-zip"
+                                           placeholder="Zip Code"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </form>
+
+            </div>
+        {% else %}
+            <div class="row">
+                <p class="bg-warning">
+                    You must be logged in to continue.
+                    <a href="/login/?next={{ request.path }}">Login</a> /
+                    <a href="/register/">Register</a>
+                </p>
+            </div>
+        {% endif %}
         <div class="row">
             <button class="btn btn-primary" id="update-cart-button">Update Cart</button>
-            <button class="btn btn-primary">Proceed to Checkout</button>
+            {% if user %}
+                <button class="btn btn-primary" id="proceed-to-checkout-button">Proceed to Checkout</button>
+            {% endif %}
         </div>
     </div>
 
+    <!--div class="container">
+
+    </div-->
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
     <script>
+        var address_list = {{ addresses|safe }};
         // GET THE CART
         $(document).ready(function () {
             get_cart(build_cart_page);
+
+            $("#address-list").change(function () {
+                console.log($(this).val());
+                var address_id = $(this).val();
+                $.each(address_list, function (key, value) {
+                    console.log(value);
+                    if (address_id == value.id) {
+                        console.log("MATCHING");
+                        $("#address-one").val(value.address);
+                        $("#address-two").val(value.address2);
+                        $("#address-city").val(value.city);
+                        $("#state-list").val(value.state.id);
+                        $("#address-zip").val(value.zip_code);
+                    }
+                });
+            });
+
 
             $("#update-cart-button").click(function () {
                 console.log(cart_changes);
@@ -58,10 +151,60 @@
                         console.log("Updated Cart");
                         console.log(data);
                         build_cart_page(data);
-{#                        $(".table").unblock();#}
+                        {#                        $(".table").unblock();#}
                     });
                 } else {
 
+                }
+            });
+
+            $("#proceed-to-checkout-button").click(function() {
+                var system_message = $("#system-message");
+                var alerts = $(".alert");
+
+                alerts.hide("scroll");
+                var address_one = $("#address-one");
+                var city = $("#address-city");
+                var state = $("#state-list");
+                var zip = $("#address-zip");
+
+                var errors = false;
+                address_one.removeClass("error");
+                city.removeClass("error");
+                state.removeClass("error");
+                zip.removeClass("error");
+
+                if (!address_one.val()) {
+                    address_one.addClass("error");
+                    errors = true;
+                }
+                if (!city.val()) {
+                    city.addClass("error");
+                    errors = true;
+                }
+                if (state.val() == 0) {
+                    state.addClass("error");
+                    errors = true;
+                }
+                if (!zip.val() || zip.val().length < 5) {
+                    zip.addClass("error");
+                    errors = true;
+                }
+
+                if (errors) {
+                    system_message.empty();
+
+                    var new_alert = "<div class='alert alert-danger alert-dismissible' role='alert' style='display: none;'>";
+                    new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                    new_alert += "<span aria-hidden='true'>&times;</span>";
+                    new_alert += "</button>";
+                    new_alert += "Please fix the fields highlighted below.";
+                    new_alert += "</div>";
+                    system_message.append(new_alert);
+                    alerts = $(".alert");
+                    alerts.show("scroll");
+                } else {
+                    $("#address-form").submit();
                 }
             });
         });

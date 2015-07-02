@@ -295,7 +295,8 @@ a.bg-primary:hover {
   color: #A5A5A5;
   background-color: #545557;
   padding: 25px 0 25px 0;
-  margin-bottom: 25px; }
+  margin-bottom: 25px;
+  margin-top: 25px; }
 
 #lower-footer {
   margin-top: 25px;
@@ -304,7 +305,9 @@ a.bg-primary:hover {
 .footer {
   background-color: #545557;
   color: #A5A5A5;
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  margin-bottom: 25px;
+  margin-top: 25px; }
 
 .footer p {
   font-size: 12px;
@@ -381,3 +384,16 @@ div#cart-body {
     width: 60%; }
   .cart-page #cart-items .unit-price, .cart-page #cart-items .total {
     width: 15%; }
+
+.bg-warning {
+  padding: 15px; }
+
+#address-form td {
+  padding: 10px 10px 10px 0; }
+#address-form input.form-control.error, #address-form select.form-control.error {
+  background-color: #FFEFEF; }
+
+#payment-method {
+  min-height: 100px;
+  margin-bottom: 25px;
+  padding: 5px; }

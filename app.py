@@ -3,14 +3,14 @@
 
 import json
 import datetime
-from flask import Flask, render_template, request, redirect, abort, g, session, Response, make_response, jsonify
+
+from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 import requests
 
-from requests import Request, Session
 import smartpayout
-from utils import datetimeformat, stringtodate, remove_spaces, get_user_token
+from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -36,6 +36,8 @@ app.logger.addHandler(mail_handler)
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 app.jinja_env.filters['stringtodate'] = stringtodate
 app.jinja_env.filters['remove_spaces'] = remove_spaces
+app.jinja_env.filters['item_retail_total'] = item_retail_total
+app.jinja_env.filters['format_currency'] = format_currency
 
 
 @babel.localeselector
@@ -130,17 +132,80 @@ def cart():
     if user_token:
         response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
                                 headers={'Authorization': 'Token %s' % user_token})
+        user_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/'),
+                                     headers={'Authorization': 'Token %s' % user_token})
+        user = json.loads(user_response.content)[0]
+    else:
+        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
+        user = None
+
+    cart = json.loads(response.content)
+    addresses = json.dumps(user['addresses'])
+
+    state_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'states/'))
+    states = json.loads(state_response.content)
+
+    return render_template('cart.html', cart=cart, user=user, states=states, addresses=addresses)
+
+
+@app.route('/checkout/', methods=['POST'])
+def checkout():
+    # This is where we collect the address as well as the shipping option.
+    user_token = get_user_token(request, session)
+
+    address_one = request.form.get('address-one')
+    address_two = request.form.get('address-two')
+    city = request.form.get('address-city')
+    state = request.form.get('address-state')
+    zip_code = request.form.get('address-zip')
+
+    if user_token:
+        response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
+                                headers={'Authorization': 'Token %s' % user_token})
     else:
         response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
 
     cart = json.loads(response.content)
 
-    return render_template('cart.html', cart=cart)
+    address_payload = {'address': address_one, 'address_two': address_two, 'city': city, 'state': state,
+                       'zip_code': zip_code}
+    response = requests.post('{}carts/{}/add_address/'.format(app.config['API_ENDPOINT'], cart['id']),
+                             data=address_payload)
+
+    response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart['id']),
+                            headers={'Authorization': 'Token {}'.format(user_token)})
+    order = json.loads(response.content)
+
+    return render_template('checkout.html', order=order)
+
+@app.route('/purchase/', methods=['post'])
+def purchase():
+    user_token = get_user_token(request, session)
+
+    order_id = request.form.get('order-id', None)
+    method = request.form.get('method', None)
+
+    resp = smartpayout.process_order(user_token, order_id, method)
+
+    if resp.status_code != 200:
+        return render_template('bad_order_process.html', content=json.loads(resp.content))
+    else:
+        return redirect('/receipt/{}/'.format(order_id))
+
+    pass
+
+@app.route('/receipt/<int:order_id>/', methods=['get'])
+def receipt(order_id):
+    user_token = get_user_token(request, session)
+    status, order = smartpayout.get_order(user_token, order_id)
+    return render_template('receipt.html', order=order)
+
 
 @app.route('/ajax/login/')
 def ajax_login():
     # response = requests.get('{}{}'.format(app.config['API_ENDPOINT'], '']))
     pass
+
 
 @app.route('/ajax/get_cart/')
 def get_cart():
@@ -149,38 +214,41 @@ def get_cart():
     headers = {}
     if user_token:
         headers['Authorization'] = 'Token {}'.format(user_token)
-    if 'cart' not in session:
-        if user_token:
-            headers = {'Authorization': 'Token {}'.format(user_token)}
+    # if 'cart' not in session:
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
 
-        resp = requests.get('{}{}'.format(app.config['API_ENDPOINT'], 'carts/get_cart/'), headers=headers)
-        session['cart'] = resp.content
-    else:
-        cart = json.loads(session['cart'])
-        if user_token:
-            headers = {'Authorization': 'Token {}'.format(user_token)}
-
-        cart_url = '{}{}/{}/'.format(app.config['API_ENDPOINT'], 'carts', cart['id'])
-        resp = requests.get(cart_url, headers=headers)
-        session['cart'] = resp.content
+    resp = requests.get('{}{}'.format(app.config['API_ENDPOINT'], 'carts/get_cart/'), headers=headers)
+    session['cart'] = resp.content
+    # else:
+    #     cart = json.loads(session['cart'])
+    #     if user_token:
+    #         headers = {'Authorization': 'Token {}'.format(user_token)}
+    #
+    #     cart_url = '{}{}/{}/'.format(app.config['API_ENDPOINT'], 'carts', cart['id'])
+    #     resp = requests.get(cart_url, headers=headers)
+    #     session['cart'] = resp.content
     cart = json.loads(session['cart'])
 
     resp = jsonify(cart)
     resp.status_code = 200
     return resp
 
-@app.route('/ajax/add_product/<int:cart_id>/', methods=['POST'])
-def add_product(cart_id):
+
+@app.route('/ajax/add_product/', methods=['POST'])
+def add_product():
     user_token = get_user_token(request, session)
+    cart = json.loads(smartpayout.get_cart(request, session, user_token))
 
     product_id = request.form.get('product', type=int)
     quantity = request.form.get('quantity', type=int)
 
-    response = smartpayout.add_product(cart_id, product_id, quantity, user_token)
+    response = smartpayout.add_product(cart['id'], product_id, quantity, user_token)
 
     resp = jsonify(json.loads(response.content))
     resp.status_code = response.status_code
     return resp
+
 
 @app.route('/ajax/update_cart/<int:cart_id>/', methods=['POST'])
 def update_cart(cart_id):
@@ -191,6 +259,41 @@ def update_cart(cart_id):
     resp = jsonify(json.loads(response.content))
     resp.status_code = 200
     return resp
+
+
+@app.route('/ajax/get_cards/', methods=['get'])
+def get_cards():
+    user_token = get_user_token(request, session)
+    status, cards = smartpayout.get_credit_cards(user_token)
+
+    resp = Response(cards)
+    resp.status_code = status
+    return resp
+
+
+@app.route('/ajax/add_card/', methods=['post'])
+def add_card():
+    user_token = get_user_token(request, session)
+    card_number = request.form.get('number', None)
+    expiry = request.form.get('expiry', None)
+    name = request.form.get('name', None)
+    cvc = request.form.get('cvc', None)
+
+    if expiry:
+        expiry = [x.strip() for x in expiry.split('/')]
+
+    cards = smartpayout.add_credit_card(user_token, card_number=card_number, name=name, exp_month=expiry[0],
+                                        exp_year=expiry[1], cvc=cvc)
+
+    if cards.status_code != 200:
+        return Response(json.dumps({'success': False, 'results': json.loads(cards.content)}))
+        # return Response(cards.content)
+    else:
+        # TODO: Need to get the list of credit cards with the response.
+        return Response(json.dumps({'success': True, 'results': json.loads(json.loads(cards.content))}))
+        # return Response(json.loads(cards.content))
+
+
 
 @app.context_processor
 def inject_user():

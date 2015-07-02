@@ -157,7 +157,7 @@
             var cart_id = localStorage.getItem('cart_id');
             console.log(id);
             console.log(quantity);
-            $.post("/ajax/add_product/" + cart_id + "/", {
+            $.post("/ajax/add_product/", {
                 "product": id,
                 "quantity": quantity
             }, function (data) {

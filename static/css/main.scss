@@ -514,7 +514,7 @@ a.bg-primary:hover {
   padding: 25px 0 25px 0;
 
   margin-bottom: 25px;
-
+  margin-top: 25px;
 }
 
 #lower-footer {
@@ -526,6 +526,8 @@ a.bg-primary:hover {
   background-color: #545557;
   color: #A5A5A5;
   padding-bottom: 5px;
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 
 .footer p {
@@ -645,4 +647,25 @@ div.slideOutTab #cart-footer a {
       width: 15%;
     }
   }
+}
+
+.bg-warning {
+  padding: 15px;
+}
+
+#address-form {
+  td {
+    padding: 10px 10px 10px 0;
+  }
+
+  input.form-control.error, select.form-control.error {
+    //border: #FF0000 1px dashed;
+    background-color: #FFEFEF;
+  }
+}
+
+#payment-method {
+  min-height: 100px;
+  margin-bottom: 25px;
+  padding: 5px;
 }

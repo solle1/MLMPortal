@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <h1>Your Receipt</h1>
+        </div>
+        <div class="row">
+
+
+            <table class="table table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th class="name">Product</th>
+                    <th class="quantity">Quantity</th>
+                    <th class="unit-price">Unit Price</th>
+                    <th class="total">Total</th>
+                </tr>
+                </thead>
+                <tbody id="cart-items">
+                {% for item in order['cart']['items'] %}
+                    <tr>
+                        <td>{{ item['product']['name'] }}</td>
+                        <td>{{ item['quantity'] }}</td>
+                        <td>${{ item['product']['retail_price'] }}</td>
+                        <td>${{ item|item_retail_total }}</td>
+                    </tr>
+                {% endfor %}
+                <tr style="border-top: #000000 solid 2px;">
+                    <td colspan="2"></td>
+                    <td>Sub Total</td>
+                    <td>{{ order['order_subtotal']|format_currency }}</td>
+                </tr>
+                {% for item in order['cart']['extra_price_fields_field'] %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1]|format_currency }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td>Total</td>
+                    <td>{{ order['order_total']|format_currency }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

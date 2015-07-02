@@ -94,8 +94,7 @@
                                 </tr>
                             </table>
                             {% endraw %}
-                            <div style="text-align: right;" id="cart-footer"><a href="/cart/">Edit Cart</a> | <a
-                                    href="/checkout/">Checkout</a></div>
+                            <div style="text-align: right;" id="cart-footer"><a href="/cart/">View Cart</a></div>
                         </div>
                     </div>
                 {% endif %}
@@ -105,7 +104,9 @@
                 {% endblock %}
 
                 {% block container %}
-                    <div id="system-message" style="display: none;"></div>
+                    <div class="container">
+                        <div id="system-message" style=""></div>
+                    </div>
                 {% endblock %}
 
                 <div class="row footer" style="">

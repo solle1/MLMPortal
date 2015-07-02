@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container">
+        <div class="row cart-items">
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="name">Product</th>
+                        <th class="quantity">Quantity</th>
+                        <th class="unit-price">Unit Price</th>
+                        <th class="total">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                    {% for item in order['cart']['items'] %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.product.retail_price }}</td>
+                            <td>${{ item|item_retail_total }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr style="border-top: #000000 solid 2px;">
+                        <td colspan="2"></td>
+                        <td>Sub Total</td>
+                        <td>{{ order['order_subtotal']|format_currency }}</td>
+                    </tr>
+                    {% for item in order['cart']['extra_price_fields_field'] %}
+                        <tr>
+                            <td colspan="2"></td>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1]|format_currency }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>Total</td>
+                        <td>{{ order['order_total']|format_currency }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="pull-left col-lg-6">
+                <h3>Select a Paymnet Method</h3>
+
+                <form id="purchase-form" action="/purchase/" method="post">
+                    <input type="hidden" name="order-id" value="{{ order.id }}" />
+                    <div id="payment-method"></div>
+                    <button class="btn btn-primary" id="purchase-btn" disabled="disabled">Complete Purchase</button>
+                </form>
+            </div>
+
+            <div class="new-card pull-right col-lg-6">
+                <h3>Add a New Paymnet Method</h3>
+
+                <div id="add-card-msg" style="display: none;">Change</div>
+
+                <div class="card-wrapper"></div>
+                <form id="card-form">
+                    <div class="form-group col-lg-6">
+                        <label for="number" class="sr-only">Card Number</label>
+                        <input type="text" class="form-control" name="number" id="number" placeholder="Card Number">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="name" class="sr-only">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Name"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="expiry" class="sr-only">Expiration</label>
+                        <input type="text" class="form-control" name="expiry" id="expiry" placeholder="Expiration"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="cvc" class="sr-only">CVC</label>
+                        <input type="text" class="form-control" name="cvc" id="cvc" placeholder="CVC"/>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <button class="btn btn-primary" id="add-card">Add Card</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        function load_credit_cards() {
+            var payment_method_div = $("#payment-method");
+
+            payment_method_div.empty();
+            payment_method_div.block({message: 'Loading cards...'});
+            $.getJSON('/ajax/get_cards/', function (data) {
+                if (data.length == 0) {
+                    $("#payment-method").append("<p>No credit cards on file.</p>");
+                } else {
+                    $.each(data, function (key, value) {
+                        var checked = (key == 0) ? " checked='checked' " : ""
+                        $("#payment-method").append("<div><input name='method' type='radio'" + checked + " value='" + value.id + "'> " +
+                                value.brand + " - " + value.last4 + "</div>");
+                    });
+                    $("#purchase-btn").removeAttr("disabled");
+
+                }
+                payment_method_div.unblock();
+            });
+        }
+
+        $(document).ready(function () {
+            load_credit_cards();
+
+
+            $("#card-form").card({
+                container: '.card-wrapper',
+                width: 300
+            });
+
+            $("#add-card").click(function () {
+                var form_data = $("#card-form").serialize();
+                $.post('/ajax/add_card/', form_data, function (data) {
+                    console.log(data);
+                    if (data.success) {
+                        $("#add-card-msg").html(data.results.message).show().removeClass("text-danger").addClass("text-success");
+                        load_credit_cards();
+                    } else {
+                        $("#add-card-msg").html(data.results.detail).show().removeClass("text-success").addClass("text-danger");
+                    }
+                }, "json").error(function (data, responseT, one, two, three) {
+                    console.log(data);
+                }, "json");
+                console.log(form_data);
+            });
+
+            $("input:radio[name*=method]").change(function() {
+                alert("GO!");
+            });
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/jquery.card.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.blockUI.js') }}"></script>
+{% endblock %}
