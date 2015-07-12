@@ -15,12 +15,12 @@
                     </tr>
                     </thead>
                     <tbody id="cart-items">
-                    {% for item in order['cart']['items'] %}
+                    {% for item in order['items'] %}
                         <tr>
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>${{ item.product.retail_price }}</td>
-                            <td>${{ item|item_retail_total }}</td>
+                            <td>{{ item|item_retail_total|format_currency }}</td>
                         </tr>
                     {% endfor %}
                     <tr style="border-top: #000000 solid 2px;">
@@ -28,11 +28,11 @@
                         <td>Sub Total</td>
                         <td>{{ order['order_subtotal']|format_currency }}</td>
                     </tr>
-                    {% for item in order['cart']['extra_price_fields_field'] %}
+                    {% for item in order['extra_price_fields'] %}
                         <tr>
                             <td colspan="2"></td>
-                            <td>{{ item[0] }}</td>
-                            <td>{{ item[1]|format_currency }}</td>
+                            <td>{{ item['label'] }}</td>
+                            <td>{{ item['value']|format_currency }}</td>
                         </tr>
                     {% endfor %}
                     <tr>
@@ -49,8 +49,9 @@
             <div class="pull-left col-lg-6">
                 <h3>Select a Paymnet Method</h3>
 
-                <form id="purchase-form" action="/purchase/" method="post">
-                    <input type="hidden" name="order-id" value="{{ order.id }}" />
+                <form id="purchase-form" method="post">
+                    <input type="hidden" name="order-id" value="{{ order.id }}"/>
+
                     <div id="payment-method"></div>
                     <button class="btn btn-primary" id="purchase-btn" disabled="disabled">Complete Purchase</button>
                 </form>
@@ -138,8 +139,34 @@
                 console.log(form_data);
             });
 
-            $("input:radio[name*=method]").change(function() {
+            $("input:radio[name*=method]").change(function () {
                 alert("GO!");
+            });
+
+            $("#purchase-form").submit(function () {
+                var form_data = $(this).serialize();
+                console.log(form_data);
+                $.post("/ajax/purchase/", form_data, function(data) {
+                    if (data.success) {
+                        console.log(data.detail);
+                        window.location = "/receipt/" + data.order_id + "/";
+                    } else {
+                        var system_message = $("#system-message");
+                        system_message.empty();
+
+                        var new_alert = "<div class='alert alert-danger alert-dismissible' role='alert'>";
+                        new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                        new_alert += "<span aria-hidden='true'>&times;</span>";
+                        new_alert += "</button>";
+                        new_alert += data.detail;
+                        new_alert += " <a href='/products/'>Return to the store</a>";
+                        new_alert += "</div>";
+                        system_message.append(new_alert);
+                        system_message.show("scroll");
+                    }
+{#                    console.log(data);#}
+{#                    alert("WORKED");#}
+                }, "json")
             });
         });
     </script>

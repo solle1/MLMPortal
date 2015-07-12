@@ -4,19 +4,42 @@ from utils import get_user_token
 
 __author__ = 'danolsen'
 
-API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
-# API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
+# API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
+API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
+
+def register(first_name, last_name, email, password):
+    payload = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'email': email,
+        'password': password,
+    }
+
+    resp = requests.post('{}users/'.format(API_ENDPOINT), data=payload)
+    return resp
+
 
 def get_cart(request, session, user_token=None):
     user_token = get_user_token(request, session)
+    cart_id = session.get('cart_id', None)
+
     headers = {}
     if user_token:
         headers['Authorization'] = 'Token {}'.format(user_token)
     # if 'cart' not in session:
-    if user_token:
-        headers = {'Authorization': 'Token {}'.format(user_token)}
+    # if user_token:
+    #     headers = {'Authorization': 'Token {}'.format(user_token)}
 
-    resp = requests.get('{}{}'.format(API_ENDPOINT, 'carts/get_cart/'), headers=headers)
+    if cart_id:
+        resp = requests.get('{}carts/{}/'.format(API_ENDPOINT, cart_id), headers=headers)
+        cart = json.loads(resp.content)
+        pass
+    else:
+        resp = requests.get('{}{}'.format(API_ENDPOINT, 'carts/get_cart/'), headers=headers)
+        cart = json.loads(resp.content)
+        session['cart_id'] = cart['id']
+        pass
+
     return resp.content
 
 def get_user_info(user_token):

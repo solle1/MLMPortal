@@ -83,7 +83,14 @@
                     </nav>
                 </div>
                 {% if showcart %}
-                    <div class="slideOutTab">
+                    <div class="container">
+                    <div class="row text-left" id="cart-summary">
+                        <div class="col-lg-2"><a class="glyphicon glyphicon-shopping-cart" href="/cart/"></a></div>
+                        <div class="col-lg-offset-4 col-lg-6 text-right" id="num-items"></div>
+
+                    </div>
+                    </div>
+                    <!--div class="slideOutTab">
                         <a href="#" id="cart-div" class="glyphicon glyphicon-shopping-cart"></a>
 
                         <div id="cart-body">
@@ -96,7 +103,7 @@
                             {% endraw %}
                             <div style="text-align: right;" id="cart-footer"><a href="/cart/">View Cart</a></div>
                         </div>
-                    </div>
+                    </div-->
                 {% endif %}
 
                 {% block header %}
@@ -105,7 +112,7 @@
 
                 {% block container %}
                     <div class="container">
-                        <div id="system-message" style=""></div>
+                        <div id="system-message" style="display: none;"></div>
                     </div>
                 {% endblock %}
 
@@ -192,8 +199,8 @@
                 {#                var cart_id = {{ cart_id }};#}
                 var cart = null;
 
-                var api_endpoint = "http://smartpayout-dev.elasticbeanstalk.com/api/";
-{#                var api_endpoint = "http://local.smartpayout.com:8123/api/";#}
+{#                var api_endpoint = "http://smartpayout-dev.elasticbeanstalk.com/api/";#}
+                var api_endpoint = "http://local.smartpayout.com:8123/api/";
                 function valid_token() {
                     var token = $.cookie("token");
                     if (typeof token !== 'undefined') {

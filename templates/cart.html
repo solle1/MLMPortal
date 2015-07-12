@@ -22,65 +22,70 @@
         </div>
         {% if user %}
             {% if user.addresses %}
-            <div class="row">
-                <div class="col-lg-4 form-group">
-                    <label class="sr-only" for="address-list">Address</label>
-                    <select id="address-list" class="form-control ">
-                        <option value="0">-- Select Address or Enter one Below --</option>
-                        {% for address in user.addresses %}
-                            <option value="{{ address.id }}">{{ address.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            {% endif %}
-            <div class="row">
-                <form id="address-form" action="/checkout/" method="post">
-                    <div class="form-group col-md-5">
-                        <table>
-                            <tr>
-                                <td colspan="3">
-                                    <label class="sr-only">Address</label>
-                                    <input type="text" class="form-control" id="address-one" name="address-one"
-                                           placeholder="Address Line One"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
-                                    <label class="sr-only">Address Line 2</label>
-                                    <input type="text" class="form-control" id="address-two" name="address-two"
-                                           placeholder="Address Line Two"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="sr-only">City</label>
-                                    <input type="text" class="form-control" id="address-city" name="address-city"
-                                           placeholder="City"/>
-                                </td>
-                                <td>
-                                    <label class="sr-only" for="state-list">State</label>
-                                    <select class="form-control" id="state-list" name="address-state">
-                                        <option value="0">-- Select State --</option>
-                                        {% for state in states %}
-                                            <option value="{{ state.id }}">{{ state.name }}
-                                                - {{ state.abbreviation }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    {#                                    <input type="text" class="form-control" placeholder="State"/>#}
-                                </td>
-                                <td>
-                                    <label class="sr-only">Zip Code</label>
-                                    <input type="text" class="form-control" id="address-zip" name="address-zip"
-                                           placeholder="Zip Code"/>
-                                </td>
-                            </tr>
-                        </table>
-
+                <div class="row">
+                    <div class="col-lg-4 form-group">
+                        <label class="sr-only" for="address-list">Address</label>
+                        <select id="address-list" class="form-control ">
+                            <option value="0">-- Select Address or Enter one Below --</option>
+                            {% for address in user.addresses %}
+                                <option value="{{ address.id }}">{{ address.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                </form>
+                </div>
+            {% endif %}
 
-            </div>
+            {% if addresses %}
+                <div class="row">
+                    <form id="address-form" action="/checkout/" method="post">
+                        <input type="hidden" value="{{ cart['id'] }}"/>
+
+                        <div class="form-group col-md-5">
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <label class="sr-only">Address</label>
+                                        <input type="text" class="form-control" id="address-one" name="address-one"
+                                               placeholder="Address Line One"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <label class="sr-only">Address Line 2</label>
+                                        <input type="text" class="form-control" id="address-two" name="address-two"
+                                               placeholder="Address Line Two"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="sr-only">City</label>
+                                        <input type="text" class="form-control" id="address-city" name="address-city"
+                                               placeholder="City"/>
+                                    </td>
+                                    <td>
+                                        <label class="sr-only" for="state-list">State</label>
+                                        <select class="form-control" id="state-list" name="address-state">
+                                            <option value="0">-- Select State --</option>
+                                            {% for state in states %}
+                                                <option value="{{ state.id }}">{{ state.name }}
+                                                    - {{ state.abbreviation }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        {#                                    <input type="text" class="form-control" placeholder="State"/>#}
+                                    </td>
+                                    <td>
+                                        <label class="sr-only">Zip Code</label>
+                                        <input type="text" class="form-control" id="address-zip" name="address-zip"
+                                               placeholder="Zip Code"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </form>
+
+                </div>
+            {% endif %}
         {% else %}
             <div class="row">
                 <p class="bg-warning">
@@ -106,7 +111,9 @@
 {% block scripts %}
     {{ super() }}
     <script>
+        {% if addresses %}
         var address_list = {{ addresses|safe }};
+        {% endif %}
         // GET THE CART
         $(document).ready(function () {
             get_cart(build_cart_page);
@@ -147,7 +154,7 @@
                             'font-size': '12px'
                         }
                     });
-                    $.post("/ajax/update_cart/" + cart_id + "/", {'changes': JSON.stringify(cart_changes)}, function (data) {
+                    $.post("/ajax/update_cart/", {'changes': JSON.stringify(cart_changes)}, function (data) {
                         console.log("Updated Cart");
                         console.log(data);
                         build_cart_page(data);
@@ -158,9 +165,11 @@
                 }
             });
 
-            $("#proceed-to-checkout-button").click(function() {
+            $("#proceed-to-checkout-button").click(function () {
                 var system_message = $("#system-message");
                 var alerts = $(".alert");
+
+                var address_data = $("#address-form").serialize();
 
                 alerts.hide("scroll");
                 var address_one = $("#address-one");
@@ -201,10 +210,17 @@
                     new_alert += "Please fix the fields highlighted below.";
                     new_alert += "</div>";
                     system_message.append(new_alert);
-                    alerts = $(".alert");
+                    {#                    alerts = $(".alert");#}
                     alerts.show("scroll");
                 } else {
-                    $("#address-form").submit();
+                    $.post('/ajax/cart/add_address/', address_data, function (data) {
+                        window.location = '/checkout/';
+                    }).fail(function () {
+                        system_message.empty();
+
+                        system_message.append("<div class='alert alert-danger alert-dismissible' role='alert' style='display: none;'>");
+                        alerts.show("scroll");
+                    });
                 }
             });
         });

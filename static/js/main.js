@@ -28,16 +28,24 @@ function is_odd(number) {
     return number % 2;
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function update_cart_ui(cart) {
     console.log(cart);
     var cart_body = $("#cart-body");
     var item_table = $("#item-table");
     $("#item-table tr").remove();
 
-    var item_counter = 1;
+    var row_counter = 1;
+    var item_counter = 0;
     cart.items.forEach(function(item) {
         var item_row = "";
-        if (is_odd(item_counter)) {
+
+        item_counter += item.quantity;
+
+        if (is_odd(row_counter)) {
             item_row += "<tr class='odd'>";
         } else {
             item_row += "<tr class='even'>";
@@ -47,12 +55,12 @@ function update_cart_ui(cart) {
         item_row += "<td>" + item.quantity + " x " + item.product.name + "</td>";
         item_row += "<td style='text-align: right;'>$" + product_price_total.toFixed(2) + "</td>";
         //console.log(item);
-        item_counter++;
+        row_counter++;
         item_row += "<tr>";
         item_table.append(item_row);
     });
     var item_row = "";
-    if (is_odd(item_counter)) {
+    if (is_odd(row_counter)) {
         item_row += "<tr class='odd' style='border-top: 1px #000 solid;'>";
     } else {
         item_row += "<tr class='even' style='border-top: 1px #000 solid;'>";
@@ -60,9 +68,13 @@ function update_cart_ui(cart) {
     item_row += "<td></td>";
     item_row += "<td style='text-align: right;'>$" + cart.subtotal_price_field.toFixed(2) + "</td>";
     //console.log(item);
-    item_counter++;
+    row_counter++;
     item_row += "<tr>";
     item_table.append(item_row);
+
+
+    $("#num-items").html("Your cart contains " + item_counter + " items for $" + numberWithCommas(cart.subtotal_price_field.toFixed(2)));
+    //$("#cart-total").html("$" + cart.subtotal_price_field.toFixed(2));
 }
 
 var cart_changes = [];
@@ -101,6 +113,7 @@ build_cart_page = function (cart) {
     $(".quantity-input").keyup(function() {
         var pieces = $(this).attr("id").split("-");
         var item_id = pieces[1];
+
         cart_changes.push({id: item_id, quantity: $(this).val()});
         //console.log(cart_changes);
         //console.log($(this).attr("id"));
