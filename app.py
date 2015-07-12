@@ -422,7 +422,7 @@ def inject_user():
     context = {'loggedin': False}
 
     token = request.cookies.get('token', None)
-    if token and request.path != '/login/':
+    if token and request.path != '/login/' and request.path != '/logout/':
         response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/me/'),
                                 headers={'Authorization': 'Token %s' % token})
         if response.status_code == 401:
