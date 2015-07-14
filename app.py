@@ -171,6 +171,23 @@ def checkout():
         return redirect('/')
 
 
+@app.route('/specialist/signup/', methods=['GET'])
+def specialist_signup():
+    products = json.loads(smartpayout.get_products())
+
+    specialist_products = []
+
+    for product in products:
+        if product['make_specialist']:
+            specialist_products.append(product)
+
+    return render_template('products.html', products=specialist_products, showcart=True)
+
+@app.route('/specialist/setup/', methods=['GET'])
+def specialist_setup():
+    return render_template('specialist_setup.html')
+
+
 
     # # This is where we collect the address as well as the shipping option.
     # user_token = get_user_token(request, session)
@@ -366,6 +383,12 @@ def add_product():
 
     response = smartpayout.add_product(cart['id'], product_id, quantity, user_token)
 
+    # If we lost the session we need to fix the cart issue.
+    # if response.status_code == 403:
+    #     del session['cart_id']
+    #     cart = smartpayout.get_cart(request, session, user_token)
+    #     response = smartpayout.add_product(cart['id'], product_id, quantity, user_token)
+
     resp = jsonify(json.loads(response.content))
     resp.status_code = response.status_code
     return resp
@@ -376,7 +399,7 @@ def update_cart():
     updates = request.form.get('changes', None)
     cart_id = session.get('cart_id', None)
 
-    # TODO: Need to fix the issue with the respons not being set if we have no updates.
+    # TODO: Need to fix the issue with the response not being set if we have no updates.
     if updates:
         response = smartpayout.update_cart_quantities(cart_id, updates)
     resp = Response(response.content, mimetype='application/json')
@@ -416,6 +439,19 @@ def add_card():
         return Response(json.dumps({'success': True, 'results': json.loads(json.loads(cards.content))}))
         # return Response(json.loads(cards.content))
 
+@app.route('/ajax/createidentifier/', methods=['post'])
+def create_identifier():
+    user_token = get_user_token(request, session)
+
+    slug = request.form.get('user-slug', None)
+
+    status_code, resp = smartpayout.add_user_slug(slug, request, session, user_token)
+
+    # if status_code == 409:
+    #     resp_data = json.loads(resp)
+    #     return Response(resp, mimetype='application/json', status=409)
+
+    return Response(resp, mimetype='application/json', status=status_code)
 
 @app.context_processor
 def inject_user():

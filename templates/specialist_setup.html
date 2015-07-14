@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <form id="slug-form">
+                    <div class="form-group">
+                        <label for="user-slug" class="sr-only">Site Identifier</label>
+                        <input type="text" class="form-control" required id="user-slug" name="user-slug"
+                               placeholder="Site Identifier"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col-lg-9">
+                This will create a site <code id="sample-url">http://onesolle.com/&lt;your identifier&gt;/</code> that you can share
+                with your friends.
+            </div>
+        </div>
+    </div>
+{% endblock container %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        $(document).ready(function () {
+            $("#user-slug").keyup(function() {
+                var slug = $(this).val();
+                $("#sample-url").html("http://onesolle.com/" + slug + "/");
+            });
+            $("#slug-form").submit(function (e) {
+                e.preventDefault();
+
+                var form_data = $(this).serialize();
+                $.post('/ajax/createidentifier/', form_data, function (data) {
+                    var system_message = $("#system-message");
+
+                    system_message.empty();
+
+                    var new_alert = "<div class='alert alert-success alert-dismissible' role='alert' style='display: none;'>";
+                    new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                    new_alert += "<span aria-hidden='true'>&times;</span>";
+                    new_alert += "</button>";
+                    new_alert += data.detail;
+                    new_alert += "</div>";
+                    system_message.append(new_alert);
+                    system_message.show();
+                    $(".alert").show("scroll");
+                }).fail(function (data) {
+                    var parsed_data = $.parseJSON(data.responseText);
+                    console.log(parsed_data.detail);
+
+                    var system_message = $("#system-message");
+
+
+                    system_message.empty();
+
+                    var new_alert = "<div class='alert alert-danger alert-dismissible' role='alert' style='display: none;'>";
+                    new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                    new_alert += "<span aria-hidden='true'>&times;</span>";
+                    new_alert += "</button>";
+                    new_alert += parsed_data.detail;
+                    new_alert += "</div>";
+                    system_message.append(new_alert);
+                    system_message.show();
+                    $(".alert").show("scroll");
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock scripts %}

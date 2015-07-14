@@ -54,6 +54,11 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right">
+                                    {% if not user['specialist'] %}
+                                        <li><a href="/specialist/signup/">Become a Specialist</a></li>
+                                    {% elif not user['slug'] %}
+                                        <li><a href="/specialist/setup/">Setup your Specialist Site</a></li>
+                                    {% endif %}
                                     {% if loggedin %}
                                         <li><a href="/logout/">{{ _('Logout') }}</a></li>
                                     {% else %}
@@ -84,11 +89,11 @@
                 </div>
                 {% if showcart %}
                     <div class="container">
-                    <div class="row text-left" id="cart-summary">
-                        <div class="col-lg-2"><a class="glyphicon glyphicon-shopping-cart" href="/cart/"></a></div>
-                        <div class="col-lg-offset-4 col-lg-6 text-right" id="num-items"></div>
+                        <div class="row text-left" id="cart-summary">
+                            <div class="col-lg-2"><a class="glyphicon glyphicon-shopping-cart" href="/cart/"></a></div>
+                            <div class="col-lg-offset-4 col-lg-6 text-right" id="num-items"></div>
 
-                    </div>
+                        </div>
                     </div>
                     <!--div class="slideOutTab">
                         <a href="#" id="cart-div" class="glyphicon glyphicon-shopping-cart"></a>
@@ -199,7 +204,7 @@
                 {#                var cart_id = {{ cart_id }};#}
                 var cart = null;
 
-{#                var api_endpoint = "http://smartpayout-dev.elasticbeanstalk.com/api/";#}
+                {#                var api_endpoint = "http://smartpayout-dev.elasticbeanstalk.com/api/";#}
                 var api_endpoint = "http://local.smartpayout.com:8123/api/";
                 function valid_token() {
                     var token = $.cookie("token");

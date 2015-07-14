@@ -18,6 +18,18 @@ def register(first_name, last_name, email, password):
     resp = requests.post('{}users/'.format(API_ENDPOINT), data=payload)
     return resp
 
+def add_user_slug(slug, request, session, user_token=None):
+    user_token = get_user_token(request, session)
+
+    headers = {}
+    if user_token:
+        headers['Authorization'] = 'Token {}'.format(user_token)
+
+    payload = {'slug': slug}
+
+    resp = requests.post('{}users/add_slug/'.format(API_ENDPOINT), data=payload, headers=headers)
+
+    return resp.status_code, resp.content
 
 def get_cart(request, session, user_token=None):
     user_token = get_user_token(request, session)
@@ -41,6 +53,10 @@ def get_cart(request, session, user_token=None):
         pass
 
     return resp.content
+
+def get_products():
+    response = requests.get('{}products/'.format(API_ENDPOINT))
+    return response.content
 
 def get_user_info(user_token):
     headers = {}
