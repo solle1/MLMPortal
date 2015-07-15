@@ -133,9 +133,8 @@ def cart():
     if user_token:
         response = smartpayout.get_cart(request, session, user_token) #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
                                 #headers={'Authorization': 'Token %s' % user_token})
-        user_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/'),
-                                     headers={'Authorization': 'Token %s' % user_token})
-        user = json.loads(user_response.content)[0]
+        user = smartpayout.get_user_info(user_token) #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/'),
+                                     # headers={'Authorization': 'Token %s' % user_token})
     else:
         response = smartpayout.get_cart(request, session, user_token) #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
         user = None
