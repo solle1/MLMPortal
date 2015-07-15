@@ -131,12 +131,14 @@ def cart():
     user_token = get_user_token(request, session)
 
     if user_token:
-        response = smartpayout.get_cart(request, session, user_token) #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
-                                #headers={'Authorization': 'Token %s' % user_token})
-        user = smartpayout.get_user_info(user_token) #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/'),
-                                     # headers={'Authorization': 'Token %s' % user_token})
+        response = smartpayout.get_cart(request, session,
+                                        user_token)  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
+        # headers={'Authorization': 'Token %s' % user_token})
+        user = smartpayout.get_user_info(user_token)  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/'),
+        # headers={'Authorization': 'Token %s' % user_token})
     else:
-        response = smartpayout.get_cart(request, session, user_token) #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
+        response = smartpayout.get_cart(request, session,
+                                        user_token)  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
         user = None
 
     cart = json.loads(response)
@@ -182,39 +184,10 @@ def specialist_signup():
 
     return render_template('products.html', products=specialist_products, showcart=True)
 
+
 @app.route('/specialist/setup/', methods=['GET'])
 def specialist_setup():
     return render_template('specialist_setup.html')
-
-
-
-    # # This is where we collect the address as well as the shipping option.
-    # user_token = get_user_token(request, session)
-    #
-    # address_one = request.form.get('address-one')
-    # address_two = request.form.get('address-two')
-    # city = request.form.get('address-city')
-    # state = request.form.get('address-state')
-    # zip_code = request.form.get('address-zip')
-    #
-    # if user_token:
-    #     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
-    #                             headers={'Authorization': 'Token %s' % user_token})
-    # else:
-    #     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
-    #
-    # cart = json.loads(response.content)
-    #
-    # address_payload = {'address': address_one, 'address_two': address_two, 'city': city, 'state': state,
-    #                    'zip_code': zip_code}
-    # response = requests.post('{}carts/{}/add_address/'.format(app.config['API_ENDPOINT'], cart['id']),
-    #                          data=address_payload)
-    #
-    # response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart['id']),
-    #                         headers={'Authorization': 'Token {}'.format(user_token)})
-    # order = json.loads(response.content)
-    #
-    # return render_template('checkout.html', order=order)
 
 
 @app.route('/ajax/register/', methods=['post'])
@@ -310,23 +283,12 @@ def get_cart():
     headers = {}
     if user_token:
         headers['Authorization'] = 'Token {}'.format(user_token)
-    # if 'cart' not in session:
-    if user_token:
-        headers = {'Authorization': 'Token {}'.format(user_token)}
 
-    resp = smartpayout.get_cart(request, session, user_token) #requests.get('{}{}'.format(app.config['API_ENDPOINT'], 'carts/get_cart/'), headers=headers)
-
-    # else:
-    #     cart = json.loads(session['cart'])
-    #     if user_token:
-    #         headers = {'Authorization': 'Token {}'.format(user_token)}
-    #
-    #     cart_url = '{}{}/{}/'.format(app.config['API_ENDPOINT'], 'carts', cart['id'])
-    #     resp = requests.get(cart_url, headers=headers)
-    #     session['cart'] = resp.content
+    resp = smartpayout.get_cart(request, session,
+                                user_token)  
 
     resp = Response(resp, mimetype='application/json')
-    # resp = jsonify(resp)
+
     resp.status_code = 200
     return resp
 
@@ -347,11 +309,6 @@ def add_address_to_cart():
     zip_code = request.form.get('address-zip')
 
     response = smartpayout.get_cart(request, session, user_token)
-    # if user_token:
-    #     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
-    #                             headers={'Authorization': 'Token %s' % user_token})
-    # else:
-    #     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
 
     cart = json.loads(response)
 
@@ -364,12 +321,6 @@ def add_address_to_cart():
     resp.status_code = response.status_code
 
     return resp
-
-    # response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart['id']),
-    #                         headers={'Authorization': 'Token {}'.format(user_token)})
-    # order = json.loads(response.content)
-    #
-    # return render_template('checkout.html', order=order)
 
 
 @app.route('/ajax/add_product/', methods=['POST'])
@@ -438,6 +389,7 @@ def add_card():
         return Response(json.dumps({'success': True, 'results': json.loads(json.loads(cards.content))}))
         # return Response(json.loads(cards.content))
 
+
 @app.route('/ajax/createidentifier/', methods=['post'])
 def create_identifier():
     user_token = get_user_token(request, session)
@@ -451,6 +403,7 @@ def create_identifier():
     #     return Response(resp, mimetype='application/json', status=409)
 
     return Response(resp, mimetype='application/json', status=status_code)
+
 
 @app.context_processor
 def inject_user():
