@@ -3,8 +3,12 @@
 
 import json
 import datetime
+import os
 
-from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response, make_response
+import rollbar
+import rollbar.contrib.flask
+from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response, make_response, \
+    got_request_exception
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 import requests
@@ -550,6 +554,23 @@ def inject_cart():
     # context = {'cart_id': cart_id}
     context = {}
     return context
+
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token for the demo app: https://rollbar.com/demo
+        'd3d3939c96634f5c8fbb585a97a4a031',
+        # environment name
+        'development',
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False)
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+
 
 
 if __name__ == '__main__':
