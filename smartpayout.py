@@ -4,8 +4,8 @@ from utils import get_user_token
 
 __author__ = 'danolsen'
 
-# API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
-API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
+API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
+# API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
 
 def register(first_name, last_name, email, password, slug):
     payload = {
