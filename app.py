@@ -4,10 +4,11 @@
 import json
 import datetime
 
-from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response
+from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response, make_response
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 import requests
+from werkzeug.contrib.cache import SimpleCache
 
 import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token
@@ -24,6 +25,9 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 babel = Babel(app)
 
 ADMINS = ['dan@straightbit.com']
+DEFAULT_SLUG = 'solle'
+INVALID_SLUGS = ['products', 'login', 'logout', 'ajax', 'home', 'register', 'profile', 'language', 'cart', 'checkout',
+                 'specialist']
 import logging
 from logging.handlers import SMTPHandler
 
@@ -56,8 +60,9 @@ def before():
         request.view_args.pop('lang_code')
 
 
-@app.route('/')
-def landing():
+@app.route('/<slug>/')
+def landing(slug):
+    session['slug'] = slug
     return render_template('index.html', showcart=True)
 
 
@@ -90,14 +95,23 @@ def logout():
     return render_template('logout.html')
 
 
-@app.route('/home/')
-def home():
+@app.route('/<slug>/home/')
+def home(slug):
     return render_template('index.html', showcart=True)
 
 
-@app.route('/register/')
-def register():
-    return render_template('register.html')
+@app.route('/<slug>/register/')
+def register(slug):
+    response = smartpayout.valid_slug(slug)
+
+    if response['identifier']:
+        identity = response['identifier']
+    else:
+        identity = response['name']
+
+    response = make_response(render_template('register.html', identity=identity))
+    response.set_cookie('slug', value=slug)
+    return response
 
 
 @app.route('/profile/')
@@ -107,8 +121,9 @@ def profile():
     return render_template('profile.html', showcart=True, states=states)
 
 
-@app.route('/products/')
-def products():
+@app.route('/<slug>/products/')
+def products(slug):
+    session['slug'] = slug
     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
     products = json.loads(response.content)
 
@@ -121,11 +136,13 @@ def products():
     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products/groups/'))
     groups = json.loads(response.content)
 
-    return render_template('products.html', products=products, groups=groups, showcart=True)
+    response = make_response(render_template('products.html', products=products, groups=groups, showcart=True))
+    response.set_cookie('slug', value=slug)
+    return response
 
 
-@app.route('/cart/')
-def cart():
+@app.route('/<slug>/cart/')
+def cart(slug):
     cart = None
 
     user_token = get_user_token(request, session)
@@ -151,7 +168,9 @@ def cart():
     state_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'states/'))
     states = json.loads(state_response.content)
 
-    return render_template('cart.html', cart=cart, user=user, states=states, addresses=addresses)
+    response = make_response(render_template('cart.html', cart=cart, user=user, states=states, addresses=addresses))
+    response.set_cookie('slug', value=slug)
+    return response
 
 
 @app.route('/checkout/', methods=['GET'])
@@ -185,9 +204,11 @@ def specialist_signup():
     return render_template('products.html', products=specialist_products, showcart=True)
 
 
-@app.route('/specialist/setup/', methods=['GET'])
-def specialist_setup():
-    return render_template('specialist_setup.html')
+@app.route('/<slug>/specialist/setup/', methods=['GET'])
+def specialist_setup(slug):
+    response = make_response(render_template('specialist_setup.html'))
+    response.set_cookie('slug', value=slug)
+    return response
 
 
 @app.route('/ajax/register/', methods=['post'])
@@ -285,7 +306,7 @@ def get_cart():
         headers['Authorization'] = 'Token {}'.format(user_token)
 
     resp = smartpayout.get_cart(request, session,
-                                user_token)  
+                                user_token)
 
     resp = Response(resp, mimetype='application/json')
 
@@ -394,9 +415,10 @@ def add_card():
 def create_identifier():
     user_token = get_user_token(request, session)
 
+    ident = request.form.get('public-ident', None)
     slug = request.form.get('user-slug', None)
 
-    status_code, resp = smartpayout.add_user_slug(slug, request, session, user_token)
+    status_code, resp = smartpayout.add_user_slug(slug, ident, request, session, user_token)
 
     # if status_code == 409:
     #     resp_data = json.loads(resp)
@@ -421,6 +443,49 @@ def inject_user():
         context['loggedin'] = True
 
     return context
+
+
+@app.before_request
+def catch_all():
+    ignore_paths = ['/favicon.ico/', '/login/', '/logout/']
+    if request.path in ignore_paths or request.path.startswith('/static/') or request.path.startswith('/ajax/'):
+        pass
+    else:
+        cache = SimpleCache()
+        known_slugs = cache.get('known_slugs')
+
+        session_slug = request.cookies.get('slug', None)
+        if not session_slug:
+            session_slug = session.get('slug', None)
+
+        if session_slug:
+            if known_slugs:
+                if session_slug not in known_slugs:
+                    known_slugs.append(session_slug)
+                    cache.set('known_slugs', known_slugs)
+            else:
+                known_slugs = [session_slug]
+                cache.set('known_slugs', known_slugs)
+
+        # return 'You want path: %s' % path
+        path = request.path.split('/')
+
+        if path:
+            if path[1] in INVALID_SLUGS or (
+                            (path[1] != session_slug) and (not path[1] in known_slugs) and (path[1] != DEFAULT_SLUG)):
+                response = smartpayout.valid_slug(path[1])
+
+                if response['valid']:
+                    session['slug'] = response['slug']
+                else:
+                    if not session_slug:
+                        session_slug = response['slug']
+                    return redirect('/{}{}'.format(session_slug, request.path))
+            else:
+                pass
+        else:
+            if session_slug:
+                return redirect('/{}/'.format(session_slug))
 
 
 @app.context_processor
@@ -478,6 +543,4 @@ def inject_cart():
 
 
 if __name__ == '__main__':
-    # app.config['API_ENDPOINT'] = 'http://catchmycommission.com/api/v1/'
-
     app.run(debug=True)

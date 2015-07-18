@@ -11,12 +11,24 @@
                         <input type="text" class="form-control" required id="user-slug" name="user-slug"
                                placeholder="Site Identifier"/>
                     </div>
+                    <div class="form-group">
+                        <label for="user-slug" class="sr-only">Public Identifier</label>
+                        <input type="text" class="form-control" id="public-ident" name="public-ident"
+                               placeholder="Public Identifier (Optional)"/>
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
             <div class="col-lg-9">
-                This will create a site <code id="sample-url">http://onesolle.com/&lt;your identifier&gt;/</code> that you can share
-                with your friends.
+                <p>
+                    The site identifier will create a site <code id="sample-url">http://onesolle.com/&lt;site identifier&gt;/</code>
+                    that you can share with your friends.
+                </p>
+                <p>
+                    The public identifier (optional) is what people will see when they are signing up from your site. If you do not
+                    enter a public identifier then your name will be shown instead.
+                </p>
+
             </div>
         </div>
     </div>
@@ -27,7 +39,7 @@
 
     <script>
         $(document).ready(function () {
-            $("#user-slug").keyup(function() {
+            $("#user-slug").keyup(function () {
                 var slug = $(this).val();
                 $("#sample-url").html("http://onesolle.com/" + slug + "/");
             });

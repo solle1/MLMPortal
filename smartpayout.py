@@ -4,8 +4,8 @@ from utils import get_user_token
 
 __author__ = 'danolsen'
 
-API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
-# API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
+# API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
+API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
 
 def register(first_name, last_name, email, password):
     payload = {
@@ -18,14 +18,26 @@ def register(first_name, last_name, email, password):
     resp = requests.post('{}users/'.format(API_ENDPOINT), data=payload)
     return resp
 
-def add_user_slug(slug, request, session, user_token=None):
+def valid_slug(slug):
+    payload = {
+        'slug': slug,
+    }
+    resp = requests.post('{}users/slugs/'.format(API_ENDPOINT), data=payload)
+    data = json.loads(resp.content)
+    return data
+
+
+def add_user_slug(slug, ident, request, session, user_token=None):
     user_token = get_user_token(request, session)
 
     headers = {}
     if user_token:
         headers['Authorization'] = 'Token {}'.format(user_token)
 
-    payload = {'slug': slug}
+    payload = {
+        'ident': ident,
+        'slug': slug,
+    }
 
     resp = requests.post('{}users/add_slug/'.format(API_ENDPOINT), data=payload, headers=headers)
 

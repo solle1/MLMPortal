@@ -54,12 +54,13 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav navbar-right">
-                                    {% if not user['specialist'] %}
-                                        <li><a href="/specialist/signup/">Become a Specialist</a></li>
-                                    {% elif not user['slug'] %}
-                                        <li><a href="/specialist/setup/">Setup your Specialist Site</a></li>
-                                    {% endif %}
+
                                     {% if loggedin %}
+                                        {% if not user['specialist'] %}
+                                            <li><a href="/specialist/signup/">{{ _('Become a Specialist') }}</a></li>
+                                        {% elif not user['slug'] %}
+                                            <li><a href="/specialist/setup/">Setup your Specialist Site</a></li>
+                                        {% endif %}
                                         <li><a href="/logout/">{{ _('Logout') }}</a></li>
                                     {% else %}
                                         <li><a href="/register/">{{ _('Create an Account') }}</a></li>
@@ -270,15 +271,15 @@
                         window.location = "{{ redirect }}";
                     {% endif %}
 
-                    if (window.location.pathname != "/" && window.location.pathname != "/login/" &&
-                            window.location.pathname != "/register/" && window.location.pathname != "/products/" &&
-                            window.location.pathname != "/cart/") {
-                        var token = $.cookie("token");
-                        if (!valid_token()) {
-                            window.location = '/login/?next=' + window.location.pathname;
-                        }
-                        console.log(token);
-                    }
+{#                    if (window.location.pathname != "/" && window.location.pathname != "/login/" &&#}
+{#                            window.location.pathname != "/register/" && window.location.pathname != "/products/" &&#}
+{#                            window.location.pathname != "/cart/") {#}
+{#                        var token = $.cookie("token");#}
+{#                        if (!valid_token()) {#}
+{#                            window.location = '/login/?next=' + window.location.pathname;#}
+{#                        }#}
+{#                        console.log(token);#}
+{#                    }#}
 
 
                     // This is a shortcut to bind both mouseOver and mouseOut
