@@ -462,7 +462,7 @@ def inject_user():
 def catch_all():
     ignore_paths = ['/favicon.ico/', '/login/', '/logout/']
     if request.path in ignore_paths or request.path.startswith('/static/') or request.path.startswith(
-            '/ajax/') or request.path.startswith('/language/'):
+            '/ajax/') or request.path.startswith('/language/') or request.path.startswith('/favicon.ico'):
         pass
     else:
         cache = SimpleCache()
