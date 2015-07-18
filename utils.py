@@ -1,4 +1,7 @@
 from datetime import datetime
+from functools import wraps
+from flask import request, redirect, session, Response
+import requests
 
 __author__ = 'danolsen'
 
@@ -22,3 +25,24 @@ def format_currency(value):
 def get_user_token(request, session):
     return request.cookies.get('token', None)
 
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user_token = get_user_token(request, session)
+        if not user_token:
+            return redirect('/login/')
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def ajax_login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user_token = get_user_token(request, session)
+        if not user_token:
+            response = Response({'detail': 'You are not authorized.'})
+            response.status_code = 403
+            return response
+        return f(*args, **kwargs)
+    return decorated_function

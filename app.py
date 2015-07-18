@@ -11,7 +11,8 @@ import requests
 from werkzeug.contrib.cache import SimpleCache
 
 import smartpayout
-from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token
+from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token, \
+    login_required
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -109,12 +110,13 @@ def register(slug):
     else:
         identity = response['name']
 
-    response = make_response(render_template('register.html', identity=identity))
+    response = make_response(render_template('register.html', slug=slug, identity=identity))
     response.set_cookie('slug', value=slug)
     return response
 
 
 @app.route('/profile/')
+@login_required
 def profile():
     states_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'states'))
     states = json.loads(states_response.content)
@@ -173,8 +175,9 @@ def cart(slug):
     return response
 
 
-@app.route('/checkout/', methods=['GET'])
-def checkout():
+@app.route('/<slug>/checkout/', methods=['GET'])
+@login_required
+def checkout(slug):
     # Get the order!
     user_token = get_user_token(request, session)
 
@@ -191,8 +194,9 @@ def checkout():
         return redirect('/')
 
 
-@app.route('/specialist/signup/', methods=['GET'])
-def specialist_signup():
+@app.route('/<slug>/specialist/signup/', methods=['GET'])
+@login_required
+def specialist_signup(slug):
     products = json.loads(smartpayout.get_products())
 
     specialist_products = []
@@ -205,7 +209,11 @@ def specialist_signup():
 
 
 @app.route('/<slug>/specialist/setup/', methods=['GET'])
+@login_required
 def specialist_setup(slug):
+    user_token = get_user_token(request, session)
+    if not user_token:
+        return redirect('/login/')
     response = make_response(render_template('specialist_setup.html'))
     response.set_cookie('slug', value=slug)
     return response
@@ -219,6 +227,7 @@ def ajax_register():
     email_confirm = request.form.get('confirm-email', None)
     password = request.form.get('password', None)
     password_confirm = request.form.get('confirm-password', None)
+    slug = request.form.get('slug', None)
 
     result = {}
 
@@ -237,7 +246,7 @@ def ajax_register():
         resp = Response(json.dumps(result), mimetype='application/json')
         # resp.status_code = 400
     else:
-        api_resp = smartpayout.register(first_name, last_name, email, password)
+        api_resp = smartpayout.register(first_name, last_name, email, password, slug)
         api_result = json.loads(api_resp.content)
         if api_resp.status_code == 201:
             api_result['success'] = True
@@ -448,7 +457,8 @@ def inject_user():
 @app.before_request
 def catch_all():
     ignore_paths = ['/favicon.ico/', '/login/', '/logout/']
-    if request.path in ignore_paths or request.path.startswith('/static/') or request.path.startswith('/ajax/'):
+    if request.path in ignore_paths or request.path.startswith('/static/') or request.path.startswith(
+            '/ajax/') or request.path.startswith('/language/'):
         pass
     else:
         cache = SimpleCache()
