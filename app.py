@@ -12,6 +12,7 @@ from flask import Flask, render_template, request, redirect, abort, g, session, 
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 import requests
+import sys
 from werkzeug.contrib.cache import SimpleCache
 
 import smartpayout
@@ -485,18 +486,22 @@ def catch_all():
         path = request.path.split('/')
 
         if path:
-            if path[1] in INVALID_SLUGS or (
-                            (path[1] != session_slug) and (not path[1] in known_slugs) and (path[1] != DEFAULT_SLUG)):
-                response = smartpayout.valid_slug(path[1])
+            try:
+                if path[1] in INVALID_SLUGS or (
+                                (path[1] != session_slug) and (not path[1] in known_slugs) and (
+                            path[1] != DEFAULT_SLUG)):
+                    response = smartpayout.valid_slug(path[1])
 
-                if response['valid']:
-                    session['slug'] = response['slug']
+                    if response['valid']:
+                        session['slug'] = response['slug']
+                    else:
+                        if not session_slug:
+                            session_slug = response['slug']
+                        return redirect('/{}{}'.format(session_slug, request.path))
                 else:
-                    if not session_slug:
-                        session_slug = response['slug']
-                    return redirect('/{}{}'.format(session_slug, request.path))
-            else:
-                pass
+                    pass
+            except TypeError as e:
+                raise TypeError('Error on path: {}'.format(request.path))
         else:
             if session_slug:
                 return redirect('/{}/'.format(session_slug))
@@ -555,6 +560,7 @@ def inject_cart():
     context = {}
     return context
 
+
 @app.before_first_request
 def init_rollbar():
     """init rollbar module"""
@@ -570,7 +576,6 @@ def init_rollbar():
 
     # send exceptions from `app` to rollbar, using flask's signal system.
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
-
 
 
 if __name__ == '__main__':
