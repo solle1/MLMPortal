@@ -501,7 +501,8 @@ def catch_all():
                 else:
                     pass
             except TypeError as e:
-                raise TypeError('Error on path: {}'.format(request.path))
+                rollbar.report_exc_info(sys.exc_info())
+                # raise TypeError('Error on path: {}'.format(request.path))
         else:
             if session_slug:
                 return redirect('/{}/'.format(session_slug))
