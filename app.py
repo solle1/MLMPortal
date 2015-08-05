@@ -293,8 +293,8 @@ def purchase():
     pass
 
 
-@app.route('/receipt/<int:order_id>/', methods=['get'])
-def receipt(order_id):
+@app.route('/<slug>/receipt/<int:order_id>/', methods=['get'])
+def receipt(slug, order_id):
     user_token = get_user_token(request, session)
     status, order = smartpayout.get_order(user_token, order_id)
     return render_template('receipt.html', order=order)
