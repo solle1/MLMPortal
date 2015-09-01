@@ -4,5 +4,5 @@ requests==2.5.1
 Fabric==1.10.1
 Flask-Bootstrap
 Flask-Babel==0.9
-rollbar==0.9.12
+rollbar==0.9.13
 blinker==1.3
