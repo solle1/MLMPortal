@@ -4,8 +4,8 @@ from utils import get_user_token
 
 __author__ = 'danolsen'
 
-API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
-# API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
+# API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
+API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
 
 def register(first_name, last_name, email, password, slug):
     payload = {
@@ -154,6 +154,15 @@ def get_order(user_token, order_id):
         headers = {'Authorization': 'Token {}'.format(user_token)}
 
     resp = requests.get('{}orders/{}/'.format(API_ENDPOINT, order_id), headers=headers)
+
+    return resp.status_code, json.loads(resp.content)
+
+def get_shipping_options(sub_total):
+    payload = {
+        'sub_total': sub_total,
+    }
+
+    resp = requests.post('{}shipping/options/from_subtotal/'.format(API_ENDPOINT), data=payload)
 
     return resp.status_code, json.loads(resp.content)
 

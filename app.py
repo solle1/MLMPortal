@@ -174,8 +174,10 @@ def cart(slug):
 
     state_response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'states/'))
     states = json.loads(state_response.content)
+    status_code, shipping_options = smartpayout.get_shipping_options(cart['subtotal_price_field'])
 
-    response = make_response(render_template('cart.html', cart=cart, user=user, states=states, addresses=addresses))
+    response = make_response(render_template('cart.html', cart=cart, user=user, states=states, addresses=addresses,
+                                             shipping_options=shipping_options))
     response.set_cookie('slug', value=slug)
     return response
 
@@ -357,6 +359,29 @@ def add_address_to_cart():
 
     return resp
 
+@app.route('/ajax/cart/add_shipping/', methods=['POST'])
+def add_shipping_to_cart():
+    user_token = get_user_token(request, session)
+
+    headers = {}
+    if user_token:
+        headers['Authorization'] = 'Token {}'.format(user_token)
+
+    shipping_option = request.form.get('shipping_option')
+
+    response = smartpayout.get_cart(request, session, user_token)
+
+    cart = json.loads(response)
+
+    shipping_option_payload = {'shipping_option': shipping_option}
+    response = requests.post('{}carts/{}/add_shipping/'.format(app.config['API_ENDPOINT'], cart['id']), headers=headers,
+                             data=shipping_option_payload)
+
+    resp = Response(response.content, mimetype='application/json')
+    resp.status_code = response.status_code
+
+    return resp
+
 
 @app.route('/ajax/add_product/', methods=['POST'])
 def add_product():
@@ -489,7 +514,7 @@ def catch_all():
             try:
                 if path[1] in INVALID_SLUGS or (
                                 (path[1] != session_slug) and (not path[1] in known_slugs) and (
-                            path[1] != DEFAULT_SLUG)):
+                                    path[1] != DEFAULT_SLUG)):
                     response = smartpayout.valid_slug(path[1])
 
                     if response['valid']:
