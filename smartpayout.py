@@ -177,3 +177,11 @@ def login(username, password):
     pass
 
 
+def get_organization(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/organization/'.format(API_ENDPOINT), headers=headers)
+
+    return json.loads(resp.content)

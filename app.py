@@ -225,6 +225,23 @@ def specialist_setup(slug):
     response.set_cookie('slug', value=slug)
     return response
 
+@app.route('/<slug>/specialist/dashboard/', methods=['GET'])
+@login_required
+def specialist_dashboard(slug):
+    response = make_response(render_template('dashboard.html'))
+    return response
+
+@app.route('/<slug>/specialist/organization/', methods=['GET'])
+@login_required
+def organization(slug):
+    user_token = get_user_token(request, session)
+    if not user_token:
+        return redirect('/login/')
+    response = smartpayout.get_organization(user_token)
+    org = response
+
+    return render_template('organization.html', org=org, org_string=json.dumps(org))
+
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():

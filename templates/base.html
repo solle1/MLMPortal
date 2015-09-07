@@ -56,6 +56,9 @@
                                 <ul class="nav navbar-nav navbar-right">
 
                                     {% if loggedin %}
+                                        {% if user['specialist'] %}
+                                            <li><a href="/specialist/dashboard/">My Dashboard</a></li>
+                                        {% endif %}
                                         {% if not user['specialist'] %}
                                             <li><a href="/specialist/signup/">{{ _('Become a Specialist') }}</a></li>
                                         {% elif not user['slug'] %}

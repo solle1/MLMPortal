@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/jquery.treegrid.css') }}" rel="stylesheet" media="screen">
+    <style>
+        .green {
+            color: #55AA55;
+        }
+        .blue {
+            color: #0000FF;
+        }
+    </style>
+{% endblock %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container">
+        <table id="tree" class="table tree">
+            <tr>
+                <th>Name</th>
+                <th>Ranking</th>
+                <th>QV</th>
+            </tr>
+            {% for item in org.children recursive %}
+                <tr class="treegrid-{{ item.id }} {% if item.parent %}treegrid-parent-{{ item.parent }}{% endif %}">
+                    <td class="{% if item.mentor %}green{% else %}blue{% endif %}">{{ item.label }}</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {{ loop(item.children) }}
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/jquery.treegrid.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.treegrid.bootstrap3.js') }}"></script>
+    <script>
+        console.log({{ org_string|safe }});
+        {#        var data = [{{ org|safe }}];#}
+
+        $(function () {
+            {#            console.log(data);#}
+            {#            $('#tree').tree({#}
+            {#                data: data,#}
+            {#                onCreateLi: function(node, $li) {#}
+            {#                    $li.find('.jqtree-element').append(#}
+            {#                        ' test'#}
+            {#                    );#}
+            {#                }#}
+            {#            });#}
+            $("#tree").treegrid({
+                {#                expanderExpandedClass: 'glyphicon glyphicon-minus',#}
+                {#                expanderCollapsedClass: 'glyphicon glyphicon-plus',#}
+                initialState: 'collapsed'
+            });
+        });
+    </script>
+{% endblock scripts %}
