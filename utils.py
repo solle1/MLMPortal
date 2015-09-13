@@ -20,6 +20,11 @@ def item_retail_total(item):
 def format_currency(value):
     return '${0:,.2f}'.format(float(value))
 
+def qv(order):
+    total_qv = 0
+    for item in order['items']:
+        total_qv += float(item['qualification_volume'])
+    return total_qv
 
 # REGULAR UTILITY FUNCTIONS
 def get_user_token(request, session):

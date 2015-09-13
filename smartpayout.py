@@ -185,3 +185,42 @@ def get_organization(user_token):
     resp = requests.get('{}users/organization/'.format(API_ENDPOINT), headers=headers)
 
     return json.loads(resp.content)
+
+
+def get_monthly_qv(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/monthly_qv/'.format(API_ENDPOINT), headers=headers)
+
+    return json.loads(resp.content)
+
+
+def get_monthly_ov(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/monthly_ov/'.format(API_ENDPOINT), headers=headers)
+
+    return json.loads(resp.content)
+
+
+def get_monthly_enrollments(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/monthly_enrollments/'.format(API_ENDPOINT), headers=headers)
+
+    return json.loads(resp.content)
+
+
+def get_monthly_enrollment_orders(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}orders/monthly_enrollments_for_user/'.format(API_ENDPOINT), headers=headers)
+    return json.loads(resp.content)

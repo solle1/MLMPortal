@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <h1>New Signups This Month</h1>
+        </div>
+
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>QV</th>
+                    <th>Order Date</th>
+                </tr>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.user.first_name }} {{  order.user.last_name }}</td>
+                        <td>{{ order|qv|format_currency }}</td>
+                        <td>{{ order.created|stringtodate|datetimeformat }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock container %}

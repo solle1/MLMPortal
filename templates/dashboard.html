@@ -5,5 +5,44 @@
         <div class="row">
             <a href="/specialist/organization/">My Organization</a>
         </div>
+
+        <div class="row">
+            <h3>Monthly QV: <span id="monthly_qv">Loading...</span></h3>
+        </div>
+
+        <div class="row">
+            <h3>Monthly OV: <span id="monthly_ov">Loading...</span></h3>
+        </div>
+
+        <div class="row">
+            <h3>Monthly Enrollments: <a href="/specialist/recent_enrollments/"><span
+                    id="monthly_enrollments">Loading...</span></a></h3>
+        </div>
     </div>
 {% endblock container %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        function currency(n, currency) {
+            return currency + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+        }
+
+        $(document).ready(function () {
+            $.getJSON('/ajax/monthly_qv/', function (data) {
+                console.log("Monthly QV: " + data);
+                $("#monthly_qv").html(currency(data["monthly_qv"], "$"));
+            });
+
+            $.getJSON('/ajax/monthly_ov/', function (data) {
+                console.log("Monthly OV: " + data);
+                $("#monthly_ov").html(currency(data["monthly_ov"], "$"));
+            });
+
+            $.getJSON('/ajax/monthly_enrollments/', function (data) {
+                console.log("Monthly Enrollments: " + data);
+                $("#monthly_enrollments").html(data["monthly_enrollments"]);
+            });
+        });
+    </script>
+{% endblock scripts %}

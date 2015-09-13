@@ -17,7 +17,7 @@ from werkzeug.contrib.cache import SimpleCache
 
 import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token, \
-    login_required
+    login_required, qv
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -48,6 +48,7 @@ app.jinja_env.filters['stringtodate'] = stringtodate
 app.jinja_env.filters['remove_spaces'] = remove_spaces
 app.jinja_env.filters['item_retail_total'] = item_retail_total
 app.jinja_env.filters['format_currency'] = format_currency
+app.jinja_env.filters['qv'] = qv
 
 
 @babel.localeselector
@@ -242,6 +243,15 @@ def organization(slug):
 
     return render_template('organization.html', org=org, org_string=json.dumps(org))
 
+@app.route('/<slug>/specialist/recent_enrollments/', methods=['GET'])
+@login_required
+def recent_enrollments(slug):
+    user_token = get_user_token(request, session)
+    if not user_token:
+        return redirect('/login/')
+    response = smartpayout.get_monthly_enrollment_orders(user_token)
+
+    return render_template('recent_enrollments.html', orders=response)
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
@@ -481,6 +491,29 @@ def create_identifier():
     #     return Response(resp, mimetype='application/json', status=409)
 
     return Response(resp, mimetype='application/json', status=status_code)
+
+
+@app.route('/ajax/monthly_qv/', methods=['get'])
+def monthly_qv():
+    user_token = get_user_token(request, session)
+
+    resp = smartpayout.get_monthly_qv(user_token)
+    return Response(json.dumps({'monthly_qv': resp}), mimetype='application/json')
+
+@app.route('/ajax/monthly_ov/', methods=['get'])
+def monthly_ov():
+    user_token = get_user_token(request, session)
+
+    resp = smartpayout.get_monthly_ov(user_token)
+    return Response(json.dumps({'monthly_ov': resp}), mimetype='application/json')
+
+
+@app.route('/ajax/monthly_enrollments/', methods=['get'])
+def monthly_enrollments():
+    user_token = get_user_token(request, session)
+
+    resp = smartpayout.get_monthly_enrollments(user_token)
+    return Response(json.dumps({'monthly_enrollments': resp}), mimetype='application/json')
 
 
 @app.context_processor
