@@ -224,3 +224,11 @@ def get_monthly_enrollment_orders(user_token):
 
     resp = requests.get('{}orders/monthly_enrollments_for_user/'.format(API_ENDPOINT), headers=headers)
     return json.loads(resp.content)
+
+def get_monthly_ranking(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/monthly_rank/'.format(API_ENDPOINT), headers=headers)
+    return json.loads(resp.content)

@@ -18,6 +18,10 @@
             <h3>Monthly Enrollments: <a href="/specialist/recent_enrollments/"><span
                     id="monthly_enrollments">Loading...</span></a></h3>
         </div>
+
+        <div class="row">
+            <h3>Current Rank: <span id="monthly_rank">Loading...</span></h3>
+        </div>
     </div>
 {% endblock container %}
 
@@ -42,6 +46,10 @@
             $.getJSON('/ajax/monthly_enrollments/', function (data) {
                 console.log("Monthly Enrollments: " + data);
                 $("#monthly_enrollments").html(data["monthly_enrollments"]);
+            });
+            $.getJSON('/ajax/monthly_rank/', function(data) {
+                console.log("RANK:");
+                $("#monthly_rank").html(data.name);
             });
         });
     </script>

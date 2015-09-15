@@ -515,6 +515,12 @@ def monthly_enrollments():
     resp = smartpayout.get_monthly_enrollments(user_token)
     return Response(json.dumps({'monthly_enrollments': resp}), mimetype='application/json')
 
+@app.route('/ajax/monthly_rank/', methods=['get'])
+def monthly_rank():
+    user_token = get_user_token(request, session)
+
+    resp = smartpayout.get_monthly_ranking(user_token)
+    return Response(json.dumps(resp), mimetype='application/json')
 
 @app.context_processor
 def inject_user():
