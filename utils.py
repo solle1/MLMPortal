@@ -20,6 +20,9 @@ def item_retail_total(item):
 def format_currency(value):
     return '${0:,.2f}'.format(float(value))
 
+def format_two_decimals(value):
+    return '{0:,.2f}'.format(float(value))
+
 def qv(order):
     total_qv = 0
     for item in order['items']:

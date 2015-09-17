@@ -24,8 +24,8 @@
             {% for item in org.children recursive %}
                 <tr class="treegrid-{{ item.id }} {% if item.parent %}treegrid-parent-{{ item.parent }}{% endif %}">
                     <td class="{% if item.mentor %}green{% else %}blue{% endif %}">{{ item.label }}</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ item.rank }}</td>
+                    <td>{{ item.qv|format_two_decimals }}</td>
                 </tr>
                 {{ loop(item.children) }}
             {% endfor %}

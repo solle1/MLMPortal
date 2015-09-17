@@ -17,7 +17,7 @@ from werkzeug.contrib.cache import SimpleCache
 
 import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token, \
-    login_required, qv
+    login_required, qv, format_two_decimals
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -33,7 +33,7 @@ babel = Babel(app)
 ADMINS = ['dan@straightbit.com']
 DEFAULT_SLUG = 'solle'
 INVALID_SLUGS = ['products', 'login', 'logout', 'ajax', 'home', 'register', 'profile', 'language', 'cart', 'checkout',
-                 'specialist']
+                 'specialist', 'favicon.ico', 'about']
 import logging
 from logging.handlers import SMTPHandler
 
@@ -48,6 +48,7 @@ app.jinja_env.filters['stringtodate'] = stringtodate
 app.jinja_env.filters['remove_spaces'] = remove_spaces
 app.jinja_env.filters['item_retail_total'] = item_retail_total
 app.jinja_env.filters['format_currency'] = format_currency
+app.jinja_env.filters['format_two_decimals'] = format_two_decimals
 app.jinja_env.filters['qv'] = qv
 
 
@@ -120,6 +121,9 @@ def register(slug):
     response.set_cookie('slug', value=slug)
     return response
 
+@app.route('/<slug>/about/')
+def about(slug):
+    return render_template('about.html', showcart=False)
 
 @app.route('/profile/')
 @login_required
@@ -548,9 +552,12 @@ def catch_all():
         pass
     else:
         cache = SimpleCache()
+        session.clear()
         known_slugs = cache.get('known_slugs')
 
         session_slug = request.cookies.get('slug', None)
+        if session_slug in INVALID_SLUGS:
+            session_slug = None
         if not session_slug:
             session_slug = session.get('slug', None)
 
@@ -568,8 +575,8 @@ def catch_all():
 
         if path:
             try:
-                if path[1] in INVALID_SLUGS or (
-                                (path[1] != session_slug) and (not path[1] in known_slugs) and (
+                if path[1] in INVALID_SLUGS or path[1] == '' or (
+                                (path[1] != session_slug) and (known_slugs and not path[1] in known_slugs) and (
                                     path[1] != DEFAULT_SLUG)):
                     response = smartpayout.valid_slug(path[1])
 
@@ -578,6 +585,7 @@ def catch_all():
                     else:
                         if not session_slug:
                             session_slug = response['slug']
+                            session['slug'] = session_slug
                         return redirect('/{}{}'.format(session_slug, request.path))
                 else:
                     pass
