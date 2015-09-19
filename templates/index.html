@@ -13,98 +13,210 @@
 {% endblock %}
 
 {% block container %}
-    <div class="container">
-        {% include 'subnav.html' %}
-
-        <div class="row">
-
-            <!--div class="col-md-offset-3 col-md-6"-->
-            <div id="slider" class="flexslider">
-                <ul class="slides">
-                    <li>
-                        <a href="store/store.php"><img
-                                src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_renue.php"><img
-                                src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
-                    </li>
-                    <li>
-                        <a href="solle_complete.php"><img
-                                src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
-                    </li>
-                </ul>
-            </div>
-            <!--/div-->
-        </div>
-
-        <div class="row">
-            <div id="welcome_message" class="cf">
-                <div id="message">
-                    {{ _('welcome_message') }}
+    {% if loggedin %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-lg-4"></div>
+                <!--div class="col-xs-1 col-sm-1 col-lg-1">
+                    <a href="/documents/" class="lead">Document Center</a>
+                </div-->
+                <div class="col-xs-12 col-sm-12 col-lg-4">
+                    <div id="slider" class="flexslider">
+                        <ul class="slides">
+                            <li>
+                                <a href="store/store.php"><img
+                                        src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_renue.php"><img
+                                        src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
+                            </li>
+                            <li>
+                                <a href="solle_complete.php"><img
+                                        src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div id="contact_button">
-                    {{ _('contact_button') }}
+                <div class="col-xs-2 col-lg-3"></div>
+                <div class="col-xs-2 col-sm-2 col-lg-1">
+                    <table class="table table-condensed" style="font-size: 12px;">
+                        <tr>
+                            <td colspan="2" style="text-align: center;"><img src="{{ url_for('static', filename='images/blank_user.png') }}"
+                                                 width="75%"/></td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td class="right">25412</td>
+                        </tr>
+                        <tr>
+                            <td>Current Rank</td>
+                            <td class="right" nowrap>SolleElite 100K</td>
+                        </tr>
+                        <tr>
+                            <td>Mentor Name</td>
+                            <td class="right">Bob Jones</td>
+                        </tr>
+                        <tr>
+                            <td nowrap>Enrollment Date</td>
+                            <td class="right">03/31/2014</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    {% else %}
+        <div class="container">
+            {% include 'subnav.html' %}
+
+
+            <div class="row">
+
+                <!--div class="col-md-offset-3 col-md-6"-->
+                <div id="slider" class="flexslider">
+                    <ul class="slides">
+                        <li>
+                            <a href="store/store.php"><img
+                                    src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_renue.php"><img
+                                    src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+                        </li>
+                    </ul>
+                </div>
+                <!--/div-->
+            </div>
+
+            <div class="row">
+                <div id="welcome_message" class="cf">
+                    <div id="message">
+                        {{ _('welcome_message') }}
+                    </div>
+                    <div id="contact_button">
+                        {{ _('contact_button') }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}
@@ -131,6 +243,7 @@
                 controlNav: false,
                 sync: "#carousel"
             });
+
         });
     </script>
 {% endblock %}
