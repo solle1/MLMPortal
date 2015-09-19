@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block container %}
-    <div class="container">
-
+    <div class="container" style="margin-top: -50px;">
+        <div class="page-header">
+            <h1>Business Dashboard</h1>
+        </div>
         <div class="row">
             <div class="col-xs-3">
                 <p class="lead">Current QV: <span id="monthly_qv"><img
@@ -285,10 +287,10 @@
                 $("#monthly_ov").html(currency(data["monthly_ov"], "$"));
             });
 
-{#            $.getJSON('/ajax/monthly_enrollments/', function (data) {#}
-{#                console.log("Monthly Enrollments: " + data);#}
-{#                $("#monthly_enrollments").html(data["monthly_enrollments"]);#}
-{#            });#}
+            {#            $.getJSON('/ajax/monthly_enrollments/', function (data) {#}
+            {#                console.log("Monthly Enrollments: " + data);#}
+            {#                $("#monthly_enrollments").html(data["monthly_enrollments"]);#}
+            {#            });#}
             $.getJSON('/ajax/monthly_rank/', function (data) {
                 console.log("RANK:");
                 $("#monthly_rank").html(data.name);
