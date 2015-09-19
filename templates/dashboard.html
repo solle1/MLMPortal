@@ -2,7 +2,249 @@
 
 {% block container %}
     <div class="container">
+
         <div class="row">
+            <div class="col-xs-3">
+                <p class="lead">Current QV: <span id="monthly_qv"><img
+                        src="{{ url_for('static', filename='images/solle-bar-ajax-loader.gif') }}"
+                        style="padding-bottom: 2px;"/></span></p>
+            </div>
+            <div class="col-xs-3">
+                <p class="lead">Current OV: <span id="monthly_ov"><img
+                        src="{{ url_for('static', filename='images/solle-bar-ajax-loader.gif') }}"
+                        style="padding-bottom: 2px;"/></span></p>
+            </div>
+            <div class="col-xs-3">
+                <p class="lead">Current Rank: <span id="monthly_rank"><img
+                        src="{{ url_for('static', filename='images/solle-bar-ajax-loader.gif') }}"
+                        style="padding-bottom: 2px;"/></span></p>
+            </div>
+            <div class="col-xs-3">
+                <p class="lead">SolleRewards: 500</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Mentored
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>New Specialist MTD</td>
+                                <td class="right">3</td>
+                            </tr>
+                            <tr>
+                                <td>New Member MTD</td>
+                                <td class="right">10</td>
+                            </tr>
+                            <tr>
+                                <td>Total Specialists</td>
+                                <td class="right">100</td>
+                            </tr>
+                            <tr>
+                                <td>Total Members</td>
+                                <td class="right">500</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Organization
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed org-dashboard">
+                            <tr>
+                                <td>
+                                    <button class="btn btn-primary">Downline Report</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary">Org Chart</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-primary">Growth</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary">SolleSafe</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-primary">My Specialists</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary">My Members</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Commissions
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Qualified to get paid</td>
+                                <td class="right">Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Last SolleQuick Commission</td>
+                                <td class="right">$500</td>
+                            </tr>
+                            <tr>
+                                <td>Last Monthly Paid Commissions</td>
+                                <td class="right">$10,000</td>
+                            </tr>
+                            <tr>
+                                <td>Lifetime Earnings</td>
+                                <td class="right">$1,000,000</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button class="btn btn-primary" style="width: 100%;">Commission Report</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Volumes
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <th></th>
+                                <th class="right">Last Month</th>
+                                <th class="right">This Month</th>
+                            </tr>
+                            <tr>
+                                <td>QV</td>
+                                <td class="right">200</td>
+                                <td class="right">500</td>
+                            </tr>
+                            <tr>
+                                <td>OV</td>
+                                <td class="right">10,000</td>
+                                <td class="right">2,000</td>
+                            </tr>
+                            <tr>
+                                <td>Rank</td>
+                                <td class="right">SolleLeader 10K</td>
+                                <td class="right">SollePro 2K</td>
+                            </tr>
+                            <tr>
+                                <td class="bold">
+                                    Highest Rank
+                                </td>
+                                <td class="right bold">
+                                    SolleElite 100K
+                                </td>
+                                <td class="right bold">05/05/2015</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <button class="btn btn-primary" style="width: 100%;">Rank and Volume History
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Rank Advancement
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>Requirement</th>
+                                <th class="right">Min Value</th>
+                                <th class="right">Current</th>
+                                <th class="right">Complete</th>
+                            </tr>
+                            <tr>
+                                <td>QV</td>
+                                <td class="right">100</td>
+                                <td class="right">100</td>
+                                <td class="center"><span class="glyphicon glyphicon-ok-sign green"></span></td>
+                            </tr>
+                            <tr>
+                                <td>OV</td>
+                                <td class="right">50,000</td>
+                                <td class="right">42,000</td>
+                                <td class="center"><span class="glyphicon glyphicon-remove-sign red"></span></td>
+                            </tr>
+                            <tr>
+                                <td>SollePro</td>
+                                <td class="right">0</td>
+                                <td class="right">0</td>
+                                <td class="center"><span class="glyphicon glyphicon-ok-sign green"></span></td>
+                            </tr>
+                            <tr>
+                                <td>SolleLeader</td>
+                                <td class="right">3</td>
+                                <td class="right">3</td>
+                                <td class="center"><span class="glyphicon glyphicon-ok-sign green"></span></td>
+                            </tr>
+                            <tr>
+                                <td>SolleElite</td>
+                                <td class="right">2</td>
+                                <td class="right">2</td>
+                                <td class="center"><span class="glyphicon glyphicon-ok-sign green"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Ipad Qualifications
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Ipad Bonus Qualifier</td>
+                                <td class="right">Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Ipad Expiration Date</td>
+                                <td class="right">05/05/2016</td>
+                            </tr>
+                            <tr>
+                                <td>Potential Ipad Qualification</td>
+                                <td class="right">100</td>
+                            </tr>
+                            <tr>
+                                <td>Total Ipad Qualifiers</td>
+                                <td class="right">50</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--div class="row">
             <a href="/specialist/organization/">My Organization</a>
         </div>
 
@@ -21,7 +263,7 @@
 
         <div class="row">
             <h3>Current Rank: <span id="monthly_rank">Loading...</span></h3>
-        </div>
+        </div-->
     </div>
 {% endblock container %}
 
@@ -43,11 +285,11 @@
                 $("#monthly_ov").html(currency(data["monthly_ov"], "$"));
             });
 
-            $.getJSON('/ajax/monthly_enrollments/', function (data) {
-                console.log("Monthly Enrollments: " + data);
-                $("#monthly_enrollments").html(data["monthly_enrollments"]);
-            });
-            $.getJSON('/ajax/monthly_rank/', function(data) {
+{#            $.getJSON('/ajax/monthly_enrollments/', function (data) {#}
+{#                console.log("Monthly Enrollments: " + data);#}
+{#                $("#monthly_enrollments").html(data["monthly_enrollments"]);#}
+{#            });#}
+            $.getJSON('/ajax/monthly_rank/', function (data) {
                 console.log("RANK:");
                 $("#monthly_rank").html(data.name);
             });

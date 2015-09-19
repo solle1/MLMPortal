@@ -18,6 +18,13 @@
                 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css"
                       rel="stylesheet"/>
 
+                <style>
+                    #cart-summary.sticky {
+                        position: fixed;
+                        top: 0;
+                    }
+                </style>
+
             {% endblock %}
         {% endblock head %}
 
@@ -36,7 +43,7 @@
         {% block content %}
             <div class="container-fluid">
                 <div class="row">
-                    <nav class="navbar navbar-default navbar-inverse">
+                    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
                         <div class="container-fluid">
                             <!-- Brand and toggle get grouped for better mobile display -->
                             <div class="navbar-header">
@@ -57,7 +64,7 @@
 
                                     {% if loggedin %}
                                         {% if user['specialist'] %}
-                                            <li><a href="/specialist/dashboard/">My Dashboard</a></li>
+                                            <li><a href="/specialist/dashboard/">Business Dashboard</a></li>
                                         {% endif %}
                                         {% if not user['specialist'] %}
                                             <li><a href="/specialist/signup/">{{ _('Become a Specialist') }}</a></li>
@@ -89,16 +96,29 @@
                             <!-- /.navbar-collapse -->
                         </div>
                         <!-- /.container-fluid -->
+                        {% if showcart %}
+                            <div class="container-fluid">
+                                <div class="row text-left" id="cart-summary">
+                                    <div class="col-lg-2"><a class="glyphicon glyphicon-shopping-cart"
+                                                             href="/cart/"> Checkout</a></div>
+                                    <div class="col-lg-offset-4 col-lg-6 text-right" id="num-items"></div>
+
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="container-fluid" style="height: 10px; background-color: #C1D72E;"></div>
+                        {% endif %}
                     </nav>
+
                 </div>
                 {% if showcart %}
-                    <div class="container">
+                    <!--div class="container">
                         <div class="row text-left" id="cart-summary">
                             <div class="col-lg-2"><a class="glyphicon glyphicon-shopping-cart" href="/cart/"></a></div>
                             <div class="col-lg-offset-4 col-lg-6 text-right" id="num-items"></div>
 
                         </div>
-                    </div>
+                    </div-->
                     <!--div class="slideOutTab">
                         <a href="#" id="cart-div" class="glyphicon glyphicon-shopping-cart"></a>
 
@@ -119,11 +139,13 @@
 
                 {% endblock %}
 
+                <div style="margin-top: {% if showcart %}125{% else %}90{% endif %}px;">
                 {% block container %}
-                    <div class="container">
+                    <div class="container" style="margin-top: 125px;">
                         <div id="system-message" style="display: none;"></div>
                     </div>
                 {% endblock %}
+                </div>
 
                 <div class="row footer" style="">
                     <div class="container">
@@ -274,15 +296,15 @@
                         window.location = "{{ redirect }}";
                     {% endif %}
 
-{#                    if (window.location.pathname != "/" && window.location.pathname != "/login/" &&#}
-{#                            window.location.pathname != "/register/" && window.location.pathname != "/products/" &&#}
-{#                            window.location.pathname != "/cart/") {#}
-{#                        var token = $.cookie("token");#}
-{#                        if (!valid_token()) {#}
-{#                            window.location = '/login/?next=' + window.location.pathname;#}
-{#                        }#}
-{#                        console.log(token);#}
-{#                    }#}
+                    {#                    if (window.location.pathname != "/" && window.location.pathname != "/login/" &&#}
+                    {#                            window.location.pathname != "/register/" && window.location.pathname != "/products/" &&#}
+                    {#                            window.location.pathname != "/cart/") {#}
+                    {#                        var token = $.cookie("token");#}
+                    {#                        if (!valid_token()) {#}
+                    {#                            window.location = '/login/?next=' + window.location.pathname;#}
+                    {#                        }#}
+                    {#                        console.log(token);#}
+                    {#                    }#}
 
 
                     // This is a shortcut to bind both mouseOver and mouseOut
