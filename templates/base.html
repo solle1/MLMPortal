@@ -65,16 +65,17 @@
                                     {% if loggedin %}
                                         {% if user['specialist'] %}
                                             <li><a href="/specialist/dashboard/">Business Dashboard</a></li>
+                                            <li><a href="/specialist/newenrollment/">New Enrollment</a></li>
+                                            <li><a href="/specialist/orders/">Orders</a></li>
+                                            <li><a href="/specialist/sollewallet/">SolleWallet</a></li>
+                                            <li><a href="/specialist/events/">Events</a></li>
                                         {% endif %}
                                         {% if not user['specialist'] %}
                                             <li><a href="/specialist/signup/">{{ _('Become a Specialist') }}</a></li>
                                         {% elif not user['slug'] %}
                                             <li><a href="/specialist/setup/">Setup your Specialist Site</a></li>
                                         {% endif %}
-                                        <li><a href="/specialist/newenrollment/">New Enrollment</a></li>
-                                        <li><a href="/specialist/orders/">Orders</a></li>
-                                        <li><a href="/specialist/sollewallet/">SolleWallet</a></li>
-                                        <li><a href="/specialist/events/">Events</a></li>
+
                                         <li><a href="/logout/">{{ _('Logout') }}</a></li>
                                     {% else %}
                                         <li><a href="/register/">{{ _('Create an Account') }}</a></li>
