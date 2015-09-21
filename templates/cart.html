@@ -92,7 +92,9 @@
                         {% if shipping_options %}
                             <h2>Shipping Options</h2>
                             {% for option in shipping_options %}
-                                <div><label><input type="radio" name="shipping_option" value="{{ option.id }}" /> {{ option.name }} - {{ option.price|format_currency }}</label></div>
+                                <div><label><input type="radio" name="shipping_option"
+                                                   value="{{ option.id }}"/> {{ option.name }}
+                                    - {{ option.price|format_currency }}</label></div>
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -226,9 +228,21 @@
                     {#                    alerts = $(".alert");#}
                     alerts.show("scroll");
                 } else {
+                    $.blockUI({
+                        message: '<img src="{{ url_for('static', filename='images/solle-circle-on-black-ajax-loader.gif') }}" width="15" style="padding-bottom: 4px;" /> Please wait...',
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .75,
+                            color: '#fff'
+                        }
+                    });
                     $.post('/ajax/cart/add_address/', address_data, function (data) {
                         var shipping_option = $("input[name=shipping_option]:checked").val();
-                        $.post('/ajax/cart/add_shipping/', {shipping_option: shipping_option}, function(data) {
+                        $.post('/ajax/cart/add_shipping/', {shipping_option: shipping_option}, function (data) {
                             window.location = '/checkout/';
                         }).fail(function () {
                             system_message.empty();
@@ -236,12 +250,13 @@
                             system_message.append("<div class='alert alert-danger alert-dismissible' role='alert' style='display: none;'>");
                             alerts.show("scroll");
                         });
-{#                        window.location = '/checkout/';#}
+                        window.location = '/checkout/';
                     }).fail(function () {
                         system_message.empty();
 
                         system_message.append("<div class='alert alert-danger alert-dismissible' role='alert' style='display: none;'>");
                         alerts.show("scroll");
+                        $.unblockUI();
                     });
 
 

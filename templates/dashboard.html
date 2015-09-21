@@ -6,22 +6,22 @@
             <h1>Business Dashboard</h1>
         </div>
         <div class="row">
-            <div class="col-xs-6 col-lg-3">
+            <div class="col-xs-12 col-sm-6 col-lg-3">
                 <p class="lead">Current QV: <span id="monthly_qv"><img
                         src="{{ url_for('static', filename='images/solle-bar-ajax-loader.gif') }}"
                         style="padding-bottom: 2px;"/></span></p>
             </div>
-            <div class="col-xs-6 col-lg-3">
+            <div class="col-xs-12 col-sm-6 col-lg-3">
                 <p class="lead">Current OV: <span id="monthly_ov"><img
                         src="{{ url_for('static', filename='images/solle-bar-ajax-loader.gif') }}"
                         style="padding-bottom: 2px;"/></span></p>
             </div>
-            <div class="col-xs-6 col-lg-3">
+            <div class="col-xs-12 col-sm-6 col-lg-3">
                 <p class="lead">Current Rank: <span id="monthly_rank"><img
                         src="{{ url_for('static', filename='images/solle-bar-ajax-loader.gif') }}"
                         style="padding-bottom: 2px;"/></span></p>
             </div>
-            <div class="col-xs-6 col-lg-3">
+            <div class="col-xs-12 col-sm-6 col-lg-3">
                 <p class="lead">SolleRewards: 500</p>
             </div>
         </div>
@@ -48,6 +48,11 @@
                             <tr>
                                 <td>Total Members</td>
                                 <td class="right">500</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button class="btn btn-primary" style="width: 100%;">SmartPlan Placement</button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -149,6 +154,12 @@
                                 <td class="right">SollePro 2K</td>
                             </tr>
                             <tr>
+                                <td colspan="3">
+                                    <button class="btn btn-primary" style="width: 100%;">Rank and Volume History
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class="bold">
                                     Highest Rank
                                 </td>
@@ -156,12 +167,6 @@
                                     SolleElite 100K
                                 </td>
                                 <td class="right bold">05/05/2015</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
-                                    <button class="btn btn-primary" style="width: 100%;">Rank and Volume History
-                                    </button>
-                                </td>
                             </tr>
                         </table>
                     </div>
@@ -217,25 +222,30 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        Ipad Qualifications
+                        iPad Qualifications
                     </div>
                     <div class="panel-body">
                         <table class="table table-condensed">
                             <tr>
-                                <td>Ipad Bonus Qualifier</td>
+                                <td>iPad Bonus Qualifier</td>
                                 <td class="right">Yes</td>
                             </tr>
                             <tr>
-                                <td>Ipad Expiration Date</td>
+                                <td>iPad Expiration Date</td>
                                 <td class="right">05/05/2016</td>
                             </tr>
-                            <tr>
-                                <td>Potential Ipad Qualification</td>
+                            <tr style="border-top: 2px #000000 solid;">
+                                <td>Potential iPad Qualification</td>
                                 <td class="right">100</td>
                             </tr>
                             <tr>
-                                <td>Total Ipad Qualifiers</td>
+                                <td>Total iPad Qualifiers</td>
                                 <td class="right">50</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button class="btn btn-primary" style="width: 100%">iPad Qualification</button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -277,12 +287,12 @@
         $(document).ready(function () {
             $.getJSON('/ajax/monthly_qv/', function (data) {
                 console.log("Monthly QV: " + data);
-                $("#monthly_qv").html(currency(data["monthly_qv"], "$"));
+                $("#monthly_qv").html(currency(data["monthly_qv"], ""));
             });
 
             $.getJSON('/ajax/monthly_ov/', function (data) {
                 console.log("Monthly OV: " + data);
-                $("#monthly_ov").html(currency(data["monthly_ov"], "$"));
+                $("#monthly_ov").html(currency(data["monthly_ov"], ""));
             });
 
             {#            $.getJSON('/ajax/monthly_enrollments/', function (data) {#}

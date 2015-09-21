@@ -15,111 +15,255 @@
 {% block container %}
     {% if loggedin %}
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-2 col-sm-2 col-lg-4"></div>
-                <!--div class="col-xs-1 col-sm-1 col-lg-1">
-                    <a href="/documents/" class="lead">Document Center</a>
-                </div-->
-                <div class="col-xs-12 col-sm-12 col-lg-4">
-                    <div id="slider" class="flexslider">
-                        <ul class="slides">
-                            <li>
-                                <a href="store/store.php"><img
-                                        src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_renue.php"><img
-                                        src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
-                            </li>
-                            <li>
-                                <a href="solle_complete.php"><img
-                                        src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
-                            </li>
-                        </ul>
+        <div class="row">
+
+            <!--div class="col-xs-1 col-sm-1 col-lg-1">
+                <a href="/documents/" class="lead">Document Center</a>
+            </div-->
+            <div class="col-xs-12 col-sm-9 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+                <div id="slider" class="flexslider">
+                    <ul class="slides">
+                        <li>
+                            <a href="store/store.php"><img
+                                    src="{{ url_for('static', filename='images/%s/sliderquality3.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_renue.php"><img
+                                    src="{{ url_for('static', filename='images/%s/ReNueSlider.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/workoutnotcomplete.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/getreadytoexcell.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/anightofsollefulslumber.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/youarewhatyoueat2.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/thinkmoreclearly.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/addalittlespice.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/liveeachday.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/welcometoyournewpath.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/thegiftofhealth.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/4-new-aromatherapy.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/giveyourselfnaturalglow.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/followourprogress.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/yourbodyyourmind.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/4wardthinking.jpg' % language) }}"/></a>
+                        </li>
+                        <li>
+                            <a href="solle_complete.php"><img
+                                    src="{{ url_for('static', filename='images/%s/sollecertaincommitment.jpg' % language) }}"/></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-2 col-sm-3 col-md-2 col-lg-2">
+                <table class="table table-condensed" style="font-size: 12px;">
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><img
+                                src="{{ url_for('static', filename='images/blank_user.png') }}"
+                                width="75%"/></td>
+                    </tr>
+                    <tr>
+                        <td>User ID</td>
+                        <td class="right">25412</td>
+                    </tr>
+                    <tr>
+                        <td>Current Rank</td>
+                        <td class="right">SolleElite 100K</td>
+                    </tr>
+                    <tr>
+                        <td>Mentor Name</td>
+                        <td class="right">Bob Jones</td>
+                    </tr>
+                    <tr>
+                        <td>Enrollment Date</td>
+                        <td class="right">03/31/2014</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Personal Info
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Name</td>
+                                <td class="right">Julie Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>Business Name</td>
+                                <td class="right">Julie's Solle</td>
+                            </tr>
+                            <tr>
+                                <td>Phone #</td>
+                                <td class="right">555-555-555</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td class="right">julie@juliesolle.com</td>
+                            </tr>
+                            <tr>
+                                <td>Replicate Site</td>
+                                <td class="right"><a href="http://www.onesolle.com/juliesolle/">www.onesolle.com/juliesolle/</a>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div class="col-xs-2 col-lg-3"></div>
-                <div class="col-xs-2 col-sm-2 col-lg-1">
-                    <table class="table table-condensed" style="font-size: 12px;">
-                        <tr>
-                            <td colspan="2" style="text-align: center;"><img src="{{ url_for('static', filename='images/blank_user.png') }}"
-                                                 width="75%"/></td>
-                        </tr>
-                        <tr>
-                            <td>User ID</td>
-                            <td class="right">25412</td>
-                        </tr>
-                        <tr>
-                            <td>Current Rank</td>
-                            <td class="right" nowrap>SolleElite 100K</td>
-                        </tr>
-                        <tr>
-                            <td>Mentor Name</td>
-                            <td class="right">Bob Jones</td>
-                        </tr>
-                        <tr>
-                            <td nowrap>Enrollment Date</td>
-                            <td class="right">03/31/2014</td>
-                        </tr>
-                    </table>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Shipping Address
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Address:<br>123 Street<br>Provo, UT 84606</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Billing Info
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Payment Type</td>
+                                <td class="right">Credit Card</td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td class="right">Julie Johnson<br>123 Street<br>Provo, UT 84606</td>
+                            </tr>
+                            <tr>
+                                <td>Card Type</td>
+                                <td class="right">Visa</td>
+                            </tr>
+                            <tr>
+                                <td>Card Number</td>
+                                <td class="right">x-1111</td>
+                            </tr>
+                            <tr>
+                                <td>Card Expiration</td>
+                                <td class="right">05/2013</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4 col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Direct Deposit Info
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Bank Name</td>
+                                <td class="right">UCCU</td>
+                            </tr>
+                            <tr>
+                                <td>Routing #</td>
+                                <td class="right">xxxx111</td>
+                            </tr>
+                            <tr>
+                                <td>Account #</td>
+                                <td class="right">xxxx222</td>
+                            </tr>
+                            <tr>
+                                <td>City</td>
+                                <td class="right">Provo</td>
+                            </tr>
+                            <tr>
+                                <td>Account Type</td>
+                                <td class="right">Savings</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        SolleSafe
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>SolleVital</td>
+                                <td class="right">41.95</td>
+                            </tr>
+                            <tr>
+                                <td>ProBio IQ</td>
+                                <td class="right">24.95</td>
+                            </tr>
+                            <tr style="border-top: #000000 solid 2px;">
+                                <td>Total QV</td>
+                                <td class="right">66.90</td>
+                            </tr>
+                            <tr>
+                                <td>Day [1]</td>
+                                <td class="right">Use Rewards [x]</td>
+                            </tr>
+                            <tr>
+                                <td>Active</td>
+                                <td class="right">True</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     {% else %}

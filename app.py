@@ -99,7 +99,8 @@ def login():
 
 @app.route('/logout/')
 def logout():
-    del session['cart_id']
+    if 'cart_id' in session:
+        del session['cart_id']
     return render_template('logout.html')
 
 
@@ -124,6 +125,14 @@ def register(slug):
 @app.route('/<slug>/about/')
 def about(slug):
     return render_template('about.html', showcart=False)
+
+@app.route('/<slug>/comp_plan/')
+def comp_plan(slug):
+    return render_template('comp_plan.html', showcart=False)
+
+@app.route('/<slug>/contact/')
+def contact(slug):
+    return render_template('contact.html', showcart=False)
 
 @app.route('/profile/')
 @login_required
@@ -171,6 +180,7 @@ def cart(slug):
         user = None
 
     cart = json.loads(response)
+    session['cart_id'] = cart['id']
 
     if user:
         addresses = json.dumps(user['addresses'])
@@ -194,9 +204,11 @@ def checkout(slug):
     user_token = get_user_token(request, session)
 
     cart_id = session.get('cart_id', None)
+    cart = json.loads(smartpayout.get_cart(request, session, user_token))
 
-    if cart_id:
-        response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart_id),
+
+    if cart:
+        response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart['id']),
                                 headers={'Authorization': 'Token {}'.format(user_token)})
 
         order = json.loads(response.content)
@@ -256,6 +268,22 @@ def recent_enrollments(slug):
     response = smartpayout.get_monthly_enrollment_orders(user_token)
 
     return render_template('recent_enrollments.html', orders=response)
+
+@app.route('/<slug>/specialist/orders/', methods=['GET'])
+@login_required
+def specialist_orders(slug):
+    return render_template('specialist_orders.html')
+
+@app.route('/<slug>/specialist/wallet/', methods=['GET'])
+@login_required
+def wallet(slug):
+    return render_template('wallet.html')
+
+@app.route('/<slug>/specialist/wallet/settings/', methods=['GET'])
+@login_required
+def wallet_settings(slug):
+    return render_template('wallet_settings.html')
+
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():

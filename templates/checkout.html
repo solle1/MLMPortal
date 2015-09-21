@@ -146,11 +146,13 @@
             $("#purchase-form").submit(function () {
                 var form_data = $(this).serialize();
                 console.log(form_data);
+                $.blockUI();
                 $.post("/ajax/purchase/", form_data, function(data) {
                     if (data.success) {
                         console.log(data.detail);
                         window.location = "/receipt/" + data.order_id + "/";
                     } else {
+                        $.unblockUI();
                         var system_message = $("#system-message");
                         system_message.empty();
 
