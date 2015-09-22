@@ -33,7 +33,7 @@ babel = Babel(app)
 ADMINS = ['dan@straightbit.com']
 DEFAULT_SLUG = 'solle'
 INVALID_SLUGS = ['products', 'login', 'logout', 'ajax', 'home', 'register', 'profile', 'language', 'cart', 'checkout',
-                 'specialist', 'favicon.ico', 'about']
+                 'specialist', 'favicon.ico', 'about', 'reports']
 import logging
 from logging.handlers import SMTPHandler
 
@@ -284,6 +284,11 @@ def wallet(slug):
 def wallet_settings(slug):
     return render_template('wallet_settings.html')
 
+
+@app.route('/<slug>/reports/growth/', methods=['GET'])
+@login_required
+def growth_report(slug):
+    return render_template('reports/growth_report.html')
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
