@@ -5,18 +5,22 @@
 
     <div class="container">
         <div class="row">
-            <h2 class="text-center bg-primary col-md-offset-2 col-md-8" style="margin-bottom: 25px; padding: 10px;">You are signing up under {{ identity }}</h2>
+            <h2 class="text-center bg-primary col-md-offset-2 col-md-8" style="margin-bottom: 25px; padding: 10px;">You
+                are signing up under {{ identity }}</h2>
         </div>
         <div class="row" style="margin-bottom: 25px;">
             <form id="register-form" class="col-md-4 col-md-offset-4">
-                <input type="hidden" value="{{ slug }}" name="slug" id="slug" />
+                <input type="hidden" value="{{ slug }}" name="slug" id="slug"/>
+
                 <div class="form-group">
                     <label for="first_name">First Name</label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name"
+                           required>
                 </div>
                 <div class="form-group">
                     <label for="last_name">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"
+                           required>
                 </div>
                 <div class="form-group">
                     <label for="email">E-Mail</label>
@@ -33,12 +37,17 @@
                 </div-->
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                           required>
                 </div>
                 <div class="form-group">
                     <label for="password">Confirm Password</label>
                     <input type="password" class="form-control" id="confirm-password" name="confirm-password"
                            placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="specialist"><input type="checkbox" id="specialist" name="specialist"/> Become a
+                        Specialist</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
@@ -67,7 +76,18 @@
                         console.log(data);
                         if (data.success) {
                             console.log(data);
-                            window.location = "/login/?registered=true";
+                            login_info = $("#register-form").serialize();
+
+                            $.post('/ajax/login/', login_info, function (login_data) {
+                                console.log(login_data);
+                                $.cookie("token", login_data.token, {path: '/', expires: 10});
+                                if (data.specialist) {
+                                    window.location = "/specialist/signup/"
+                                } else {
+                                    window.location = "/login/?registered=true";
+                                }
+                            }, "json");
+
                         } else {
                             var system_message = $("#system-message");
 

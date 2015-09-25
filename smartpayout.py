@@ -67,8 +67,11 @@ def get_cart(request, session, user_token=None):
 
     return resp.content
 
-def get_products():
-    response = requests.get('{}products/'.format(API_ENDPOINT))
+def get_products(include_specialist=False):
+    if include_specialist:
+        response = requests.get('{}products/?include_specialist=true'.format(API_ENDPOINT))
+    else:
+        response = requests.get('{}products/'.format(API_ENDPOINT))
     return response.content
 
 def get_user_info(user_token):

@@ -145,8 +145,8 @@ def profile():
 @app.route('/<slug>/products/')
 def products(slug):
     session['slug'] = slug
-    response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
-    products = json.loads(response.content)
+    response = smartpayout.get_products() #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
+    products = json.loads(response)
 
     for product in products:
         group_list = []
@@ -221,7 +221,7 @@ def checkout(slug):
 @app.route('/<slug>/specialist/signup/', methods=['GET'])
 @login_required
 def specialist_signup(slug):
-    products = json.loads(smartpayout.get_products())
+    products = json.loads(smartpayout.get_products(include_specialist=True))
 
     specialist_products = []
 
@@ -229,7 +229,7 @@ def specialist_signup(slug):
         if product['make_specialist']:
             specialist_products.append(product)
 
-    return render_template('products.html', products=specialist_products, showcart=True)
+    return render_template('products.html', products=specialist_products, showcart=True, specialist_signup=True)
 
 
 @app.route('/<slug>/specialist/setup/', methods=['GET'])
@@ -303,6 +303,7 @@ def ajax_register():
     email_confirm = request.form.get('confirm-email', None)
     password = request.form.get('password', None)
     password_confirm = request.form.get('confirm-password', None)
+    specialist = request.form.get('specialist', False) == 'on'
     slug = request.form.get('slug', None)
 
     result = {}
@@ -325,6 +326,7 @@ def ajax_register():
         api_resp = smartpayout.register(first_name, last_name, email, password, slug)
         api_result = json.loads(api_resp.content)
         if api_resp.status_code == 201:
+            api_result['specialist'] = specialist
             api_result['success'] = True
         else:
             api_result['success'] = False
@@ -576,8 +578,13 @@ def inject_user():
             context['redirect'] = '/login/?next=%s' % request.path
         response = json.loads(response.content)
 
-        context['user'] = response[0]
-        context['loggedin'] = True
+        # TODO: If we can't get a user we need to go to the login page.
+        try:
+            context['user'] = response[0]
+            context['loggedin'] = True
+        except KeyError as e:
+            context['user'] = None
+            context['loggedin'] = False
 
     return context
 

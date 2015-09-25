@@ -20,8 +20,13 @@
             </div>
             <div class="button-group col-md-9" id="filters">
                 <div class="form-group pull-right">
-                    <button type="button" class="filter-button btn btn-default"
-                            data-filter="*">{{ _('Show All') }}</button>
+                    {% if specialist_signup %}
+                        <button type="button" class="filter-button btn btn-default"
+                                data-filter="*" onclick="window.location='/products/';">{{ _('Buy Additional Products') }}</button>
+                    {% else %}
+                        <button type="button" class="filter-button btn btn-default"
+                                data-filter="*">{{ _('Show All') }}</button>
+                    {% endif %}
                     {% for group in groups %}
                         <button type="button" class="filter-button btn btn-default"
                                 data-filter=".{{ group.name|remove_spaces }}">{{ group.name }}</button>
@@ -53,7 +58,8 @@
 
 
                                 </div>
-                                <div class="clearfix" style="position: absolute; bottom: 10px; text-align: center; margin-left: 25px;">
+                                <div class="clearfix"
+                                     style="position: absolute; bottom: 10px; text-align: center; margin-left: 25px;">
                                     Quantity:
                                     <select class="quantity" id="quantity-{{ product.id }}">
                                         <option value="1">1</option>
@@ -67,7 +73,8 @@
                                         <option value="9">9</option>
                                         <option value="10">10</option>
                                     </select>
-                                    <button id="add-{{ product.id }}" type="button" class="btn btn-primary btn-sm cart-add-btn" aria-label="Left Align"
+                                    <button id="add-{{ product.id }}" type="button"
+                                            class="btn btn-primary btn-sm cart-add-btn" aria-label="Left Align"
                                             style="margin-left: 30px;">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                     </button>
@@ -156,7 +163,7 @@
             });
 
         });
-        $(".cart-add-btn").click(function() {
+        $(".cart-add-btn").click(function () {
             var id = $(this).attr("id").split("-")[1];
             var quantity = $("#quantity-" + id).val();
             var cart_id = localStorage.getItem('cart_id');
@@ -168,7 +175,7 @@
             }, function (data) {
                 update_cart_ui(data);
                 // TODO: Update the cart div.
-{#                console.log(data);#}
+                {#                console.log(data);#}
             });
         });
     </script>
