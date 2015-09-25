@@ -579,12 +579,9 @@ def inject_user():
         response = json.loads(response.content)
 
         # TODO: If we can't get a user we need to go to the login page.
-        try:
-            context['user'] = response[0]
-            context['loggedin'] = True
-        except KeyError as e:
-            context['user'] = None
-            context['loggedin'] = False
+        context['user'] = response[0]
+        context['loggedin'] = True
+
 
     return context
 
