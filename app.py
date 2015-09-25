@@ -290,6 +290,11 @@ def wallet_settings(slug):
 def growth_report(slug):
     return render_template('reports/growth_report.html')
 
+@app.route('/<slug>/reports/myspecialists/', methods=['GET'])
+@login_required
+def my_specialists_report(slug):
+    return render_template('reports/my_specialists.html')
+
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
     first_name = request.form.get('first_name', None)

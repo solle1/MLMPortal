@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h1>My Specialists Report</h1>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-condensed table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="right">User ID</th>
+                    <th class="right">Enrollment Date</th>
+                    <th class="right"># Mentored</th>
+                    <th class="right">Phone Number</th>
+                    <th class="right">Email</th>
+                    <th class="center">Select Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>John Brown</td>
+                    <td class="right">9999</td>
+                    <td class="right">9/10/15</td>
+                    <td class="right">6</td>
+                    <td class="right">555-555-1234</td>
+                    <td class="right">john@email.net</td>
+                    <td class="center"><input type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td>Joe Campbell</td>
+                    <td class="right">12345</td>
+                    <td class="right">3/31/15</td>
+                    <td class="right">2</td>
+                    <td class="right">555-555-1238</td>
+                    <td class="right">joe@email.net</td>
+                    <td class="center"><input type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td>Chris Ellis</td>
+                    <td class="right">16220</td>
+                    <td class="right">5/16/15</td>
+                    <td class="right">12</td>
+                    <td class="right">555-555-1242</td>
+                    <td class="right">chris@email.net</td>
+                    <td class="center"><input type="checkbox" /></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
