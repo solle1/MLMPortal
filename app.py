@@ -108,17 +108,24 @@ def logout():
 def home(slug):
     return render_template('index.html', showcart=True)
 
+@app.route('/<slug>/register/about/')
+def register_about(slug):
+    return render_template('register_about.html')
 
-@app.route('/<slug>/register/')
-def register(slug):
+@app.route('/<slug>/register/<type>/')
+def register(slug, type):
     response = smartpayout.valid_slug(slug)
+    if type.lower() == 'specialist':
+        specialist = True
+    else:
+        specialist = False
 
     if response['identifier']:
         identity = response['identifier']
     else:
         identity = response['name']
 
-    response = make_response(render_template('register.html', slug=slug, identity=identity))
+    response = make_response(render_template('register.html', slug=slug, identity=identity, specialist=specialist, type=type.lower()))
     response.set_cookie('slug', value=slug)
     return response
 
@@ -303,7 +310,7 @@ def ajax_register():
     email_confirm = request.form.get('confirm-email', None)
     password = request.form.get('password', None)
     password_confirm = request.form.get('confirm-password', None)
-    specialist = request.form.get('specialist', False) == 'on'
+    specialist = request.form.get('specialist', False) == 'true'
     slug = request.form.get('slug', None)
 
     result = {}
@@ -578,7 +585,6 @@ def inject_user():
             context['redirect'] = '/login/?next=%s' % request.path
         response = json.loads(response.content)
 
-        # TODO: If we can't get a user we need to go to the login page.
         context['user'] = response[0]
         context['loggedin'] = True
 

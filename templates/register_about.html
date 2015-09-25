@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h1>Member</h1>
+            </div>
+        </div>
+        <div class="row">
+            <p class="lead">Solle Members can buy product at wholesale prices and participate in SolleRewards, the Solle
+                Natural
+                products savings program.
+            </p>
+            <ul>
+                <li>Buy Products at Wholesale</li>
+                <li>Participate in SolleRewards</li>
+            </ul>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" onclick="window.location = '/register/member/';">Become a Member</button>
+        </div>
+
+        <div class="row">
+            <div class="page-header">
+                <h1>Specialist</h1>
+            </div>
+        </div>
+        <div class="row">
+            <p class="lead">You become a Solle Specialist by purchasing the Specialist Success Kit for $100. Solle
+                Specialists
+                receive all the benefits of a member, as well as the following:
+            </p>
+            <ul>
+                <li>Earning commissions</li>
+                <li>A personalized replicated website</li>
+                <li>Access to media and business tools in the document library</li>
+                <li>A professional Solle business portfolio</li>
+                <li>The Solle Specialist Workbook</li>
+                <li>A Happy Hour Guide</li>
+                <li>DVDs for presenting our products</li>
+                <li>The book ‘The Fix’ written by Dr. Alison Caldwell-Andrews</li>
+                <li>Samples of our four foundational drinks</li>
+                <li>5 SolleRewards Gift Cards</li>
+                <li>A Solle pen</li>
+            </ul>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" onclick="window.location = '/register/specialist/';">Purchase the Specialist Success Kit and
+                Become a Specialist
+            </button>
+        </div>
+    </div>
+{% endblock container %}
