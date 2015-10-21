@@ -97,6 +97,15 @@ build_cart_page = function (cart) {
         }
         child += "<td>" + item.product.name + "</td><td class='quantity-value'><input class='quantity-input' id='quantity-" + item.product.id + "' type='text' value=" + item.quantity + " size=3 style='text-align: center' /></td><td>$" + item.product.retail_price + "</td><td>$" + item_total_price.toFixed(2) + "</td>";
         child += "</tr>";
+        if (item.product.products.length > 0) {
+            child += "<tr><td colspan='4'><table>";
+            item.product.products.forEach(function (sub_item) {
+                child += "<tr>";
+                child += "<td style='padding-left: 25px;'>" + (sub_item.quantity * item.quantity) + " x " + sub_item.product.name + "</td>";
+                child += "</tr>";
+            });
+            child += "</table></td></tr>";
+        }
         cart_table.append(child);
         item_counter++;
     });
