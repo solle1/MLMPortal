@@ -74,6 +74,14 @@ def get_products(include_specialist=False):
         response = requests.get('{}products/'.format(API_ENDPOINT))
     return response.content
 
+def get_product(slug=None):
+    if slug:
+        response = requests.get('{}products/details/{}/'.format(API_ENDPOINT, slug))
+    else:
+        response = None
+    return response.content
+
+
 def get_user_info(user_token):
     headers = {}
     if user_token:

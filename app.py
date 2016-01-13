@@ -149,7 +149,7 @@ def profile():
     return render_template('profile.html', showcart=True, states=states)
 
 
-@app.route('/<slug>/products/')
+@app.route('/<slug>/products')
 def products(slug):
     session['slug'] = slug
     response = smartpayout.get_products() #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
@@ -164,9 +164,14 @@ def products(slug):
     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products/groups/'))
     groups = json.loads(response.content)
 
-    response = make_response(render_template('products.html', products=products, groups=groups, showcart=True))
+    response = make_response(render_template('products.html', products=products, groups=groups, showcart=True, slug=slug))
     response.set_cookie('slug', value=slug)
     return response
+
+@app.route('/<slug>/products/<product_slug>/')
+def product_details(slug, product_slug):
+    product = smartpayout.get_product(product_slug)
+    return render_template('products/{}.html'.format(product_slug), product=product)
 
 
 @app.route('/<slug>/cart/')
@@ -500,7 +505,7 @@ def get_cards():
     user_token = get_user_token(request, session)
     status, cards = smartpayout.get_credit_cards(user_token)
 
-    resp = Response(cards)
+    resp = Response(json.dumps(cards))
     resp.status_code = status
     return resp
 
@@ -524,7 +529,7 @@ def add_card():
         # return Response(cards.content)
     else:
         # TODO: Need to get the list of credit cards with the response.
-        return Response(json.dumps({'success': True, 'results': json.loads(json.loads(cards.content))}))
+        return Response(json.dumps({'success': True, 'results': json.loads(cards.content)}))
         # return Response(json.loads(cards.content))
 
 

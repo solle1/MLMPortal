@@ -103,9 +103,9 @@
                     $("#payment-method").append("<p>No credit cards on file.</p>");
                 } else {
                     $.each(data, function (key, value) {
-                        var checked = (key == 0) ? " checked='checked' " : ""
-                        $("#payment-method").append("<div><input name='method' type='radio'" + checked + " value='" + value.id + "'> " +
-                                value.brand + " - " + value.last4 + "</div>");
+                        var checked = (key == 0) ? " checked='checked' " : "";
+                        $("#payment-method").append("<div><input name='method' type='radio'" + checked + " value='" +
+                                value.id + "'> " + value.brand + " - " + value.last4 + "</div>");
                     });
                     $("#purchase-btn").removeAttr("disabled");
 
@@ -161,7 +161,7 @@
                         new_alert += "<span aria-hidden='true'>&times;</span>";
                         new_alert += "</button>";
                         new_alert += data.detail;
-                        new_alert += " <a href='/products/'>Return to the store</a>";
+                        new_alert += " <a href='/products'>Return to the store</a>";
                         new_alert += "</div>";
                         system_message.append(new_alert);
                         system_message.show("scroll");

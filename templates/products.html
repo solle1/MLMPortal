@@ -22,7 +22,7 @@
                 <div class="form-group pull-right">
                     {% if specialist_signup %}
                         <button type="button" class="filter-button btn btn-default"
-                                data-filter="*" onclick="window.location='/products/';">{{ _('Buy Additional Products') }}</button>
+                                data-filter="*" onclick="window.location='/products';">{{ _('Buy Additional Products') }}</button>
                     {% else %}
                         <button type="button" class="filter-button btn btn-default"
                                 data-filter="*">{{ _('Show All') }}</button>
@@ -50,8 +50,10 @@
 
                             <div style="text-align: left; margin-top: 10px;">
 
-                                <p class="description">{{ product.description|truncate(100) }} &nbsp;<a href="">Learn
-                                    More</a></p>
+                                <p class="description">
+                                    {{ product.description|truncate(100) }} &nbsp;
+                                    {% if product.slug %}<a href="/{{ slug }}/products/{{ product.slug }}/">Learn More</a>{% endif %}
+                                </p>
 
                                 <div class="clearfix">
                                     <p class="price">Price: <strong>${{ product.retail_price }}</strong></p>
