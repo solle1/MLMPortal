@@ -225,7 +225,7 @@ def checkout(slug):
 
         order = json.loads(response.content)
 
-        return render_template('checkout.html', order=order)
+        return render_template('checkout.html', order=order, days=range(1, 29))
     else:
         return redirect('/')
 
@@ -357,8 +357,9 @@ def purchase():
 
     order_id = request.form.get('order-id', None)
     method = request.form.get('method', None)
+    sollesafe = request.form.get('set-sollesafe', None) == 'on'
 
-    resp = smartpayout.process_order(user_token, order_id, method)
+    resp = smartpayout.process_order(user_token, order_id, method, sollesafe=sollesafe)
 
     if resp.status_code != 200:
         content = json.loads(resp.content)
@@ -377,6 +378,26 @@ def purchase():
 
     pass
 
+@app.route('/ajax/autoship/', methods=['post'])
+def autoship():
+    user_token = get_user_token(request, session)
+
+    order_id = request.form.get('order-id', None)
+    method = request.form.get('method', None)
+    day = request.form.get('autoship-day', 1)
+
+    resp = smartpayout.create_autoship(user_token, order_id, method, day)
+
+    if resp.status_code != 200:
+        content = json.loads(resp.content)
+        content['success'] = False
+        del session['cart_id']
+        response = Response(json.dumps(content), mimetype='application/json')
+        return response
+    else:
+        del session['cart_id']
+        resp_data = json.dumps({'success': True, 'order_id': order_id, 'detail': 'SolleSafe updated successfully.'})
+        return Response(resp_data, mimetype='application/json')
 
 @app.route('/<slug>/receipt/<int:order_id>/', methods=['get'])
 def receipt(slug, order_id):

@@ -53,7 +53,20 @@
                     <input type="hidden" name="order-id" value="{{ order.id }}"/>
 
                     <div id="payment-method"></div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="set-sollesafe" name="set-sollesafe"/> Set as SolleSafe</label>
+                    </div>
+                    <div class="" id="autoship-day-div" style="display: none; margin-bottom: 10px;">
+                        <label for="autoship-day">Process order on: </label>
+                        <select class="" id="autoship-day" name="autoship-day">
+                            <option></option>
+                            {% for day in days %}
+                                <option value="{{ day }}">{{ day }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <button class="btn btn-primary" id="purchase-btn" disabled="disabled">Complete Purchase</button>
+                    {#                    <button class="btn btn-primary" id="autoship-btn" disabled="disabled">Set as SolleSafe</button>#}
                 </form>
             </div>
 
@@ -97,7 +110,18 @@
             var payment_method_div = $("#payment-method");
 
             payment_method_div.empty();
-            payment_method_div.block({message: 'Loading cards...'});
+            payment_method_div.block({
+                message: '<img src="{{ url_for('static', filename='images/solle-circle-on-black-ajax-loader.gif') }}" width="15" style="padding-bottom: 4px;" /> Loading cards...',
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .75,
+                    color: '#fff'
+                }
+            });
             $.getJSON('/ajax/get_cards/', function (data) {
                 if (data.length == 0) {
                     $("#payment-method").append("<p>No credit cards on file.</p>");
@@ -108,6 +132,7 @@
                                 value.id + "'> " + value.brand + " - " + value.last4 + "</div>");
                     });
                     $("#purchase-btn").removeAttr("disabled");
+                    $("#autoship-btn").removeAttr("disabled");
 
                 }
                 payment_method_div.unblock();
@@ -146,30 +171,88 @@
             $("#purchase-form").submit(function () {
                 var form_data = $(this).serialize();
                 console.log(form_data);
-                $.blockUI();
-                $.post("/ajax/purchase/", form_data, function(data) {
-                    if (data.success) {
-                        console.log(data.detail);
-                        window.location = "/receipt/" + data.order_id + "/";
-                    } else {
-                        $.unblockUI();
-                        var system_message = $("#system-message");
-                        system_message.empty();
-
-                        var new_alert = "<div class='alert alert-danger alert-dismissible' role='alert'>";
-                        new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
-                        new_alert += "<span aria-hidden='true'>&times;</span>";
-                        new_alert += "</button>";
-                        new_alert += data.detail;
-                        new_alert += " <a href='/products'>Return to the store</a>";
-                        new_alert += "</div>";
-                        system_message.append(new_alert);
-                        system_message.show("scroll");
+                $.blockUI({
+                    message: '<img src="{{ url_for('static', filename='images/solle-circle-on-black-ajax-loader.gif') }}" width="15" style="padding-bottom: 4px;" /> Please wait...',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .75,
+                        color: '#fff'
                     }
-{#                    console.log(data);#}
-{#                    alert("WORKED");#}
-                }, "json")
+                });
+                if ($("#set-sollesafe").prop("checked")) {
+                    $.post("/ajax/autoship/", form_data, function (data) {
+                        if (data.success) {
+                            $.unblockUI();
+                            var system_message = $("#system-message");
+                            system_message.empty();
+
+                            var new_alert = "<div class='alert alert-success alert-dismissible' role='success'>";
+                            new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                            new_alert += "<span aria-hidden='true'>&times;</span>";
+                            new_alert += "</button>";
+                            new_alert += data.detail;
+                            new_alert += " <a href='/products'>Return to the store</a>";
+                            new_alert += "</div>";
+                            system_message.append(new_alert);
+                            system_message.show("scroll");
+                        } else {
+                            $.unblockUI();
+                            var system_message = $("#system-message");
+                            system_message.empty();
+
+                            var new_alert = "<div class='alert alert-danger alert-dismissible' role='alert'>";
+                            new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                            new_alert += "<span aria-hidden='true'>&times;</span>";
+                            new_alert += "</button>";
+                            new_alert += data.detail;
+                            new_alert += " <a href='/products'>Return to the store</a>";
+                            new_alert += "</div>";
+                            system_message.append(new_alert);
+                            system_message.show("scroll");
+                        }
+                    }, "json");
+                } else {
+                    $.post("/ajax/purchase/", form_data, function (data) {
+                        if (data.success) {
+                            console.log(data.detail);
+                            window.location = "/receipt/" + data.order_id + "/";
+                        } else {
+                            $.unblockUI();
+                            var system_message = $("#system-message");
+                            system_message.empty();
+
+                            var new_alert = "<div class='alert alert-danger alert-dismissible' role='alert'>";
+                            new_alert += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                            new_alert += "<span aria-hidden='true'>&times;</span>";
+                            new_alert += "</button>";
+                            new_alert += data.detail;
+                            new_alert += " <a href='/products'>Return to the store</a>";
+                            new_alert += "</div>";
+                            system_message.append(new_alert);
+                            system_message.show("scroll");
+                        }
+                        {#                    console.log(data);#}
+                        {#                    alert("WORKED");#}
+                    }, "json")
+                }
             });
+
+            $("#set-sollesafe").on("change", function () {
+                if ($(this).prop("checked")) {
+                    $("#purchase-btn").text("Set as SolleSafe");
+
+                    $("#autoship-day-div").show();
+                } else {
+                    $("#purchase-btn").text("Complete Purchase");
+                    $("#autoship-day-div").hide();
+                }
+            });
+
+$("#autoship-day").select2({width: "175px", placeholder: "Select a Day"});
         });
     </script>
     <script src="{{ url_for('static', filename='js/jquery.card.js') }}"></script>

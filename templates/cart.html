@@ -156,7 +156,7 @@
                 var change_length = Object.keys(cart_changes).length;
                 if (change_length > 0) {
                     $(".table").block({
-                        message: 'Updating Cart...',
+                        message: '<img src="{{ url_for('static', filename='images/solle-circle-on-black-ajax-loader.gif') }}" width="15" style="padding-bottom: 4px;" /> Updating cart...',
                         timeout: 2000,
                         css: {
                             border: 'none',

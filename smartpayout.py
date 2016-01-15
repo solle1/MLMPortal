@@ -146,16 +146,31 @@ def add_credit_card(user_token, card_number=None, name=None, exp_month=None, exp
 
     return resp
 
-def process_order(user_token, order_id, card_id):
+def process_order(user_token, order_id, card_id, sollesafe=False):
     headers = {}
     if user_token:
         headers = {'Authorization': 'Token {}'.format(user_token)}
 
     payload = {
         'card': card_id,
+        'autoship': sollesafe,
     }
 
     resp = requests.post('{}orders/{}/process_order/'.format(API_ENDPOINT, order_id), data=payload, headers=headers)
+
+    return resp
+
+def create_autoship(user_token, order_id, card_id, day):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    payload = {
+        'card': card_id,
+        'day': day,
+    }
+
+    resp = requests.post('{}orders/{}/create_autoship/'.format(API_ENDPOINT, order_id), data=payload, headers=headers)
 
     return resp
 
