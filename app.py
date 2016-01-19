@@ -311,6 +311,7 @@ def my_specialists_report(slug):
 def ajax_register():
     first_name = request.form.get('first_name', None)
     last_name = request.form.get('last_name', None)
+    username = request.form.get('username', None)
     email = request.form.get('email', None)
     email_confirm = request.form.get('confirm-email', None)
     password = request.form.get('password', None)
@@ -335,7 +336,7 @@ def ajax_register():
         resp = Response(json.dumps(result), mimetype='application/json')
         # resp.status_code = 400
     else:
-        api_resp = smartpayout.register(first_name, last_name, email, password, slug)
+        api_resp = smartpayout.register(first_name, last_name, username, email, password, slug)
         api_result = json.loads(api_resp.content)
         if api_resp.status_code == 201:
             api_result['specialist'] = specialist
@@ -408,10 +409,10 @@ def receipt(slug, order_id):
 
 @app.route('/ajax/login/', methods=['post'])
 def ajax_login():
-    email = request.form.get('email')
+    username = request.form.get('username')
     password = request.form.get('password')
 
-    response = smartpayout.login(email, password)
+    response = smartpayout.login(username, password)
     resp = Response(response.content, mimetype='application/json')
     resp.status_code = response.status_code
     return resp

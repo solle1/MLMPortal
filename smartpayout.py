@@ -7,10 +7,11 @@ __author__ = 'danolsen'
 API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
 # API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
 
-def register(first_name, last_name, email, password, slug):
+def register(first_name, last_name, username, email, password, slug):
     payload = {
         'first_name': first_name,
         'last_name': last_name,
+        'username': username,
         'email': email,
         'password': password,
         'upline_slug': slug,
@@ -194,7 +195,7 @@ def get_shipping_options(sub_total):
 
 def login(username, password):
     payload = {
-        'email': username,
+        'username': username,
         'password': password,
     }
     response = requests.post('{}login/'.format(API_ENDPOINT), data=payload)
