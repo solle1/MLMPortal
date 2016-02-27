@@ -259,3 +259,15 @@ def get_monthly_ranking(user_token):
 
     resp = requests.get('{}users/monthly_rank/'.format(API_ENDPOINT), headers=headers)
     return json.loads(resp.content)
+
+def apply_discount(user_token, order_id, discount_code):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    payload = {
+        'code': discount_code,
+    }
+
+    resp = requests.post('{}orders/{}/apply_discount/'.format(API_ENDPOINT, order_id), data=payload, headers=headers)
+    return json.loads(resp.content)

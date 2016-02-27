@@ -379,6 +379,19 @@ def purchase():
 
     pass
 
+@app.route('/ajax/apply-discount/', methods=['post'])
+def apply_discount():
+    user_token = get_user_token(request, session)
+
+    discount_code = request.form.get('code', None)
+    order_id = request.form.get('order-id', None)
+
+    if discount_code is not None:
+        resp = smartpayout.apply_discount(user_token, order_id, discount_code)
+        return Response(json.dumps({'success': resp['success'], 'message': resp['message'] if 'message' in resp else ''}), mimetype='application/json')
+    else:
+        return Response(json.dumps({'success': False}), mimetype='application/json')
+
 @app.route('/ajax/autoship/', methods=['post'])
 def autoship():
     user_token = get_user_token(request, session)
