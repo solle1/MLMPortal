@@ -260,6 +260,14 @@ def get_monthly_ranking(user_token):
     resp = requests.get('{}users/monthly_rank/'.format(API_ENDPOINT), headers=headers)
     return json.loads(resp.content)
 
+def get_solle_rewards(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/get_solle_rewards/'.format(API_ENDPOINT), headers=headers)
+    return json.loads(resp.content)
+
 def apply_discount(user_token, order_id, discount_code):
     headers = {}
     if user_token:

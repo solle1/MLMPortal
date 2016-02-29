@@ -392,6 +392,13 @@ def apply_discount():
     else:
         return Response(json.dumps({'success': False}), mimetype='application/json')
 
+@app.route('/ajax/get_solle_rewards/', methods=['get'])
+def get_solle_rewards():
+    user_token = get_user_token(request, session)
+
+    resp = smartpayout.get_solle_rewards(user_token)
+    return Response(json.dumps({'success': resp['success'], 'rewards': resp['solle_rewards']}))
+
 @app.route('/ajax/autoship/', methods=['post'])
 def autoship():
     user_token = get_user_token(request, session)
