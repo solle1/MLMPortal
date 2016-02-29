@@ -53,7 +53,7 @@
                     <input type="hidden" name="order-id" value="{{ order.id }}"/>
 
                     <div id="payment-method"></div>
-                    {% if order['user']['first_order'] %}
+                    {% if order['user']['first_order'] and order['qv'] >= 150 %}
                     <div class="row">
                         <div class="col-lg-12 text-danger" id="apply-discount-message"></div>
                         <div class="col-lg-6">
