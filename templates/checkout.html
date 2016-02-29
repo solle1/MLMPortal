@@ -67,6 +67,26 @@
                     </div>
                     {% endif %}
 
+                    <div id="solle-rewards" style="display: None;">
+
+                        <div class="row">
+                            <div class="col-lg-12 text-danger" id="apply-rewards-message"></div>
+                            <div class="col-lg-6">
+                                <label for="coupon-code" class="sr-only">Apply SolleRewards</label>
+                                <input type="text" class="form-control" width="100" placeholder="Apply SolleRewards"
+                                       id="applied-rewards"/>
+                            </div>
+                            <div class="col-lg-6">
+                                <button class="btn btn-primary" id="apply-rewards-btn">Apply SolleRewards</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-info">
+                                SolleRewards Available: <span id="solle-rewards-available"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="checkbox">
                         <label><input type="checkbox" id="set-sollesafe" name="set-sollesafe"/> Set as SolleSafe</label>
                     </div>
@@ -171,8 +191,21 @@
             });
         }
 
+        function load_solle_rewards() {
+            var solle_rewards_div = $("#solle-rewards");
+
+            $.getJSON('/ajax/get_solle_rewards/', function(data) {
+                if (data.success) {
+                    // TODO: Show their solle rewards.
+                    $("#solle-rewards-available").html(data.rewards.toFixed(2));
+                    solle_rewards_div.toggle();
+                }
+            });
+        }
+
         $(document).ready(function () {
             load_credit_cards();
+            load_solle_rewards();
 
 
             $("#card-form").card({
