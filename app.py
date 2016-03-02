@@ -108,9 +108,11 @@ def logout():
 def home(slug):
     return render_template('index.html', showcart=True)
 
+
 @app.route('/<slug>/register/about/')
 def register_about(slug):
     return render_template('register_about.html')
+
 
 @app.route('/<slug>/register/<type>/')
 def register(slug, type):
@@ -125,21 +127,26 @@ def register(slug, type):
     else:
         identity = response['name']
 
-    response = make_response(render_template('register.html', slug=slug, identity=identity, specialist=specialist, type=type.lower()))
+    response = make_response(
+        render_template('register.html', slug=slug, identity=identity, specialist=specialist, type=type.lower()))
     response.set_cookie('slug', value=slug)
     return response
+
 
 @app.route('/<slug>/about/')
 def about(slug):
     return render_template('about.html', showcart=False)
 
+
 @app.route('/<slug>/comp_plan/')
 def comp_plan(slug):
     return render_template('comp_plan.html', showcart=False)
 
+
 @app.route('/<slug>/contact/')
 def contact(slug):
     return render_template('contact.html', showcart=False)
+
 
 @app.route('/profile/')
 @login_required
@@ -152,7 +159,7 @@ def profile():
 @app.route('/<slug>/products')
 def products(slug):
     session['slug'] = slug
-    response = smartpayout.get_products() #requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
+    response = smartpayout.get_products()  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products'))
     products = json.loads(response)
 
     for product in products:
@@ -164,9 +171,11 @@ def products(slug):
     response = requests.get('%s%s' % (app.config['API_ENDPOINT'], 'products/groups/'))
     groups = json.loads(response.content)
 
-    response = make_response(render_template('products.html', products=products, groups=groups, showcart=True, slug=slug))
+    response = make_response(
+        render_template('products.html', products=products, groups=groups, showcart=True, slug=slug))
     response.set_cookie('slug', value=slug)
     return response
+
 
 @app.route('/<slug>/products/<product_slug>/')
 def product_details(slug, product_slug):
@@ -218,7 +227,6 @@ def checkout(slug):
     cart_id = session.get('cart_id', None)
     cart = json.loads(smartpayout.get_cart(request, session, user_token))
 
-
     if cart:
         response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart['id']),
                                 headers={'Authorization': 'Token {}'.format(user_token)})
@@ -254,11 +262,13 @@ def specialist_setup(slug):
     response.set_cookie('slug', value=slug)
     return response
 
+
 @app.route('/<slug>/specialist/dashboard/', methods=['GET'])
 @login_required
 def specialist_dashboard(slug):
     response = make_response(render_template('dashboard.html'))
     return response
+
 
 @app.route('/<slug>/specialist/organization/', methods=['GET'])
 @login_required
@@ -271,6 +281,7 @@ def organization(slug):
 
     return render_template('organization.html', org=org, org_string=json.dumps(org))
 
+
 @app.route('/<slug>/specialist/recent_enrollments/', methods=['GET'])
 @login_required
 def recent_enrollments(slug):
@@ -281,15 +292,18 @@ def recent_enrollments(slug):
 
     return render_template('recent_enrollments.html', orders=response)
 
+
 @app.route('/<slug>/specialist/orders/', methods=['GET'])
 @login_required
 def specialist_orders(slug):
     return render_template('specialist_orders.html')
 
+
 @app.route('/<slug>/specialist/wallet/', methods=['GET'])
 @login_required
 def wallet(slug):
     return render_template('wallet.html')
+
 
 @app.route('/<slug>/specialist/wallet/settings/', methods=['GET'])
 @login_required
@@ -302,10 +316,12 @@ def wallet_settings(slug):
 def growth_report(slug):
     return render_template('reports/growth_report.html')
 
+
 @app.route('/<slug>/reports/myspecialists/', methods=['GET'])
 @login_required
 def my_specialists_report(slug):
     return render_template('reports/my_specialists.html')
+
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
@@ -379,6 +395,7 @@ def purchase():
 
     pass
 
+
 @app.route('/ajax/apply-discount/', methods=['post'])
 def apply_discount():
     user_token = get_user_token(request, session)
@@ -388,9 +405,28 @@ def apply_discount():
 
     if discount_code is not None:
         resp = smartpayout.apply_discount(user_token, order_id, discount_code)
-        return Response(json.dumps({'success': resp['success'], 'message': resp['message'] if 'message' in resp else ''}), mimetype='application/json')
+        return Response(
+            json.dumps({'success': resp['success'], 'message': resp['message'] if 'message' in resp else ''}),
+            mimetype='application/json')
     else:
         return Response(json.dumps({'success': False}), mimetype='application/json')
+
+
+@app.route('/ajax/apply-rewards/', methods=['post'])
+def apply_rewards():
+    user_token = get_user_token(request, session)
+
+    reward_amt = request.form.get('amt', None)
+    order_id = request.form.get('order-id', None)
+
+    if reward_amt is not None:
+        resp = smartpayout.apply_rewards(user_token, order_id, reward_amt)
+        return Response(
+            json.dumps({'success': resp['success'], 'message': resp['message'] if 'message' in resp else ''}),
+            mimetype='application/json')
+    else:
+        return Response(json.dumps({'success': False}), mimetype='application/json')
+
 
 @app.route('/ajax/get_solle_rewards/', methods=['get'])
 def get_solle_rewards():
@@ -398,6 +434,7 @@ def get_solle_rewards():
 
     resp = smartpayout.get_solle_rewards(user_token)
     return Response(json.dumps({'success': resp['success'], 'rewards': resp['rewards']}))
+
 
 @app.route('/ajax/autoship/', methods=['post'])
 def autoship():
@@ -419,6 +456,7 @@ def autoship():
         del session['cart_id']
         resp_data = json.dumps({'success': True, 'order_id': order_id, 'detail': 'SolleSafe updated successfully.'})
         return Response(resp_data, mimetype='application/json')
+
 
 @app.route('/<slug>/receipt/<int:order_id>/', methods=['get'])
 def receipt(slug, order_id):
@@ -483,6 +521,7 @@ def add_address_to_cart():
     resp.status_code = response.status_code
 
     return resp
+
 
 @app.route('/ajax/cart/add_shipping/', methods=['POST'])
 def add_shipping_to_cart():
@@ -598,6 +637,7 @@ def monthly_qv():
     resp = smartpayout.get_monthly_qv(user_token)
     return Response(json.dumps({'monthly_qv': resp}), mimetype='application/json')
 
+
 @app.route('/ajax/monthly_ov/', methods=['get'])
 def monthly_ov():
     user_token = get_user_token(request, session)
@@ -613,12 +653,14 @@ def monthly_enrollments():
     resp = smartpayout.get_monthly_enrollments(user_token)
     return Response(json.dumps({'monthly_enrollments': resp}), mimetype='application/json')
 
+
 @app.route('/ajax/monthly_rank/', methods=['get'])
 def monthly_rank():
     user_token = get_user_token(request, session)
 
     resp = smartpayout.get_monthly_ranking(user_token)
     return Response(json.dumps(resp), mimetype='application/json')
+
 
 @app.context_processor
 def inject_user():
@@ -634,7 +676,6 @@ def inject_user():
 
         context['user'] = response[0]
         context['loggedin'] = True
-
 
     return context
 

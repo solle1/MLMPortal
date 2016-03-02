@@ -279,3 +279,15 @@ def apply_discount(user_token, order_id, discount_code):
 
     resp = requests.post('{}orders/{}/apply_discount/'.format(API_ENDPOINT, order_id), data=payload, headers=headers)
     return json.loads(resp.content)
+
+def apply_rewards(user_token, order_id, reward_amt):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    payload = {
+        'amt': reward_amt,
+    }
+
+    resp = requests.post('{}orders/{}/apply_rewards/'.format(API_ENDPOINT, order_id), data=payload, headers=headers)
+    return json.loads(resp.content)
