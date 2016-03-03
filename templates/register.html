@@ -90,7 +90,7 @@
                                 console.log(login_data);
                                 $.cookie("token", login_data.token, {path: '/', expires: 10});
                                 if (data.specialist) {
-                                    window.location = "/specialist/signup/"
+                                    window.location = "/products"
                                 } else {
                                     window.location = "/login/?registered=true";
                                 }

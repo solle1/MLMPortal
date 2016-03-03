@@ -72,9 +72,15 @@ def get_cart(request, session, user_token=None):
 
     return resp.content
 
-def get_products(include_specialist=False):
+def get_products(include_specialist=False, ignore_non_specialist=False):
+    url_params = '?'
     if include_specialist:
-        response = requests.get('{}products/?include_specialist=true'.format(API_ENDPOINT))
+        url_params = '{}include_specialist=true&'.format(url_params)
+    if ignore_non_specialist:
+        url_params = '{}ignore_non_specialist=true&'.format(url_params)
+
+    if len(url_params) > 1:
+        response = requests.get('{}products/{}'.format(API_ENDPOINT, url_params))
     else:
         response = requests.get('{}products/'.format(API_ENDPOINT))
     return response.content

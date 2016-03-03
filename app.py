@@ -363,7 +363,17 @@ def ajax_register():
             if 'email' in api_result:
                 api_result['message'] = 'The email address is already in use.'
 
+        # TODO: We need to add any specialist items to the cart if they are a spciailist.
+        user_token = json.loads(smartpayout.login(username, password).content)
+        if specialist:
+
+            cart = json.loads(smartpayout.get_cart(request, session))
+            products = json.loads(smartpayout.get_products(include_specialist=True, ignore_non_specialist=True))
+            for product in products:
+                add_product_resp = smartpayout.add_product(cart['id'], product['id'], 1, user_token['token'])
+
         resp = Response(json.dumps(api_result), mimetype='application/json')
+        resp.set_cookie('token', user_token['token'])
         # resp.status_code = api_resp.status_code
 
     return resp
