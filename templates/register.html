@@ -20,20 +20,21 @@
                 <div class="form-group">
                     <label for="last_name">Last Name</label>
                     <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"
-                           required>
+                           required/>
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+                           required/>
                 </div>
                 <div class="form-group">
                     <label for="email">E-Mail</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" required/>
                 </div>
                 <div class="form-group">
                     <label for="email">Confirm E-Mail</label>
                     <input type="email" class="form-control" id="confirm-email" name="confirm-email"
-                           placeholder="E-Mail" required>
+                           placeholder="E-Mail" required/>
                 </div>
                 <!--div class="form-group">
                     <label for="username">Username</label>
@@ -42,14 +43,20 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                           required>
+                           required/>
                 </div>
                 <div class="form-group">
                     <label for="password">Confirm Password</label>
                     <input type="password" class="form-control" id="confirm-password" name="confirm-password"
-                           placeholder="Password" required>
+                           placeholder="Password" required/>
                 </div>
-                <input type="hidden" id="specialist" name="specialist" value={% if specialist %}"true"{% else %}"false"{% endif %}/>
+                <div class="form-group">
+                    <label for="heard-from">Who did you hear about Solle from (if an individual please provide their
+                        first and last name)</label>
+                    <input type="text" class="form-control" id="heard-from" name="heard-from"/>
+                </div>
+                <input type="hidden" id="specialist" name="specialist"
+                       value={% if specialist %}"true"{% else %}"false"{% endif %}/>
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>

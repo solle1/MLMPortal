@@ -334,6 +334,7 @@ def ajax_register():
     password_confirm = request.form.get('confirm-password', None)
     specialist = request.form.get('specialist', False) == 'true'
     slug = request.form.get('slug', None)
+    heard_from = request.form.get('heard-from', None)
 
     result = {}
 
@@ -352,7 +353,7 @@ def ajax_register():
         resp = Response(json.dumps(result), mimetype='application/json')
         # resp.status_code = 400
     else:
-        api_resp = smartpayout.register(first_name, last_name, username, email, password, slug)
+        api_resp = smartpayout.register(first_name, last_name, username, email, password, slug, heard_from=heard_from)
         api_result = json.loads(api_resp.content)
         if api_resp.status_code == 201:
             api_result['specialist'] = specialist

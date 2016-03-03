@@ -7,7 +7,7 @@ __author__ = 'danolsen'
 API_ENDPOINT = 'http://smartpayout-dev.elasticbeanstalk.com/api/'
 # API_ENDPOINT = 'http://local.smartpayout.com:8123/api/'
 
-def register(first_name, last_name, username, email, password, slug):
+def register(first_name, last_name, username, email, password, slug, *args, **kwargs):
     payload = {
         'first_name': first_name,
         'last_name': last_name,
@@ -16,6 +16,10 @@ def register(first_name, last_name, username, email, password, slug):
         'password': password,
         'upline_slug': slug,
     }
+
+    heard_from = kwargs.get('heard_from', None)
+    if heard_from:
+        payload['metadata'] = json.dumps({'heard_from': heard_from})
 
     resp = requests.post('{}users/'.format(API_ENDPOINT), data=payload)
     return resp
