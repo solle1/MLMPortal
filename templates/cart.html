@@ -93,7 +93,7 @@
                             <h2>Shipping Options</h2>
                             {% for option in shipping_options %}
                                 <div><label><input type="radio" name="shipping_option"
-                                                   value="{{ option.id }}"/> {{ option.name }}
+                                                   value="{{ option.id }}" {% if option.default %}checked{% endif %}/> {{ option.name }}
                                     - {{ option.price|format_currency }}</label></div>
                             {% endfor %}
                         {% endif %}
