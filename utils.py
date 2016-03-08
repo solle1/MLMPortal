@@ -17,6 +17,9 @@ def remove_spaces(value):
 def item_retail_total(item):
     return '{0:.2f}'.format(item['quantity'] * float(item['product']['retail_price']))
 
+def item_wholesale_total(item):
+    return '{0:.2f}'.format(item['quantity'] * float(item['product']['wholesale_price']))
+
 def format_currency(value):
     return '${0:,.2f}'.format(float(value))
 

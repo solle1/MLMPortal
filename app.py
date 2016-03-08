@@ -1,23 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import json
 import datetime
+import json
 import os
+import sys
 
+import requests
 import rollbar
 import rollbar.contrib.flask
 from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response, make_response, \
     got_request_exception
 from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
-import requests
-import sys
 from werkzeug.contrib.cache import SimpleCache
 
 import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token, \
-    login_required, qv, format_two_decimals
+    login_required, qv, format_two_decimals, item_wholesale_total
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -47,6 +47,7 @@ app.jinja_env.filters['datetimeformat'] = datetimeformat
 app.jinja_env.filters['stringtodate'] = stringtodate
 app.jinja_env.filters['remove_spaces'] = remove_spaces
 app.jinja_env.filters['item_retail_total'] = item_retail_total
+app.jinja_env.filters['item_wholesale_total'] = item_wholesale_total
 app.jinja_env.filters['format_currency'] = format_currency
 app.jinja_env.filters['format_two_decimals'] = format_two_decimals
 app.jinja_env.filters['qv'] = qv

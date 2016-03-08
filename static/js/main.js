@@ -51,7 +51,7 @@ function update_cart_ui(cart) {
             item_row += "<tr class='even'>";
         }
 
-        product_price_total = item.product.retail_price * item.quantity;
+        product_price_total = item.product.wholesale_price * item.quantity;
         item_row += "<td>" + item.quantity + " x " + item.product.name + "</td>";
         item_row += "<td style='text-align: right;'>$" + product_price_total.toFixed(2) + "</td>";
         //console.log(item);
@@ -87,7 +87,7 @@ build_cart_page = function (cart) {
     var item_counter = 1;
     var subtotal = 0;
     cart.items.forEach(function (item) {
-        var item_total_price = item.product.retail_price * item.quantity;
+        var item_total_price = item.product.wholesale_price * item.quantity;
         subtotal += item_total_price;
         var child = "";
         if (is_odd(item_counter)) {
@@ -95,7 +95,7 @@ build_cart_page = function (cart) {
         } else {
             child += "<tr>";
         }
-        child += "<td>" + item.product.name + "</td><td class='quantity-value'><input class='quantity-input' id='quantity-" + item.product.id + "' type='text' value=" + item.quantity + " size=3 style='text-align: center' /></td><td>$" + item.product.retail_price + "</td><td>$" + item_total_price.toFixed(2) + "</td>";
+        child += "<td>" + item.product.name + "</td><td class='quantity-value'><input class='quantity-input' id='quantity-" + item.product.id + "' type='text' value=" + item.quantity + " size=3 style='text-align: center' /></td><td>$" + item.product.wholesale_price + "</td><td>$" + item_total_price.toFixed(2) + "</td>";
         child += "</tr>";
         if (item.product.products.length > 0) {
             child += "<tr><td colspan='4'><table>";

@@ -19,8 +19,8 @@
                         <tr>
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.quantity }}</td>
-                            <td>${{ item.product.retail_price }}</td>
-                            <td>{{ item|item_retail_total|format_currency }}</td>
+                            <td>${{ item.product.wholesale_price }}</td>
+                            <td>{{ item|item_wholesale_total|format_currency }}</td>
                         </tr>
                     {% endfor %}
                     <tr style="border-top: #000000 solid 2px;">
