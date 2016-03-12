@@ -31,46 +31,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-list"></span></td>
-                        <td>5555555</td>
-                        <td>Autoship</td>
-                        <td>Shipped</td>
-                        <td>9/15/15</td>
-                        <td>9/16/15</td>
-                        <td>55552222</td>
-                        <td>500</td>
-                    </tr>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-list"></span></td>
-                        <td>555562</td>
-                        <td>Autoship</td>
-                        <td>Shipped</td>
-                        <td>9/16/15</td>
-                        <td>9/17/15</td>
-                        <td>55552111</td>
-                        <td>160</td>
-                    </tr>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-list"></span></td>
-                        <td>555576</td>
-                        <td>Autoship</td>
-                        <td>Processing</td>
-                        <td>9/18/15</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>47</td>
-                    </tr>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-list"></span></td>
-                        <td>555582</td>
-                        <td>Autoship</td>
-                        <td>Processing</td>
-                        <td>9/19/15</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>250</td>
-                    </tr>
+                    {% for order in orders %}
+                        <tr>
+                            <td><span class="glyphicon glyphicon-list"></span></td>
+                            <td>{{ order['id'] }}</td>
+                            <td>{{ order['type'] }}</td>
+                            <td>{{ order['status'] }}</td>
+                            <td>{{ order['order_date'] }}</td>
+                            <td>{{ order['shipped'] if order['shipped'] != None else '--' }}</td>
+                            <td>{{ order['tracking'] if order['tracking'] != None else '--' }}</td>
+                            <td>{{ order['qv'] }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

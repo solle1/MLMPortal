@@ -294,10 +294,12 @@ def recent_enrollments(slug):
     return render_template('recent_enrollments.html', orders=response)
 
 
-@app.route('/<slug>/specialist/orders/', methods=['GET'])
+@app.route('/<slug>/orders/', methods=['GET'])
 @login_required
 def specialist_orders(slug):
-    return render_template('specialist_orders.html')
+    user_token = get_user_token(request, session)
+    response = smartpayout.get_orders(user_token)
+    return render_template('specialist_orders.html', orders=response['orders'])
 
 
 @app.route('/<slug>/specialist/wallet/', methods=['GET'])

@@ -185,6 +185,15 @@ def create_autoship(user_token, order_id, card_id, day):
 
     return resp
 
+def get_orders(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/orders/'.format(API_ENDPOINT), headers=headers)
+
+    return json.loads(resp.content)
+
 def get_order(user_token, order_id):
     headers = {}
     if user_token:

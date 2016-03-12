@@ -67,7 +67,9 @@
                                             <li><a href="/specialist/documents/">Document Library</a></li>
                                             <li><a href="/specialist/dashboard/">Business Dashboard</a></li>
                                             <li><a href="/specialist/newenrollment/">New Enrollment</a></li>
-                                            <li><a href="/specialist/orders/">Orders</a></li>
+                                        {% endif %}
+                                            <li><a href="/orders/">Orders</a></li>
+                                        {% if user['specialist'] %}
                                             <li><a href="/specialist/sollewallet/">SolleWallet</a></li>
                                             <li><a href="/specialist/events/">Events</a></li>
                                         {% endif %}
