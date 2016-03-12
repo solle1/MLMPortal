@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block container %}
-    {% if loggedin and user['specialist'] %}
+    {% if loggedin %}
         <div class="container-fluid">
         <div class="row">
 
@@ -201,6 +201,7 @@
                     </div>
                 </div>
             </div>
+            {% if loggedin and user['specialist'] %}
             <div class="col-xs-12 col-md-4 col-lg-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -232,39 +233,74 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        SolleSafe
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-condensed">
-                            <tr>
-                                <td>SolleVital</td>
-                                <td class="right">41.95</td>
-                            </tr>
-                            <tr>
-                                <td>ProBio IQ</td>
-                                <td class="right">24.95</td>
-                            </tr>
-                            <tr style="border-top: #000000 solid 2px;">
-                                <td>Total QV</td>
-                                <td class="right">66.90</td>
-                            </tr>
-                            <tr>
-                                <td>Day [1]</td>
-                                <td class="right">Use Rewards [x]</td>
-                            </tr>
-                            <tr>
-                                <td>Active</td>
-                                <td class="right">True</td>
-                            </tr>
-                        </table>
+            {% else %}
+                <div class="col-xs-12 col-md-4 col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            SolleSafe
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>SolleVital</td>
+                                    <td class="right">41.95</td>
+                                </tr>
+                                <tr>
+                                    <td>ProBio IQ</td>
+                                    <td class="right">24.95</td>
+                                </tr>
+                                <tr style="border-top: #000000 solid 2px;">
+                                    <td>Total QV</td>
+                                    <td class="right">66.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Day [1]</td>
+                                    <td class="right">Use Rewards [x]</td>
+                                </tr>
+                                <tr>
+                                    <td>Active</td>
+                                    <td class="right">True</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            {% if loggedin and user['specialist'] %}
+                <div class="col-xs-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            SolleSafe
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>SolleVital</td>
+                                    <td class="right">41.95</td>
+                                </tr>
+                                <tr>
+                                    <td>ProBio IQ</td>
+                                    <td class="right">24.95</td>
+                                </tr>
+                                <tr style="border-top: #000000 solid 2px;">
+                                    <td>Total QV</td>
+                                    <td class="right">66.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Day [1]</td>
+                                    <td class="right">Use Rewards [x]</td>
+                                </tr>
+                                <tr>
+                                    <td>Active</td>
+                                    <td class="right">True</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     {% else %}
         <div class="container">
