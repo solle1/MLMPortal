@@ -363,8 +363,10 @@ def ajax_register():
             api_result['success'] = True
         else:
             api_result['success'] = False
-            if 'email' in api_result:
+            if 'username' in api_result:
                 api_result['message'] = 'The email address is already in use.'
+                resp = Response(json.dumps(api_result), mimetype='application/json')
+                return resp
 
         # TODO: We need to add any specialist items to the cart if they are a spciailist.
         user_token = json.loads(smartpayout.login(username, password).content)
