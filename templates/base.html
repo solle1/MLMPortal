@@ -4,7 +4,7 @@
 {% block html %}
     <head>
         {% block head %}
-            <title>{% block title %}{% endblock title %}</title>
+            <title>{% block title %}SolleNaturals{% endblock title %}</title>
 
             {% block metas %}
                 <meta charset="utf-8">
@@ -34,6 +34,7 @@
         <script src="{{ url_for('static', filename='js/app/services.js') }}"></script>
         <!--script src="/assets/js/app/filters.js"></script>
         <script src="/assets/js/app/directives.js"></script-->
+        <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     </head>
     <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body %}
@@ -63,6 +64,7 @@
                                 <ul class="nav navbar-nav navbar-right">
 
                                     {% if loggedin %}
+                                        <li><a href="/products">Place an Order</a></li>
                                         {% if user['specialist'] %}
                                             <li><a href="/specialist/documents/">Document Library</a></li>
                                             <li><a href="/specialist/dashboard/">Business Dashboard</a></li>
