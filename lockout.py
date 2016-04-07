@@ -2,6 +2,7 @@ import json
 import os
 
 import requests
+import rollbar
 
 import bank
 import smartpayout
@@ -31,6 +32,7 @@ def submit_banking(user_token, routing_number, account_number):
     resp = requests.post('{}customers/'.format(API_ENDPOINT), data=payload, headers=headers)
     resp_content = json.loads(resp.content)
 
+    rollbar.report_message(json.dumps(resp_content), level='info')
     if locker != resp_content['id']:
         user_info['profile']['locker'] = resp_content['id']
         resp = smartpayout.update_user_profile(user_token, user_info['id'], user_info['profile'])
