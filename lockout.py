@@ -30,8 +30,8 @@ def submit_banking(user_token, routing_number, account_number):
         'atn': account_number,
     }
 
-    raise Exception(API_ENDPOINT)
     resp = requests.post('{}customers/'.format(API_ENDPOINT), data=payload, headers=headers)
+    raise Exception(json.dumps(resp))
     resp_content = json.loads(resp.content)
 
     rollbar.report_message(json.dumps(resp_content))
