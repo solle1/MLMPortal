@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <form method="post" id="tax-form">
+                <div class="form-group">
+                    <label for="tax-id">Tax ID:</label>
+                    <input type="text" id="tax-id" class="form-control" maxlength="9" name="tid">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-tax-id">Confirm Tax ID:</label>
+                    <input type="text" id="confirm-tax-id" class="form-control" maxlength="17" name="ctid">
+                </div>
+                <button type="button" class="btn btn-primary" id="tax-submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock container %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        $(document).ready(function() {
+            $(document).on("click", "#tax-submit", submit_tax);
+        });
+
+        function submit_tax(event) {
+            event.preventDefault();
+            if ($("#tax-id").val() == $("#confirm-tax-id").val()) {
+                var tax_data = $("#tax-form").serialize();
+                $.post("/ajax/tin/submit/", tax_data, function(data) {
+
+                });
+            } else {
+                alert("IDs do not match.");
+            }
+        }
+    </script>
+{% endblock scripts %}

@@ -334,6 +334,11 @@ def my_specialists_report(slug):
 def deposit_info(slug):
     return render_template('deposit_info.html')
 
+@app.route('/<slug>/tin/', methods=['GET'])
+@login_required
+def tax_id(slug):
+    return render_template('tax_id.html')
+
 @app.route('/ajax/bank/lookup/', methods=['post'])
 def ajax_bank_lookup():
     routing_number = request.form.get('rn', None)
@@ -355,11 +360,23 @@ def ajax_bank_submit():
     if account_number != confirm_account_number:
         return Response(json.dumps({'success': False, 'message': 'Account numbers do not match.'}), mimetype='application/json')
 
-    resp = lockout.submit_banking(user_token, routing_number, account_number)
+    resp = lockout.submit_data(user_token, rtn=routing_number, atn=account_number)
     if resp:
         return Response(json.dumps({'success': True}), mimetype='application/json')
     else:
         return Response(json.dumps({'success': False}), mimetype='application/json')
+
+@app.route('/ajax/tin/submit/', methods=['post'])
+def ajax_tin_submit():
+    user_token = get_user_token(request, session)
+
+    tin = request.form.get('tid', None)
+    confirm_tin = request.form.get('ctid', None)
+
+    if tin is None or confirm_tin is None:
+        return Response(json.dumps({'success': False, 'message': 'Tax IDs to not match.'}), mimetype='application/json')
+
+    resp = lockout.submit_data(user_token, tin=tin)
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
