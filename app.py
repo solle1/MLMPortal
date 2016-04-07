@@ -29,6 +29,7 @@ Bootstrap(app)
 app.config['API_ENDPOINT'] = smartpayout.API_ENDPOINT
 
 app.config['LANGUAGES'] = {'en': u'English', 'es': u'Español'}
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 babel = Babel(app)
 
