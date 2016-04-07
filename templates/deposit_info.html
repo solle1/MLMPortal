@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <form method="post" id="bank-form">
+                <div class="form-group">
+                    <label for="routing-number">Routing Number:</label>
+                    <input type="text" id="routing-number" class="form-control" maxlength="9" name="rn">
+                </div>
+                <div class="form-group">
+                    <label for="bank-name">Bank Name:</label>
+                    <input type="text" id="bank-name" class="form-control" disabled="disabled" placeholder="Invalid Routing Number">
+                </div>
+                <div class="form-group">
+                    <label for="account-number">Account Number:</label>
+                    <input type="text" id="account-number" class="form-control" maxlength="17" name="an">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-account-number">Confirm Account Number:</label>
+                    <input type="text" id="confirm-account-number" class="form-control" maxlength="17" name="can">
+                </div>
+                <button type="button" class="btn btn-primary" id="bank-submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock container %}
+
+{% block scripts %}
+    {{ super() }}
+
+
+
+    <script>
+        var valid_bank = false;
+
+        $(document).ready(function () {
+            $(document).on("keyup", "#routing-number", lookup_bank);
+
+            $(document).on("click", "#bank-submit", submit_bank);
+        });
+
+        function lookup_bank() {
+            var routing_number = $("#routing-number").val();
+            if (routing_number.length == 9) {
+                $.post('/ajax/bank/lookup/', {'rn': routing_number}, function (data) {
+                    if (data.code == 200) {
+                        $("#bank-name").val(data.customer_name);
+                        valid_bank = true;
+                    } else {
+                        $("#bank-name").val("Invalid Routing Number");
+                        valid_bank = false;
+                    }
+                });
+            } else {
+                $("#bank-name").val("Invalid Routing Number");
+                valid_bank = false;
+            }
+        }
+
+        function submit_bank(event) {
+            event.preventDefault();
+            if (valid_bank) {
+                if ($("#account-number").val() == $("#confirm-account-number").val()) {
+                    var bank_data = $("#bank-form").serialize();
+                    $.post("/ajax/bank/submit/", bank_data, function(data) {
+
+                    })
+                } else {
+                    alert("Account numbers must match!");
+                }
+            } else {
+                alert("You need to enter a routing number for a proper bank.");
+            }
+
+        }
+    </script>
+{% endblock scripts %}

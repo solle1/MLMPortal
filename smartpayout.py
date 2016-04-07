@@ -139,6 +139,12 @@ def get_credit_cards(user_token):
 
     return resp.status_code, json.loads(resp.content)
 
+def get_user_locker(user_token):
+    info = get_user_info(user_token)
+    user_id = info['id']
+
+
+
 def add_credit_card(user_token, card_number=None, name=None, exp_month=None, exp_year=None, cvc=None):
     info = get_user_info(user_token)
 
@@ -309,4 +315,17 @@ def apply_rewards(user_token, order_id, reward_amt):
     }
 
     resp = requests.post('{}orders/{}/apply_rewards/'.format(API_ENDPOINT, order_id), data=payload, headers=headers)
+    return json.loads(resp.content)
+
+def update_user_profile(user_token, user_id, profile):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    payload = {
+        'profile': json.dumps(profile),
+    }
+
+    resp = requests.post('{}users/{}/update_profile/'.format(API_ENDPOINT, user_id), data=payload, headers=headers)
+
     return json.loads(resp.content)

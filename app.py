@@ -15,6 +15,8 @@ from flask.ext.babel import Babel
 from flask.ext.bootstrap import Bootstrap
 from werkzeug.contrib.cache import SimpleCache
 
+import bank
+import lockout
 import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token, \
     login_required, qv, format_two_decimals, item_wholesale_total
@@ -325,6 +327,38 @@ def growth_report(slug):
 def my_specialists_report(slug):
     return render_template('reports/my_specialists.html')
 
+
+@app.route('/<slug>/deposit/', methods=['GET'])
+@login_required
+def deposit_info(slug):
+    return render_template('deposit_info.html')
+
+@app.route('/ajax/bank/lookup/', methods=['post'])
+def ajax_bank_lookup():
+    routing_number = request.form.get('rn', None)
+
+    resp = bank.bank_data(routing_number)
+    return Response(json.dumps(resp), mimetype='application/json')
+
+@app.route('/ajax/bank/submit/', methods=['post'])
+def ajax_bank_submit():
+    user_token = get_user_token(request, session)
+
+    routing_number = request.form.get('rn', None)
+    account_number = request.form.get('an', None)
+    confirm_account_number = request.form.get('can', None)
+
+    if routing_number is None or account_number is None or confirm_account_number is None:
+        return Response(json.dumps({'success': False, 'message': 'Data is missing.'}), mimetype='application/json')
+
+    if account_number != confirm_account_number:
+        return Response(json.dumps({'success': False, 'message': 'Account numbers do not match.'}), mimetype='application/json')
+
+    resp = lockout.submit_banking(user_token, routing_number, account_number)
+    if resp:
+        return Response(json.dumps({'success': True}), mimetype='application/json')
+    else:
+        return Response(json.dumps({'success': False}), mimetype='application/json')
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
