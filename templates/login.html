@@ -17,6 +17,8 @@
         </div>
     {% endif %}
     <div class="container">
+        <div class="row" id="messages" class="col-md-4 col-md-offset-4">
+        </div>
         <div class="row" style="margin-bottom: 25px">
             <form id="login-form" class="col-md-4 col-md-offset-4">
                 <div class="form-group">
@@ -53,19 +55,16 @@
                 console.log(data);
                 $.cookie("token", data.token, {path: '/', expires: 10});
                 window.location = '/';
+            }, "json").fail(function(data, another, come, test) {
+                for (var key in data.responseJSON) {
+                    if (key == "non_field_errors") {
+                        data.responseJSON.non_field_errors.forEach(function (item) {
+                            var new_message = "<div class='alert alert-danger' role='alert'>" + item + "</div>";
+                            $("#messages").append(new_message);
+                        }, this);
+                    }
+                }
             }, "json");
-
-{#            $.ajax({#}
-{#                type: "POST",#}
-{#                url: '/ajax/login/',#}
-{#                data: login_info,#}
-{#                success: function (data) {#}
-{#                    console.log(data);#}
-{#                    $.cookie("token", data.token, {path: '/', expires: 10});#}
-{#                    window.location = '{{ next }}';#}
-{#                },#}
-{#                dataType: "json"#}
-{#            });#}
         });
     </script>
 {% endblock %}

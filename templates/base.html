@@ -109,10 +109,10 @@
                         {% if showcart %}
                             <div class="container-fluid">
                                 <div class="row text-left" id="cart-summary">
-                                    <div class="col-lg-2"><a class="glyphicon glyphicon-shopping-cart"
-                                                             href="/cart/"> Checkout</a></div>
-                                    <div class="col-lg-offset-4 col-lg-6 text-right" id="num-items"></div>
-
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-offset-4 col-lg-6 text-right"><span id="num-items"></span> | <a
+                                            href="/cart/"> Checkout <i
+                                            class="glyphicon glyphicon-shopping-cart"></i></a></div>
                                 </div>
                             </div>
                         {% else %}
