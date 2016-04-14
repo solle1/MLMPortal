@@ -1,5 +1,7 @@
 import json
 import requests
+import rollbar
+
 from utils import get_user_token
 
 __author__ = 'danolsen'
@@ -66,6 +68,8 @@ def get_cart(request, session, user_token=None):
         pass
     else:
         resp = requests.get('{}{}'.format(API_ENDPOINT, 'carts/get_cart/'), headers=headers)
+        rollbar.report_message(resp.status_code, 'info')
+        rollbar.report_message(resp.content, 'info')
         cart = json.loads(resp.content)
         session['cart_id'] = cart['id']
         pass
