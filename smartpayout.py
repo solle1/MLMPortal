@@ -69,8 +69,8 @@ def get_cart(request, session, user_token=None):
     else:
         resp = requests.get('{}{}'.format(API_ENDPOINT, 'carts/get_cart/'), headers=headers)
         rollbar.report_message(resp.url, 'debug')
-        rollbar.report_message(resp.status_code, 'info')
-        rollbar.report_message(resp.content, 'info')
+        rollbar.report_message('Status Code: {}'.format(resp.status_code), 'info')
+        rollbar.report_message('Content: \n{}'.format(resp.content), 'info')
         cart = json.loads(resp.content)
         session['cart_id'] = cart['id']
         pass
