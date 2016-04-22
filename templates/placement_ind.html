@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="container">
+        <div class="page-header">
+            <h1>SmartPlan Placement</h1>
+        </div>
+        <div class="row">
+            <form class="form" method="post" id="save" action="" role="form">
+                <div class="form-group">
+                    <label for="upline-options">Select a new upline
+                        for {{ for_change['first_name'] }} {{ for_change['last_name'] }}: </label>
+                    <select id="upline-options" name="upline-option">
+                        {% for ind in for_upline %}
+                            <option value="{{ ind['id'] }}">{{ ind['first_name'] }} {{ ind['last_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit" id="save">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock container %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function() {
+            $("#save").on("click", function() {
+                $("#save-form").submit();
+            });
+        });
+
+        $("#upline-options").select2({
+            "width": "300px"
+        });
+    </script>
+{% endblock scripts %}

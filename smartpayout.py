@@ -68,9 +68,9 @@ def get_cart(request, session, user_token=None):
         pass
     else:
         resp = requests.get('{}{}'.format(API_ENDPOINT, 'carts/get_cart/'), headers=headers)
-        rollbar.report_message(resp.url, 'debug')
-        rollbar.report_message('Status Code: {}'.format(resp.status_code), 'info')
-        rollbar.report_message('Content: \n{}'.format(resp.content), 'info')
+        # rollbar.report_message(resp.url, 'debug')
+        # rollbar.report_message('Status Code: {}'.format(resp.status_code), 'info')
+        # rollbar.report_message('Content: \n{}'.format(resp.content), 'info')
         cart = json.loads(resp.content)
         session['cart_id'] = cart['id']
         pass
@@ -243,6 +243,27 @@ def get_organization(user_token):
 
     return json.loads(resp.content)
 
+def get_mentored(user_token):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    resp = requests.get('{}users/mentored/'.format(API_ENDPOINT), headers=headers)
+
+    return json.loads(resp.content)
+
+def update_upline(user_token, mentored_id, new_upline_id):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    payload = {
+        'upline_id': new_upline_id,
+    }
+
+    resp = requests.post('{}users/{}/update_upline/'.format(API_ENDPOINT, mentored_id), data=payload, headers=headers)
+
+    return json.loads(resp.content)
 
 def get_monthly_qv(user_token):
     headers = {}

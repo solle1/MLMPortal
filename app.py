@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+import base64
 import datetime
+import hashlib
+import urllib
+
+from Crypto.Hash import MD5
 import json
 import os
 import sys
@@ -9,6 +13,7 @@ import sys
 import requests
 import rollbar
 import rollbar.contrib.flask
+from Crypto.Cipher import AES
 from flask import Flask, render_template, request, redirect, abort, g, session, jsonify, Response, make_response, \
     got_request_exception
 from flask.ext.babel import Babel
@@ -17,6 +22,7 @@ from werkzeug.contrib.cache import SimpleCache
 
 import bank
 import lockout
+import propay
 import smartpayout
 from utils import datetimeformat, stringtodate, remove_spaces, item_retail_total, format_currency, get_user_token, \
     login_required, qv, format_two_decimals, item_wholesale_total
@@ -227,6 +233,40 @@ def cart(slug):
 def checkout(slug):
     # Get the order!
     user_token = get_user_token(request, session)
+    pp_token = propay.get_temp_token()
+
+    SPIHash = MD5.new(data=pp_token['temp_token'].encode('utf-8', 'strict'))
+    key = IV = SPIHash.digest()
+    mode = AES.MODE_CBC
+    SPIEncrypt = AES.new(key, mode, IV)
+
+    values = {
+        'AuthToken': pp_token['temp_token'],
+        'PayerId': pp_token['payer_id'],
+        'PaymentProcessType': 'CreditCard',
+        'ProcessMethod': 'AuthOnly',
+        'PaymentMethodStorageOption': 'Always',
+        'ReturnURL': 'http://local.smartpayout.com/card/test/',
+    }
+
+    values = urllib.urlencode(values).encode('utf-8', 'strict')
+    padText = lambda s: s + (16 - len(s) % 16) * chr(16 - len(s) % 16)
+
+    cipherText = SPIEncrypt.encrypt(padText(values))
+    cipher = cipherText.encode('base64')
+
+
+    # temp_token = hashlib.md5(pp_token['temp_token'].encode('utf-8')).digest()
+    #temp_token_unicode = u'{}'.format(temp_token)
+    #temp_token_unicode = temp_token.encode('utf-8')
+
+
+    # length = 16 - (len(values) % 16)
+    # values += chr(length) * length
+
+    # enc = AES.new(temp_token, AES.MODE_CBC, IV=temp_token)
+    # encrypted = enc.encrypt(values)
+    # token = base64.b64encode(encrypted)
 
     cart_id = session.get('cart_id', None)
     cart = json.loads(smartpayout.get_cart(request, session, user_token))
@@ -284,6 +324,40 @@ def organization(slug):
     org = response
 
     return render_template('organization.html', org=org, org_string=json.dumps(org))
+
+
+@app.route('/<slug>/specialist/placement/', methods=['GET'])
+@login_required
+def placement(slug):
+    user_token = get_user_token(request, session)
+    if not user_token:
+        return redirect('/login/')
+    response = smartpayout.get_mentored(user_token)
+    org = response
+
+    return render_template('placement.html', org=org, org_string=json.dumps(org))
+
+@app.route('/<slug>/specialist/placement/<id>/', methods=['GET', 'POST'])
+@login_required
+def placement_indvidual(slug, id):
+    user_token = get_user_token(request, session)
+    if request.method == 'POST':
+        updated_upline = request.form.get('upline-option', None)
+        if updated_upline:
+            updated = smartpayout.update_upline(user_token, id, updated_upline)
+            return redirect('/specialist/placement/')
+        else:
+            raise Exception('No upline value')
+    elif request.method == 'GET':
+        mentored = smartpayout.get_mentored(user_token)
+        for_change = None
+        for_upline = []
+        for ind in mentored:
+            if ind['id'] == int(id):
+                for_change = ind
+            else:
+                for_upline.append(ind)
+        return render_template('placement_ind.html', for_change=for_change, for_upline=for_upline)
 
 
 @app.route('/<slug>/specialist/recent_enrollments/', methods=['GET'])
@@ -658,6 +732,16 @@ def get_cards():
     resp.status_code = status
     return resp
 
+
+@app.route('/card/test/', methods=['get'])
+def card_test():
+    print request
+
+@app.route('/ajax/pre_add_card/', methods=['get'])
+def pre_add_card():
+    temp_token = propay.get_temp_token()
+
+    return Response(json.dumps({'token': temp_token}))
 
 @app.route('/ajax/add_card/', methods=['post'])
 def add_card():
