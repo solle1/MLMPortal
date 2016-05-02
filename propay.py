@@ -40,9 +40,10 @@ def get_url(uri):
     return '{}{}'.format(API_ENDPOINT, uri)
 
 
-def get_temp_token(duration=600):
+def get_temp_token(payer_id, duration=600):
     """ Get a temp token for an API call. """
     url = '{}/TempTokens/?durationSeconds={}'.format(API_ENDPOINT, duration)
+    url = '{}/Payers/{}/TempTokens/?durationSeconds={}'.format(API_ENDPOINT, payer_id, duration)
     token = base64.b64encode('{}:{}'.format(PPBILLING, PPTOKEN))
 
     headers = {'Authorization': 'Basic {}'.format(token)}
@@ -171,3 +172,5 @@ def delete_payment_method(payer_id, method_id):
         success = False
 
     return success
+
+

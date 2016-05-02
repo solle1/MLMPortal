@@ -355,3 +355,16 @@ def update_user_profile(user_token, user_id, profile):
     resp = requests.post('{}users/{}/update_profile/'.format(API_ENDPOINT, user_id), data=payload, headers=headers)
 
     return json.loads(resp.content)
+
+def add_payer_id(user_token, user_id, payer_id):
+    headers = {}
+    if user_token:
+        headers = {'Authorization': 'Token {}'.format(user_token)}
+
+    payload = {
+        'payer_id': payer_id,
+    }
+
+    resp = requests.post('{}users/{}/update_payer_id/'.format(API_ENDPOINT, user_id), data=payload, headers=headers)
+
+    return json.loads(resp.content)

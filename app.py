@@ -4,6 +4,7 @@ import base64
 import datetime
 import hashlib
 import urllib
+import urlparse
 
 from Crypto.Hash import MD5
 import json
@@ -42,7 +43,7 @@ babel = Babel(app)
 ADMINS = ['dan@straightbit.com']
 DEFAULT_SLUG = 'solle'
 INVALID_SLUGS = ['products', 'login', 'logout', 'ajax', 'home', 'register', 'profile', 'language', 'cart', 'checkout',
-                 'specialist', 'favicon.ico', 'about', 'reports']
+                 'specialist', 'favicon.ico', 'about', 'reports', 'card']
 import logging
 from logging.handlers import SMTPHandler
 
@@ -204,7 +205,13 @@ def cart(slug):
                                         user_token)  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'),
         # headers={'Authorization': 'Token %s' % user_token})
         user = smartpayout.get_user_info(user_token)  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'users/'),
-        # headers={'Authorization': 'Token %s' % user_token})
+
+        if user['payer_id'] is None:
+            payer_response = smartpayout.add_payer_id(user_token, user['id'],
+                                                      propay.create_a_payer(user['username'], user['email'],
+                                                                            user['first_name'],
+                                                                            user['last_name']))
+            # headers={'Authorization': 'Token %s' % user_token})
     else:
         response = smartpayout.get_cart(request, session,
                                         user_token)  # requests.get('%s%s' % (app.config['API_ENDPOINT'], 'carts/get_cart/'))
@@ -228,12 +235,15 @@ def cart(slug):
     return response
 
 
-@app.route('/<slug>/checkout/', methods=['GET'])
+@app.route('/<slug>/card/add/', methods=['GET'])
 @login_required
-def checkout(slug):
-    # Get the order!
+def add_card(slug):
+    # Get credit card data ready.
     user_token = get_user_token(request, session)
-    pp_token = propay.get_temp_token()
+    user = smartpayout.get_user_info(user_token)
+
+    pp_token = propay.get_temp_token(user['payer_id'])
+    session['temp_token'] = pp_token['temp_token']
 
     SPIHash = MD5.new(data=pp_token['temp_token'].encode('utf-8', 'strict'))
     key = IV = SPIHash.digest()
@@ -246,19 +256,54 @@ def checkout(slug):
         'PaymentProcessType': 'CreditCard',
         'ProcessMethod': 'AuthOnly',
         'PaymentMethodStorageOption': 'Always',
-        'ReturnURL': 'http://local.smartpayout.com/card/test/',
+        'ReturnURL': 'http://local.smartpayout.com/card/add/result/',
+        'CurrencyCode': 'USD',
+        'Amount': '0.01',
+        'StandardEntryClassCode': '',
+        'InvoiceNumber': 'x',
+        'ProfileId': '',
+        'Protected': False,
     }
 
     values = urllib.urlencode(values).encode('utf-8', 'strict')
+
     padText = lambda s: s + (16 - len(s) % 16) * chr(16 - len(s) % 16)
 
     cipherText = SPIEncrypt.encrypt(padText(values))
     cipher = cipherText.encode('base64')
 
+    return render_template('add_card.html', cipher=cipher, cid=pp_token['credential_id'],
+                           pmi_action='https://protectpaytest.propay.com/pmi/spr.aspx')
+
+
+@app.route('/<slug>/checkout/', methods=['GET'])
+@login_required
+def checkout(slug):
+    # Get the order!
+    user_token = get_user_token(request, session)
+
+    # values = 'AuthToken=1f25d31c-e8fe-4d68-be73-f7b439bfa0a329e90de6-4e93-4374-8633-22cef77467f5' \
+    #          '&PayerID=2833955147881261' \
+    #          '&Amount=10.00' \
+    #          '&CurrencyCode=USD' \
+    #          '&ProcessMethod=Capture' \
+    #          '&PaymentMethodStorageOption=None' \
+    #          '&InvoiceNumber=Invoice123' \
+    #          '&Comment1=comment1' \
+    #          '&Comment2=comment2' \
+    #          '&echo=echotest' \
+    #          '&ReturnURL=https://il01addproc.propay.com:443/Return.aspx' \
+    #          '&ProfileId=3351' \
+    #          '&PaymentProcessType=CreditCard' \
+    #          '&StandardEntryClassCode=' \
+    #          '&DisplayMessage=True' \
+    #          '&Protected=False'
+
+
 
     # temp_token = hashlib.md5(pp_token['temp_token'].encode('utf-8')).digest()
-    #temp_token_unicode = u'{}'.format(temp_token)
-    #temp_token_unicode = temp_token.encode('utf-8')
+    # temp_token_unicode = u'{}'.format(temp_token)
+    # temp_token_unicode = temp_token.encode('utf-8')
 
 
     # length = 16 - (len(values) % 16)
@@ -271,13 +316,18 @@ def checkout(slug):
     cart_id = session.get('cart_id', None)
     cart = json.loads(smartpayout.get_cart(request, session, user_token))
 
+    user = smartpayout.get_user_info(user_token)
+
     if cart:
         response = requests.get('{}carts/{}/checkout/'.format(app.config['API_ENDPOINT'], cart['id']),
                                 headers={'Authorization': 'Token {}'.format(user_token)})
 
         order = json.loads(response.content)
 
-        return render_template('checkout.html', order=order, days=range(1, 29))
+        # TODO: Save the key to the session so we can decrypt on the next page.
+
+        return render_template('checkout.html', order=order, days=range(1, 29))  # , settings_cipher=cipher,
+        # cid=pp_token['credential_id'], pmi_action='https://protectpaytest.propay.com/pmi/spr.aspx')
     else:
         return redirect('/')
 
@@ -336,6 +386,7 @@ def placement(slug):
     org = response
 
     return render_template('placement.html', org=org, org_string=json.dumps(org))
+
 
 @app.route('/<slug>/specialist/placement/<id>/', methods=['GET', 'POST'])
 @login_required
@@ -408,10 +459,12 @@ def my_specialists_report(slug):
 def deposit_info(slug):
     return render_template('deposit_info.html')
 
+
 @app.route('/<slug>/tin/', methods=['GET'])
 @login_required
 def tax_id(slug):
     return render_template('tax_id.html')
+
 
 @app.route('/ajax/bank/lookup/', methods=['post'])
 def ajax_bank_lookup():
@@ -419,6 +472,7 @@ def ajax_bank_lookup():
 
     resp = bank.bank_data(routing_number)
     return Response(json.dumps(resp), mimetype='application/json')
+
 
 @app.route('/ajax/bank/submit/', methods=['post'])
 def ajax_bank_submit():
@@ -432,13 +486,15 @@ def ajax_bank_submit():
         return Response(json.dumps({'success': False, 'message': 'Data is missing.'}), mimetype='application/json')
 
     if account_number != confirm_account_number:
-        return Response(json.dumps({'success': False, 'message': 'Account numbers do not match.'}), mimetype='application/json')
+        return Response(json.dumps({'success': False, 'message': 'Account numbers do not match.'}),
+                        mimetype='application/json')
 
     resp = lockout.submit_data(user_token, rtn=routing_number, atn=account_number)
     if resp:
         return Response(json.dumps({'success': True}), mimetype='application/json')
     else:
         return Response(json.dumps({'success': False}), mimetype='application/json')
+
 
 @app.route('/ajax/tin/submit/', methods=['post'])
 def ajax_tin_submit():
@@ -451,6 +507,7 @@ def ajax_tin_submit():
         return Response(json.dumps({'success': False, 'message': 'Tax IDs to not match.'}), mimetype='application/json')
 
     resp = lockout.submit_data(user_token, tin=tin)
+
 
 @app.route('/ajax/register/', methods=['post'])
 def ajax_register():
@@ -726,16 +783,47 @@ def update_cart():
 @app.route('/ajax/get_cards/', methods=['get'])
 def get_cards():
     user_token = get_user_token(request, session)
-    status, cards = smartpayout.get_credit_cards(user_token)
+    user = smartpayout.get_user_info(user_token)
+    # status, cards = smartpayout.get_credit_cards(user_token)
+    cards = propay.get_payment_methods(user['payer_id'])
 
     resp = Response(json.dumps(cards))
-    resp.status_code = status
+    # resp.status_code = status
     return resp
 
 
-@app.route('/card/test/', methods=['get'])
+@app.route('/card/add/result/', methods=['post'])
 def card_test():
+    response_cipher = request.form.get('ResponseCipher', None)
+    temp_token = session['temp_token']
+    SPIhash = MD5.new(data=temp_token.encode('utf8', 'strict'))
+    key = IV = SPIhash.digest()
+    mode = AES.MODE_CBC
+    SPIDecrypt = AES.new(key, mode, IV)
+
+    unpadText = lambda s: s[0:-ord(s[-1])]
+    decodedCipher = unpadText(SPIDecrypt.decrypt(response_cipher.decode('base64')))
+
+    result = dict(urlparse.parse_qsl(decodedCipher))
+
+    errors = {'errors': False, 'messages': ''}
+    if 'ErrCode' in result:
+        errors['errors'] = True
+        errors['message'] = result['ErrMsg']
+        pass
+    if 'ProcErrCode' in result:
+        errors['errors'] = True
+        errors['message'] = result['ProcErrMsg']
+        pass
+    if 'StoreErrCode' in result:
+        errors['errors'] = True
+        errors['message'] = result['StoreErrMsg']
+        pass
+
+    print(decodedCipher)
+
     print request
+
 
 @app.route('/ajax/pre_add_card/', methods=['get'])
 def pre_add_card():
@@ -743,8 +831,9 @@ def pre_add_card():
 
     return Response(json.dumps({'token': temp_token}))
 
+
 @app.route('/ajax/add_card/', methods=['post'])
-def add_card():
+def ajax_add_card():
     user_token = get_user_token(request, session)
     card_number = request.form.get('number', None)
     expiry = request.form.get('expiry', None)
@@ -834,7 +923,7 @@ def inject_user():
 
 @app.before_request
 def catch_all():
-    ignore_paths = ['/favicon.ico/', '/login/', '/logout/']
+    ignore_paths = ['/favicon.ico/', '/login/', '/logout/', '/card/add/result/']
     if request.path in ignore_paths or request.path.startswith('/static/') or request.path.startswith(
             '/ajax/') or request.path.startswith('/language/') or request.path.startswith('/favicon.ico'):
         pass

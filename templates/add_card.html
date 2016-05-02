@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {{ super() }}
+    <div class="container">
+        <div class="row">
+            <h3>Add a New Credit Card</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card-wrapper"></div>
+            </div>
+            <div class="col-lg-8">
+                <form id="card-form" action="{{ pmi_action }}" method="post">
+                    <input type="hidden" name="PaymentTypeId" value="Visa">
+                    <div class="form-group col-lg-6">
+                        <label for="number" class="sr-only">Card Number</label>
+                        <input type="text" class="form-control" name="CardNumber" id="number" placeholder="Card Number">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="name" class="sr-only">Name</label>
+                        <input type="text" class="form-control" name="CardHolderName" id="name" placeholder="Name"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="expiry" class="sr-only">Expiration</label>
+                        <input type="text" class="form-control" name="expiry" id="expiry"
+                               placeholder="Expiration Month (MM/YY)"/>
+                    </div>
+                    <input type="hidden" name="ExpMonth" value="" id="exp-month">
+                    <input type="hidden" name="ExpYear" value="" id="exp-year">
+                    <div class="form-group col-lg-6">
+                        <label for="cvc" class="sr-only">CVC</label>
+                        <input type="text" class="form-control" name="CVV" id="cvv" placeholder="CVV"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="address1" class="sr-only">Address</label>
+                        <input type="text" class="form-control" name="Address1" id="address1" placeholder="Address">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="address1" class="sr-only">City</label>
+                        <input type="text" class="form-control" name="City" id="city" placeholder="City">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="address1" class="sr-only">State</label>
+                        <input type="text" class="form-control" name="State" id="state" placeholder="State">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="address1" class="sr-only">Postal Code</label>
+                        <input type="text" class="form-control" name="PostalCode" id="postal-code"
+                               placeholder="Postal Code">
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <button class="btn btn-primary" id="add-card">Add Card</button>
+                    </div>
+                    <input type="hidden" id="CID" name="CID" value="{{ cid }}">
+                    <input type="hidden" id="settings-cipher" name="SettingsCipher" value="{{ cipher }}">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock container %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        $(document).ready(function () {
+            $("#card-form").card({
+                container: '.card-wrapper',
+                formSelectors: {
+                    numberInput: "input#number",
+                    cvcInput: "input#cvv",
+                    nameInput: "input#name",
+                    expiryInput: "input#expiry"
+                },
+                width: 300
+            });
+
+            $(document).on("submit", "#card-form", function (e) {
+                {#                        e.preventDefault();#}
+                var expiration = $("#expiry").val().split(" / ");
+                var exp_month = expiration[0];
+                var exp_year = expiration[1];
+
+                $("#exp-month").val(exp_month);
+                $("#exp-year").val(exp_year);
+                $("#number").val($("#number").val().replace(/\s/g, ''));
+                {#                        console.log(exp_month);#}
+                {#                        console.log(exp_year);#}
+                {##}
+                {#                        var payload = "CID=" + $("#CID").val()#}
+                {#                        payload += "&SettingsCipher=" + encodeURIComponent($("#settings-cipher").val());#}
+                {#                        payload += "&PaymentTypeId=" + "Visa";#}
+                {#                        payload += "&CardNumber=" + $("#number").val().replace(/\s/g, '');#}
+                {#                        payload += "&ExpMonth=" + exp_month;#}
+                {#                        payload += "&ExpYear=" + exp_year;#}
+                {#                        payload += "&CVV=" + $("#cvv").val();#}
+                {#                        payload += "&CardHolderName=" + $("#name").val();#}
+                {#                        payload += "&Address1=" + $("#address1").val();#}
+                {#                        payload += "&City=" + $("#city").val();#}
+                {#                        payload += "&State=" + $("#state").val();#}
+                {#                        payload += "&PostalCode=" + $("#postal-code").val();#}
+                {##}
+                {#                        console.log(payload);#}
+                {#                        var xhttp = new XMLHttpRequest();#}
+                {#                        if (xhttp != null) {#}
+                {#                            xhttp.open("POST", "https://protectpaytest.propay.com/pmi/spr.aspx", true);#}
+                {#                            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");#}
+                {#                            xhttp.onreadystatechange = function () {#}
+                {#                                if (xhttp.readyState === 4) {#}
+                {#                                    var resp = xhttp.responseText;#}
+                {#                                    alert(resp);#}
+                {#                                }#}
+                {#                            };#}
+                {#                            xhttp.send(payload);#}
+                {##}
+                {#                        }#}
+                {#                    $.post("{{ pmi_action }}", payload, function (data) {#}
+                {#                        console.log(data);#}
+                {#                    });#}
+            });
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/jquery.card.js') }}"></script>
+{% endblock scripts %}

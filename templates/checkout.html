@@ -46,8 +46,161 @@
         </div>
 
         <div class="row">
+            <div id="solle-rewards" style="display: None;">
+
+                <div class="row">
+                    <div class="col-lg-12 text-danger" id="apply-rewards-message"></div>
+                    <div class="col-lg-6">
+                        <label for="coupon-code" class="sr-only">Apply SolleRewards</label>
+                        <input type="text" class="form-control" width="100" placeholder="Apply SolleRewards"
+                               id="applied-rewards"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="btn btn-primary" id="apply-rewards-btn">Apply SolleRewards</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-info">
+                        SolleRewards Available: <span id="solle-rewards-available"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox">
+                <label><input type="checkbox" id="set-sollesafe" name="set-sollesafe"/> Set as SolleSafe</label>
+            </div>
+
+            <div class="" id="autoship-day-div" style="display: none; margin-bottom: 10px;">
+                <label for="autoship-day">Process order on: </label>
+                <select class="" id="autoship-day" name="autoship-day">
+                    <option></option>
+                    {% for day in days %}
+                        <option value="{{ day }}">{{ day }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+{#        <div class="row">#}
+{#            <ul class="nav nav-tabs">#}
+{#                <li role="presentation" id="stored-cards"><a href="#">Stored Cards</a></li>#}
+{#                <li role="presentation" class="active" id="add-card"><a href="#">Add a New Card</a></li>#}
+{#            </ul>#}
+{#        </div>#}
+        <div class="row">
+{#            <div id="stored-cards-view" class="hide">#}
+{#                <h1>HIDDEN</h1>#}
+{#            </div>#}
+            <div id="add-card-view">
+                <div id="add-card-msg" style="display: none;">Change</div>
+
+                <div class="card-wrapper"></div>
+                {#                <form id="card-form" action="{{ pmi_action }}" method="post">#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="number" class="sr-only">Card Number</label>#}
+                {#                        <input type="text" class="form-control" name="number" id="number" placeholder="Card Number">#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="name" class="sr-only">Name</label>#}
+                {#                        <input type="text" class="form-control" name="name" id="name" placeholder="Name"/>#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="expiry" class="sr-only">Expiration</label>#}
+                {#                        <input type="text" class="form-control" name="expiry" id="expiry"#}
+                {#                               placeholder="Expiration (MM/YY)"/>#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="cvc" class="sr-only">CVC</label>#}
+                {#                        <input type="text" class="form-control" name="cvv" id="cvv" placeholder="CVV"/>#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="address1" class="sr-only">Address</label>#}
+                {#                        <input type="text" class="form-control" name="address1" id="address1" placeholder="Address">#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="address1" class="sr-only">City</label>#}
+                {#                        <input type="text" class="form-control" name="city" id="city" placeholder="City">#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="address1" class="sr-only">State</label>#}
+                {#                        <input type="text" class="form-control" name="state" id="state" placeholder="State">#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <label for="address1" class="sr-only">Postal Code</label>#}
+                {#                        <input type="text" class="form-control" name="postal-code" id="postal-code"#}
+                {#                               placeholder="Postal Code">#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <div class="checkbox">#}
+                {#                            <label>#}
+                {#                                <input type="checkbox" name="echo" id="save-card"> Save this card#}
+                {#                            </label>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                    <div class="form-group col-lg-6">#}
+                {#                        <button class="btn btn-primary" id="add-card">Complete Purchase</button>#}
+                {#                    </div>#}
+                {#                    <input type="hidden" id="CID" name="CID" value="{{ cid }}">#}
+                {#                    <input type="hidden" id="settings-cipher" name="SettingsCipher" value="{{ settings_cipher }}">#}
+                {#                </form>#}
+
+{#                <form id="card-form" action="{{ pmi_action }}" method="post">#}
+{#                    <input type="hidden" name="PaymentTypeId" value="Visa">#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="number" class="sr-only">Card Number</label>#}
+{#                        <input type="text" class="form-control" name="CardNumber" id="number" placeholder="Card Number">#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="name" class="sr-only">Name</label>#}
+{#                        <input type="text" class="form-control" name="CardHolderName" id="name" placeholder="Name"/>#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="expiry" class="sr-only">Expiration</label>#}
+{#                        <input type="text" class="form-control" name="expiry" id="expiry"#}
+{#                               placeholder="Expiration Month (MM/YY)"/>#}
+{#                    </div>#}
+{#                    <input type="hidden" name="ExpMonth" value="" id="exp-month">#}
+{#                    <input type="hidden" name="ExpYear" value="" id="exp-year">#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="cvc" class="sr-only">CVC</label>#}
+{#                        <input type="text" class="form-control" name="CVV" id="cvv" placeholder="CVV"/>#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="address1" class="sr-only">Address</label>#}
+{#                        <input type="text" class="form-control" name="Address1" id="address1" placeholder="Address">#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="address1" class="sr-only">City</label>#}
+{#                        <input type="text" class="form-control" name="City" id="city" placeholder="City">#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="address1" class="sr-only">State</label>#}
+{#                        <input type="text" class="form-control" name="State" id="state" placeholder="State">#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <label for="address1" class="sr-only">Postal Code</label>#}
+{#                        <input type="text" class="form-control" name="PostalCode" id="postal-code"#}
+{#                               placeholder="Postal Code">#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <div class="checkbox">#}
+{#                            <label>#}
+{#                                <input type="checkbox" name="echo" id="save-card"> Save this card#}
+{#                            </label>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="form-group col-lg-6">#}
+{#                        <button class="btn btn-primary" id="add-card">Complete Purchase</button>#}
+{#                    </div>#}
+{#                    <input type="hidden" id="CID" name="CID" value="{{ cid }}">#}
+{#                    <input type="hidden" id="settings-cipher" name="SettingsCipher" value="{{ settings_cipher }}">#}
+{#                </form>#}
+            </div>
+        </div>
+
+        <div class="row">
             <div class="pull-left col-lg-6">
-                <h3>Select a Payment Method</h3>
+                <h3>Select a Payment Method <small>(<a href="/card/add/">Add a New Card</a>)</small></h3>
 
                 <form id="purchase-form" method="post">
                     <input type="hidden" name="order-id" value="{{ order.id }}"/>
@@ -106,7 +259,7 @@
                 </form>
             </div>
 
-            <div class="new-card pull-right col-lg-6">
+            <!--div class="new-card pull-right col-lg-6">
                 <h3>Add a New Payment Method</h3>
 
                 <div id="add-card-msg" style="display: none;">Change</div>
@@ -133,7 +286,7 @@
                         <button class="btn btn-primary" id="add-card">Add Card</button>
                     </div>
                 </form>
-            </div>
+            </div-->
         </div>
     </div>
 {% endblock %}
@@ -171,18 +324,21 @@
                         var current_date = new Date();
                         var current_year = current_date.getFullYear();
                         var current_month = current_date.getMonth();
-                        if (value.exp_year < current_year) {
+
+                        var value_exp_month = parseInt(value.ExpirationDate.substring(0, 2));
+                        var value_exp_year = parseInt("20" + value.ExpirationDate.substring(2, 4));
+                        if (value_exp_year < current_year) {
                             expired = true;
-                        } else if (value.exp_year == current_year && value.exp_month < current_month + 1) {
+                        } else if (value_exp_year == current_year && value_exp_month < current_month + 1) {
                             expired = true;
                         }
 
                         var checked = (key == 0) ? " checked='checked' " : "";
                         if (expired) {
-                            card = "<div>Expired: " + value.brand + " - " + value.last4 + " (" + value.exp_month + "/" + value.exp_year + ")</div>";
+                            card = "<div>Expired: " + value.PaymentMethodType + " - " + value.ObfuscatedAccountNumber + " (" + value_exp_month + "/" + value_exp_year + ")</div>";
                         } else {
                             card = "<div><input name='method' type='radio'" + checked + " value='" +
-                                    value.id + "'> " + value.brand + " - " + value.last4 + " (" + value.exp_month + "/" + value.exp_year + ")</div>";
+                                    value.PaymentMethodID + "'> " + value.PaymentMethodType + " - " + value.ObfuscatedAccountNumber + " (" + value_exp_month + "/" + value_exp_year + ")</div>";
                             has_default = true;
                         }
                         $("#payment-method").append(card);
@@ -215,24 +371,36 @@
 
             $("#card-form").card({
                 container: '.card-wrapper',
+                formSelectors: {
+                    numberInput: "input#number",
+                    cvcInput: "input#cvv",
+                    nameInput: "input#name",
+                    expiryInput: "input#expiry"
+                },
                 width: 300
             });
 
-            $("#add-card").click(function () {
-                var form_data = $("#card-form").serialize();
-                $.post('/ajax/add_card/', form_data, function (data) {
-                    console.log(data);
-                    if (data.success) {
-                        $("#add-card-msg").html(data.results.message).show().removeClass("text-danger").addClass("text-success");
-                        load_credit_cards();
-                    } else {
-                        $("#add-card-msg").html(data.results.detail).show().removeClass("text-success").addClass("text-danger");
-                    }
-                }, "json").error(function (data, responseT, one, two, three) {
-                    console.log(data);
-                }, "json");
-                console.log(form_data);
-            });
+{#            $("#add-card").click(function () {#}
+{#                var form_data = $("#card-form").serialize();#}
+{#                var token = null;#}
+{#                $.getJSON('/ajax/pre_add_card/', function (data) {#}
+{#                    console.log(data);#}
+{#                    token = data.token;#}
+{#                });#}
+{#                $.post('https://protectpay.propay.com')#}
+                {#                $.post('/ajax/add_card/', form_data, function (data) {#}
+                {#                    console.log(data);#}
+                {#                    if (data.success) {#}
+                {#                        $("#add-card-msg").html(data.results.message).show().removeClass("text-danger").addClass("text-success");#}
+                {#                        load_credit_cards();#}
+                {#                    } else {#}
+                {#                        $("#add-card-msg").html(data.results.detail).show().removeClass("text-success").addClass("text-danger");#}
+                {#                    }#}
+                {#                }, "json").error(function (data, responseT, one, two, three) {#}
+                {#                    console.log(data);#}
+                {#                }, "json");#}
+                {#                console.log(form_data);#}
+{#            });#}
 
             $("input:radio[name*=method]").change(function () {
                 alert("GO!");
@@ -384,7 +552,7 @@
                                 $("#apply-rewards-message").html(data.message);
                                 $.unblockUI();
                             }
-                        }).fail(function() {
+                        }).fail(function () {
                             $unblockUI();
                         });
                         return false;
@@ -397,6 +565,64 @@
             });
 
             $("#autoship-day").select2({width: "175px", placeholder: "Select a Day"});
+
+            $(document).on("click", "#stored-cards a", function () {
+                $("#stored-cards").addClass("active");
+                $("#stored-cards-view").removeClass("hide");
+                $("#add-card").removeClass("active");
+                $("#add-card-view").addClass("hide");
+            });
+
+            $(document).on("click", "#add-card a", function () {
+                $("#stored-cards").removeClass("active");
+                $("#stored-cards-view").addClass("hide");
+                $("#add-card").addClass("active");
+                $("#add-card-view").removeClass("hide");
+            });
+
+            $(document).on("submit", "#card-form", function (e) {
+                {#                        e.preventDefault();#}
+                var expiration = $("#expiry").val().split(" / ");
+                var exp_month = expiration[0];
+                var exp_year = expiration[1];
+
+                $("#exp-month").val(exp_month);
+                $("#exp-year").val(exp_year);
+                $("#number").val($("#number").val().replace(/\s/g, ''));
+                {#                        console.log(exp_month);#}
+                {#                        console.log(exp_year);#}
+                {##}
+                {#                        var payload = "CID=" + $("#CID").val()#}
+                {#                        payload += "&SettingsCipher=" + encodeURIComponent($("#settings-cipher").val());#}
+                {#                        payload += "&PaymentTypeId=" + "Visa";#}
+                {#                        payload += "&CardNumber=" + $("#number").val().replace(/\s/g, '');#}
+                {#                        payload += "&ExpMonth=" + exp_month;#}
+                {#                        payload += "&ExpYear=" + exp_year;#}
+                {#                        payload += "&CVV=" + $("#cvv").val();#}
+                {#                        payload += "&CardHolderName=" + $("#name").val();#}
+                {#                        payload += "&Address1=" + $("#address1").val();#}
+                {#                        payload += "&City=" + $("#city").val();#}
+                {#                        payload += "&State=" + $("#state").val();#}
+                {#                        payload += "&PostalCode=" + $("#postal-code").val();#}
+                {##}
+                {#                        console.log(payload);#}
+                {#                        var xhttp = new XMLHttpRequest();#}
+                {#                        if (xhttp != null) {#}
+                {#                            xhttp.open("POST", "https://protectpaytest.propay.com/pmi/spr.aspx", true);#}
+                {#                            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");#}
+                {#                            xhttp.onreadystatechange = function () {#}
+                {#                                if (xhttp.readyState === 4) {#}
+                {#                                    var resp = xhttp.responseText;#}
+                {#                                    alert(resp);#}
+                {#                                }#}
+                {#                            };#}
+                {#                            xhttp.send(payload);#}
+                {##}
+                {#                        }#}
+                {#                    $.post("{{ pmi_action }}", payload, function (data) {#}
+                {#                        console.log(data);#}
+                {#                    });#}
+            });
         });
     </script>
     <script src="{{ url_for('static', filename='js/jquery.card.js') }}"></script>
